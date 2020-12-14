@@ -2,6 +2,8 @@ package com.danbro.controller;
 
 import com.danbro.entity.EduTeacher;
 import com.danbro.service.EduTeacherService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,23 +30,25 @@ public class EduTeacherController {
      *
      * @return 多条数据
      */
+    @ApiOperation("查找所有的教师")
     @GetMapping("/findAll")
-    public List<EduTeacher> findAll(){
+    public List<EduTeacher> findAll() {
         return eduTeacherService.list();
     }
 
+    @ApiOperation("通过教师id删除指定的教师")
     @DeleteMapping("{id}")
-    public boolean deleteTeacherById(@PathVariable String id){
-        if (id!=null && !StringUtils.isEmpty(id)){
+    public boolean deleteTeacherById(@ApiParam(name = "id", value = "教师id", required = true) @PathVariable String id) {
+        if (id != null && !StringUtils.isEmpty(id)) {
             return eduTeacherService.removeById(id);
         }
         return false;
     }
 
-
+    @ApiOperation("通过教师id查找指定的教师")
     @GetMapping("/findOne/{id}")
-    public EduTeacher findOne(@PathVariable String id){
-        if (id!=null && !StringUtils.isEmpty(id)){
+    public EduTeacher findOne(@ApiParam(name = "id", value = "教师id", required = true) @PathVariable String id) {
+        if (id != null && !StringUtils.isEmpty(id)) {
             return eduTeacherService.getById(id);
         }
         return null;
