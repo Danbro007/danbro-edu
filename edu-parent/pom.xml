@@ -44,6 +44,7 @@
         <docker.image.prefix>zx</docker.image.prefix>
         <cloud-alibaba.version>0.2.2.RELEASE</cloud-alibaba.version>
         <guava.version>30.0-jre</guava.version>
+        <service-base.version>1.0-SNAPSHOT</service-base.version>
     </properties>
 
     <dependencyManagement>
@@ -55,6 +56,11 @@
                 <version>Hoxton.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.danbro</groupId>
+                <artifactId>service-base</artifactId>
+                <version>${service-base.version}</version>
             </dependency>
 
             <dependency>

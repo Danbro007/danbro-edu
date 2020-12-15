@@ -1,5 +1,6 @@
 package com.danbro.enums;
 
+import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -41,6 +42,12 @@ public class Result {
         this.data = data;
     }
 
+
+    private Result(MyCustomException customException) {
+        this.code = customException.getCode();
+        this.message = customException.getMessage();
+    }
+
     /**
      * 只返回 true ，不附带数据。
      *
@@ -74,25 +81,20 @@ public class Result {
         return result;
     }
 
-    /**
-     * 返回 false 和数据。
-     *
-     * @return 失败的结果
-     */
-    public static Result failureOf(ResultCode resultCode, HashMap<String, Object> data) {
-        Result result = new Result(resultCode, data);
-        result.setSuccess(false);
-        return result;
-    }
-
-    public static Result successOf(ResultCode resultCode, String key,Object data) {
-        Result result = new Result(resultCode, key,data);
+    public static Result successOf(ResultCode resultCode, String key, Object data) {
+        Result result = new Result(resultCode, key, data);
         result.setSuccess(true);
         return result;
     }
 
-    public static Result failureOf(ResultCode resultCode, String key,Object data) {
-        Result result = new Result(resultCode, key,data);
+    public static Result failureOf(ResultCode resultCode, String key, Object data) {
+        Result result = new Result(resultCode, key, data);
+        result.setSuccess(false);
+        return result;
+    }
+
+    public static Result failureOf(MyCustomException exception) {
+        Result result = new Result(exception);
         result.setSuccess(false);
         return result;
     }

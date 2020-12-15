@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.entity.EduTeacher;
+import com.danbro.exception.MyCustomException;
 import com.danbro.mapper.EduTeacherMapper;
 import com.danbro.service.EduTeacherService;
 import com.danbro.dto.EduTeacherQueryDto;
@@ -51,7 +52,6 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
             map.put("rows", eduTeacherPage.getRecords());
             return Result.successOf(ResultCode.Success, map);
         }
-        return Result.failureOf(ResultCode.MATCH_CONDITION_TEACHER_NOT_FOUND);
-
+        throw new MyCustomException(ResultCode.MATCH_CONDITION_TEACHER_NOT_FOUND);
     }
 }
