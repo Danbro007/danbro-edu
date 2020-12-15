@@ -1,15 +1,21 @@
 package com.danbro.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.danbro.entity.EduTeacher;
 import com.danbro.service.EduTeacherService;
+import com.danbro.vo.TeacherQueryVo;
 import enums.Result;
 import enums.ResultCode;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -58,6 +64,27 @@ public class EduTeacherController {
             return eduTeacher != null ? Result.successOf(ResultCode.Success, "items", eduTeacher) : Result.failureOf(ResultCode.Failure);
         }
         return Result.failureOf(ResultCode.Failure);
+    }
+
+
+    @ApiOperation("分页查询教师")
+    @GetMapping("/findAll/{current}/{limit}")
+    public Result pagingFind(@ApiParam(name = "current", value = "当前页数", required = true) @PathVariable Integer current,
+                             @ApiParam(name = "limit", value = "当前页显示记录数", required = true) @PathVariable Integer limit) {
+        Page<EduTeacher> eduTeacherPage = new Page<>(current, limit);
+        eduTeacherService.page(eduTeacherPage);
+        HashMap<String, Object> map = new HashMap<>(16);
+        map.put("total", eduTeacherPage.getTotal());
+        map.put("rows", eduTeacherPage.getRecords());
+        return Result.successOf(ResultCode.Success, map);
+    }
+
+    @ApiOperation("带条件的分页查询教师")
+    @PostMapping("/findAll/{current}/{limit}")
+    public Result pagingFindByCondition(@ApiParam(name = "current", value = "当前页数", required = true) @PathVariable Integer current,
+                                        @ApiParam(name = "limit", value = "当前页显示记录数", required = true) @PathVariable Integer limit,
+                                        @RequestBody(required = false) TeacherQueryVo teacherQueryVo) {
+        return eduTeacherService.pagingFindTeacherByCondition(current, limit, teacherQueryVo);
     }
 
 }
