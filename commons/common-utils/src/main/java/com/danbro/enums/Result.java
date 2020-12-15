@@ -1,4 +1,4 @@
-package enums;
+package com.danbro.enums;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

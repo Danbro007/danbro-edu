@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.entity.EduTeacher;
 import com.danbro.mapper.EduTeacherMapper;
 import com.danbro.service.EduTeacherService;
-import com.danbro.vo.TeacherQueryVo;
-import enums.Result;
-import enums.ResultCode;
+import com.danbro.dto.EduTeacherQueryDto;
+import com.danbro.enums.Result;
+import com.danbro.enums.ResultCode;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,12 +25,12 @@ import java.util.HashMap;
 public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeacher> implements EduTeacherService {
 
     @Override
-    public Result pagingFindTeacherByCondition(Integer current, Integer limit, TeacherQueryVo teacherQueryVo) {
+    public Result pagingFindTeacherByCondition(Integer current, Integer limit, EduTeacherQueryDto eduTeacherQueryDto) {
         Page<EduTeacher> eduTeacherPage = new Page<>(current, limit);
-        LocalDateTime end = teacherQueryVo.getEnd();
-        LocalDateTime start = teacherQueryVo.getStart();
-        Integer level = teacherQueryVo.getLevel();
-        String name = teacherQueryVo.getName();
+        LocalDateTime end = eduTeacherQueryDto.getEnd();
+        LocalDateTime start = eduTeacherQueryDto.getStart();
+        Integer level = eduTeacherQueryDto.getLevel();
+        String name = eduTeacherQueryDto.getName();
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(name)) {
             queryWrapper.like("name", name);
@@ -45,9 +45,13 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
             queryWrapper.lt("gmt_create", end);
         }
         this.page(eduTeacherPage, queryWrapper);
-        HashMap<String, Object> map = new HashMap<>(16);
-        map.put("total", eduTeacherPage.getTotal());
-        map.put("rows", eduTeacherPage.getRecords());
-        return Result.successOf(ResultCode.Success, map);
+        if (eduTeacherPage.getTotal() > 0){
+            HashMap<String, Object> map = new HashMap<>(16);
+            map.put("total", eduTeacherPage.getTotal());
+            map.put("rows", eduTeacherPage.getRecords());
+            return Result.successOf(ResultCode.Success, map);
+        }
+        return Result.failureOf(ResultCode.MATCH_CONDITION_TEACHER_NOT_FOUND);
+
     }
 }
