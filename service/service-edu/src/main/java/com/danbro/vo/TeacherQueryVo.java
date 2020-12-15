@@ -1,14 +1,13 @@
 package com.danbro.vo;
 
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @Classname TeacherQueryVo
- * @Description TODO
+ * @Description TODO 接收前端传来的分页查询参数
  * @Date 2020/12/15 11:35
  * @Author Danrbo
  */
@@ -16,10 +15,13 @@ import java.util.Date;
 public class TeacherQueryVo {
     @ApiModelProperty("教师名")
     private String name;
+
     @ApiModelProperty("教师等级")
     private Integer level;
+
     @ApiModelProperty("创建时间")
-    private Date start;
+    private LocalDateTime start;
+
     @ApiModelProperty("修改时间")
-    private Date end;
+    private LocalDateTime end;
 }

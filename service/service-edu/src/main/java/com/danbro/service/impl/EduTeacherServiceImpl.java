@@ -3,8 +3,8 @@ package com.danbro.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.mapper.EduTeacherMapper;
 import com.danbro.entity.EduTeacher;
+import com.danbro.mapper.EduTeacherMapper;
 import com.danbro.service.EduTeacherService;
 import com.danbro.vo.TeacherQueryVo;
 import enums.Result;
@@ -12,7 +12,7 @@ import enums.ResultCode;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 /**
@@ -27,8 +27,8 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     @Override
     public Result pagingFindTeacherByCondition(Integer current, Integer limit, TeacherQueryVo teacherQueryVo) {
         Page<EduTeacher> eduTeacherPage = new Page<>(current, limit);
-        Date end = teacherQueryVo.getEnd();
-        Date start = teacherQueryVo.getStart();
+        LocalDateTime end = teacherQueryVo.getEnd();
+        LocalDateTime start = teacherQueryVo.getStart();
         Integer level = teacherQueryVo.getLevel();
         String name = teacherQueryVo.getName();
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
