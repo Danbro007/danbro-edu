@@ -2,6 +2,8 @@ package com.danbro.controller;
 
 import com.danbro.entity.EduTeacher;
 import com.danbro.service.EduTeacherService;
+import enums.Result;
+import enums.ResultCode;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.util.StringUtils;
@@ -16,6 +18,7 @@ import java.util.List;
  * @author makejava
  * @since 2020-12-14 15:11:47
  */
+
 @RestController
 @RequestMapping("eduTeacher")
 public class EduTeacherController {
@@ -32,26 +35,29 @@ public class EduTeacherController {
      */
     @ApiOperation("查找所有的教师")
     @GetMapping("/findAll")
-    public List<EduTeacher> findAll() {
-        return eduTeacherService.list();
+    public Result findAll() {
+        List<EduTeacher> eduTeachers = eduTeacherService.list();
+        return eduTeachers != null ? Result.successOf(ResultCode.Success, "items", eduTeachers) : Result.failureOf(ResultCode.Failure);
     }
 
     @ApiOperation("通过教师id删除指定的教师")
     @DeleteMapping("{id}")
-    public boolean deleteTeacherById(@ApiParam(name = "id", value = "教师id", required = true) @PathVariable String id) {
+    public Result deleteTeacherById(@ApiParam(name = "id", value = "教师id", required = true) @PathVariable String id) {
         if (id != null && !StringUtils.isEmpty(id)) {
-            return eduTeacherService.removeById(id);
+            boolean b = eduTeacherService.removeById(id);
+            return eduTeacherService.removeById(id) ? Result.successOf(ResultCode.Success) : Result.failureOf(ResultCode.Failure);
         }
-        return false;
+        return Result.failureOf(ResultCode.Failure);
     }
 
     @ApiOperation("通过教师id查找指定的教师")
     @GetMapping("/findOne/{id}")
-    public EduTeacher findOne(@ApiParam(name = "id", value = "教师id", required = true) @PathVariable String id) {
+    public Result findOne(@ApiParam(name = "id", value = "教师id", required = true) @PathVariable String id) {
         if (id != null && !StringUtils.isEmpty(id)) {
-            return eduTeacherService.getById(id);
+            EduTeacher eduTeacher = eduTeacherService.getById(id);
+            return eduTeacher != null ? Result.successOf(ResultCode.Success, "items", eduTeacher) : Result.failureOf(ResultCode.Failure);
         }
-        return null;
+        return Result.failureOf(ResultCode.Failure);
     }
 
 }
