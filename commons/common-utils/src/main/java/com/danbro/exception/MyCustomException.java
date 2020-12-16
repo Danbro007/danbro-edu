@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @Classname MyCustomException
- * @Description TODO
+ * @Description TODO 自定义异常
  * @Date 2020/12/15 15:22
  * @Author Danrbo
  */
