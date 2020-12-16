@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -28,8 +29,8 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     @Override
     public Result pagingFindTeacherByCondition(Integer current, Integer limit, EduTeacherQueryDto eduTeacherQueryDto) {
         Page<EduTeacher> eduTeacherPage = new Page<>(current, limit);
-        LocalDateTime end = eduTeacherQueryDto.getEnd();
-        LocalDateTime start = eduTeacherQueryDto.getStart();
+        Date end = eduTeacherQueryDto.getEnd();
+        Date start = eduTeacherQueryDto.getStart();
         Integer level = eduTeacherQueryDto.getLevel();
         String name = eduTeacherQueryDto.getName();
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
@@ -46,11 +47,10 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
             queryWrapper.lt("gmt_create", end);
         }
         this.page(eduTeacherPage, queryWrapper);
-        if (eduTeacherPage.getTotal() > 0){
-            HashMap<String, Object> map = new HashMap<>(16);
-            map.put("total", eduTeacherPage.getTotal());
-            map.put("rows", eduTeacherPage.getRecords());
-            return Result.successOf(ResultCode.Success, map);
+        if (eduTeacherPage.getTotal() > 0) {
+            return Result.successOf(ResultCode.SUCCESS).
+                    setDataChain("total", eduTeacherPage.getTotal()).
+                    setDataChain("rows", eduTeacherPage.getRecords());
         }
         throw new MyCustomException(ResultCode.MATCH_CONDITION_TEACHER_NOT_FOUND);
     }

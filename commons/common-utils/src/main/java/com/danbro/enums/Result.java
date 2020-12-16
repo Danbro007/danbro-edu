@@ -3,6 +3,7 @@ package com.danbro.enums;
 import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.HashMap;
 
@@ -13,6 +14,7 @@ import java.util.HashMap;
  * @Author Danrbo
  */
 @Data
+@Accessors(chain = true)
 public class Result {
     @ApiModelProperty("状态码")
     private Integer code;
@@ -28,17 +30,17 @@ public class Result {
         this.message = resultCode.getMessage();
     }
 
+    public Result setDataChain(String key, Object value) {
+        if (this.data == null) {
+            this.data = new HashMap<>(16);
+        }
+        this.data.put(key, value);
+        return this;
+    }
+
     private Result(ResultCode resultCode, HashMap<String, Object> data) {
         this.code = resultCode.getCode();
         this.message = resultCode.getMessage();
-        this.data = data;
-    }
-
-    private Result(ResultCode resultCode, String key, Object value) {
-        this.code = resultCode.getCode();
-        this.message = resultCode.getMessage();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put(key, value);
         this.data = data;
     }
 
@@ -81,14 +83,14 @@ public class Result {
         return result;
     }
 
-    public static Result successOf(ResultCode resultCode, String key, Object data) {
-        Result result = new Result(resultCode, key, data);
+    public static Result successOf(ResultCode resultCode, String key, Object value) {
+        Result result = new Result(resultCode).setDataChain(key, value);
         result.setSuccess(true);
         return result;
     }
 
-    public static Result failureOf(ResultCode resultCode, String key, Object data) {
-        Result result = new Result(resultCode, key, data);
+    public static Result failureOf(ResultCode resultCode, String key, Object value) {
+        Result result = new Result(resultCode).setDataChain(key, value);
         result.setSuccess(false);
         return result;
     }

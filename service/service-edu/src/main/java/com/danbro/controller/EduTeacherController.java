@@ -27,6 +27,7 @@ import java.util.List;
  * @since 2020-12-14 15:11:47
  */
 @Api("教师资源")
+@CrossOrigin
 @RestController
 @RequestMapping("eduTeacher")
 public class EduTeacherController {
@@ -41,7 +42,7 @@ public class EduTeacherController {
     public Result findAll() {
         List<EduTeacher> eduTeachers = eduTeacherService.list();
         if (eduTeachers != null) {
-            return Result.successOf(ResultCode.Success, "items", eduTeachers);
+            return Result.successOf(ResultCode.SUCCESS, "items", eduTeachers);
         }
         throw new MyCustomException(ResultCode.TEACHER_NOT_FOUND);
     }
@@ -51,7 +52,7 @@ public class EduTeacherController {
     public Result deleteTeacherById(@ApiParam(name = "id", value = "教师id", required = true) @PathVariable String id) {
         if (id != null && !StringUtils.isEmpty(id)) {
             if (eduTeacherService.removeById(id)) {
-                Result.successOf(ResultCode.Success);
+                return Result.successOf(ResultCode.SUCCESS);
             }
         }
         throw new MyCustomException(ResultCode.DELETE_TEACHER_NOT_FOUND);
@@ -63,7 +64,7 @@ public class EduTeacherController {
         if (id != null && !StringUtils.isEmpty(id)) {
             EduTeacher eduTeacher = eduTeacherService.getById(id);
             if (eduTeacher != null) {
-                return Result.successOf(ResultCode.Success, "items", eduTeacher);
+                return Result.successOf(ResultCode.SUCCESS, "items", eduTeacher);
             }
         }
         throw new MyCustomException(ResultCode.TEACHER_NOT_FOUND);
@@ -84,11 +85,11 @@ public class EduTeacherController {
     public Result insert(@Valid @RequestBody(required = true) EduTeacherInsertDto eduTeacherInsertDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
-            return Result.failureOf(ResultCode.Failure, "errors", allErrors);
+            return Result.failureOf(ResultCode.FAILURE, "errors", allErrors);
         }
         EduTeacher eduTeacher = eduTeacherInsertDto.convertTo();
         if (eduTeacherService.save(eduTeacher)) {
-            return Result.successOf(ResultCode.Success);
+            return Result.successOf(ResultCode.SUCCESS);
         }
         throw new MyCustomException(ResultCode.INSERT_TEACHER_FAILURE);
     }
@@ -99,11 +100,11 @@ public class EduTeacherController {
     public Result update(@Valid @RequestBody EduTeacherUpdateDto eduTeacherUpdateDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
-            return Result.failureOf(ResultCode.Failure, "errors", allErrors);
+            return Result.failureOf(ResultCode.FAILURE, "errors", allErrors);
         }
         EduTeacher eduTeacher = eduTeacherUpdateDto.convertTo();
         if (eduTeacherService.updateById(eduTeacher)) {
-            return Result.successOf(ResultCode.Success);
+            return Result.successOf(ResultCode.SUCCESS);
         }
         throw new MyCustomException(ResultCode.UPDATE_TEACHER_FAILURE);
     }

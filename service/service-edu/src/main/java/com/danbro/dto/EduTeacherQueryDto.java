@@ -2,12 +2,14 @@ package com.danbro.dto;
 
 import com.danbro.entity.EduTeacher;
 import com.danbro.impl.DtoConvert;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.Converter;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @Classname TeacherQueryVo
@@ -24,10 +26,10 @@ public class EduTeacherQueryDto implements DtoConvert<EduTeacherQueryDto, EduTea
     private Integer level;
 
     @ApiModelProperty("创建时间")
-    private LocalDateTime start;
+    private Date start;
 
     @ApiModelProperty("修改时间")
-    private LocalDateTime end;
+    private Date end;
 
     @Override
     public EduTeacherQueryDto convertFrom(EduTeacher eduTeacher) {
