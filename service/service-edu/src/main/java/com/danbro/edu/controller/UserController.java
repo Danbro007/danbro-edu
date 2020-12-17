@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("teacherService/user")
+@RequestMapping("edu/user")
 public class UserController {
+
     @ApiOperation("用户登录")
     @PostMapping("login")
     public Result login() {

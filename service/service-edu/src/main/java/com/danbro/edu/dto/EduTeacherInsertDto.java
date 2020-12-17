@@ -42,7 +42,7 @@ public class EduTeacherInsertDto implements DtoConvert<EduTeacherInsertDto, EduT
     /**
      * 讲师头像
      */
-//    @NotEmpty(message = "讲师头像必须上传")
+    @NotEmpty(message = "讲师头像必须上传")
     private String avatar;
     /**
      * 排序

@@ -2,7 +2,7 @@ package com.danbro.enums;
 
 /**
  * @Classname com.danbro.enums.ResultCode
- * @Description TODO 响应状态码枚举类
+ * @Description TODO 响应状态码
  * @Date 2020/12/15 10:14
  * @Author Danrbo
  */
@@ -21,7 +21,7 @@ public enum ResultCode {
     DELETE_TEACHER_NOT_FOUND(20003, "要删除的讲师不存在！"),
     MATCH_CONDITION_TEACHER_NOT_FOUND(20004, "符合筛选条件的讲师不存在！"),
     UPDATE_TEACHER_FAILURE(20005, "修改讲师失败，可能讲师不存在！"),
-    INSERT_TEACHER_FAILURE(20006, "添加讲师失败，可能因为讲师已存在！"),
+    INSERT_TEACHER_FAILURE(20006, "添加讲师失败，讲师已存在！"),
 
     /**
      * 上传文件代码

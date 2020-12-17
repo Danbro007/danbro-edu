@@ -33,7 +33,7 @@ public class OssClientUtils implements InitializingBean {
     public static String ACCESS_KEY_ID;
     public static String ACCESS_KEY_SECRET;
     public static String BUCKET_NAME;
-    public static long UPLOAD_FILE_SIZE_LIMIT;
+    public static long UPLOAD_FILE_SIZE_LIMIT = 1024 * 1024 * 5;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -41,12 +41,18 @@ public class OssClientUtils implements InitializingBean {
         ACCESS_KEY_ID = accessKeyId;
         ACCESS_KEY_SECRET = accessKeySecret;
         BUCKET_NAME = bucketName;
-        UPLOAD_FILE_SIZE_LIMIT = 1024 * 1024 * 5;
     }
 
+    /**
+     * 获取要上传文件的文件路径
+     *
+     * @param filename   文件名
+     * @param uploadType 文件类型
+     * @return 文件路径
+     */
     public static String getUploadFileName(String filename, String uploadType) {
         String uuid = UUID.randomUUID().toString();
         String date = new DateTime().toString("yyyy/MM/dd");
-        return String.format("%s/%s/%s%s", uploadType, date, uuid, filename);
+        return String.format("%s/%s/%s-%s", uploadType, date, uuid.replace("-", ""), filename);
     }
 }

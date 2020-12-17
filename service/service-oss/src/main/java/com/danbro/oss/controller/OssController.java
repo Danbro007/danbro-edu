@@ -12,10 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -35,7 +32,7 @@ public class OssController {
 
     @ApiOperation("上传头像")
     @PostMapping("avatar")
-    public Result uploadAvatar(MultipartFile avatar) {
+    public Result uploadAvatar(@RequestParam("file") MultipartFile avatar) {
         if (avatar.getSize() > OssClientUtils.UPLOAD_FILE_SIZE_LIMIT) {
             throw new MyCustomException(ResultCode.UPLOAD_FILE_OVER_SIZE);
         }

@@ -29,7 +29,7 @@ import java.util.List;
 @Api("教师资源")
 @CrossOrigin
 @RestController
-@RequestMapping("teacherService")
+@RequestMapping("edu")
 public class EduTeacherController {
     /**
      * 服务对象
@@ -87,8 +87,12 @@ public class EduTeacherController {
             return Result.failureOf(ResultCode.FAILURE, "errors", allErrors);
         }
         EduTeacher eduTeacher = eduTeacherInsertDto.convertTo();
-        if (eduTeacherService.save(eduTeacher)) {
-            return Result.successOf(ResultCode.SUCCESS);
+        try {
+            if (eduTeacherService.save(eduTeacher)) {
+                return Result.successOf(ResultCode.SUCCESS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         throw new MyCustomException(ResultCode.INSERT_TEACHER_FAILURE);
     }

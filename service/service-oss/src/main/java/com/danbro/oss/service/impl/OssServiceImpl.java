@@ -29,17 +29,15 @@ public class OssServiceImpl implements OssService {
     private final static String AVATAR = "avatar";
 
     @Override
-    public String uploadAvatar(MultipartFile file) {
+    public String uploadAvatar(MultipartFile file) throws IOException {
         OSS ossClient = getOssClient();
-        String uploadFileName = OssClientUtils.getUploadFileName(file.getOriginalFilename(), AVATAR);
+        String uploadFileName;
         try {
+            uploadFileName = OssClientUtils.getUploadFileName(file.getOriginalFilename(), AVATAR);
             ossClient.putObject(
                     OssClientUtils.BUCKET_NAME,
                     uploadFileName,
-                    file.getInputStream()
-            );
-        } catch (IOException e) {
-            return null;
+                    file.getInputStream());
         } finally {
             ossClient.shutdown();
         }
