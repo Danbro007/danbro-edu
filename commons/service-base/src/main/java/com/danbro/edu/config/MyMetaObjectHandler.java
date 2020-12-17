@@ -18,7 +18,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         this.strictInsertFill(metaObject, "gmtCreate", Date.class, new Date());
         this.strictInsertFill(metaObject, "gmtModified", Date.class, new Date());
-        this.strictInsertFill(metaObject, "isDeleted", Integer.class, 0);
+        if (metaObject.hasSetter("isDeleted")){
+            this.strictInsertFill(metaObject, "isDeleted", Integer.class, 0);
+        }
     }
 
     @Override

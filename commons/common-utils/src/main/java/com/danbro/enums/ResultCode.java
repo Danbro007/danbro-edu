@@ -28,7 +28,8 @@ public enum ResultCode {
      */
     AVATAR_UPLOAD_FAILURE(30001,"头像上传失败！"),
     OSS_UPLOAD_EXCEPTION(30001,"上传到阿里云OSS出现异常！"),
-    UPLOAD_FILE_OVER_SIZE(30002,"上传的文件超过 5 MB！");
+    UPLOAD_FILE_OVER_SIZE(30002,"上传的文件超过 5 MB！"),
+    SUBJECT_UPLOAD_FAILURE(30003,"上传课程失败！");
 
     private Integer code;
     private String message;

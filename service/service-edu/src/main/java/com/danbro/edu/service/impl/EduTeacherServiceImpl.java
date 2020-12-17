@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.edu.dto.EduTeacherQueryDto;
 import com.danbro.edu.entity.EduTeacher;
+import com.danbro.edu.mapper.EduTeacherMapper;
+import com.danbro.edu.service.EduTeacherService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
-import com.danbro.edu.mapper.EduTeacherMapper;
-import com.danbro.edu.service.EduTeacherService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,7 +21,7 @@ import java.util.Date;
  * @Date 2020/12/14 15:12
  * @Author Danrbo
  */
-@Service
+@Service("eduTeacherService")
 public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeacher> implements EduTeacherService {
 
     @Override
