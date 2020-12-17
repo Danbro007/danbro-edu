@@ -22,7 +22,7 @@ public class EduTeacherQueryDto implements DtoConvert<EduTeacherQueryDto, EduTea
     @ApiModelProperty("教师名")
     private String name;
 
-    @ApiModelProperty("教师等级")
+    @ApiModelProperty(value = "讲师等级",example = "1")
     private Integer level;
 
     @ApiModelProperty("创建时间")

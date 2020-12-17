@@ -5,8 +5,6 @@ import com.danbro.enums.ResultCode;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-
 /**
  * @Classname UserController
  * @Description TODO 用户登录控制器
@@ -15,7 +13,7 @@ import java.util.HashMap;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("eduTeacher/user")
+@RequestMapping("teacherService/user")
 public class UserController {
     @ApiOperation("用户登录")
     @PostMapping("login")

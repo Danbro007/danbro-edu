@@ -29,7 +29,7 @@ import java.util.List;
 @Api("教师资源")
 @CrossOrigin
 @RestController
-@RequestMapping("eduTeacher")
+@RequestMapping("teacherService")
 public class EduTeacherController {
     /**
      * 服务对象
@@ -38,7 +38,7 @@ public class EduTeacherController {
     private EduTeacherService eduTeacherService;
 
     @ApiOperation("查找所有的教师")
-    @GetMapping("/")
+    @GetMapping("teacher")
     public Result findAll() {
         List<EduTeacher> eduTeachers = eduTeacherService.list();
         if (eduTeachers != null) {
@@ -48,8 +48,8 @@ public class EduTeacherController {
     }
 
     @ApiOperation("通过教师id删除指定的教师")
-    @DeleteMapping("/{id}")
-    public Result deleteTeacherById(@ApiParam(name = "id", value = "教师id", required = true) @PathVariable String id) {
+    @DeleteMapping("teacher/{id}")
+    public Result deleteTeacherById(@ApiParam(name = "id", value = "教师id", required = true,example = "1189389726308478977") @PathVariable String id) {
         if (id != null && !StringUtils.isEmpty(id)) {
             if (eduTeacherService.removeById(id)) {
                 return Result.successOf(ResultCode.SUCCESS);
@@ -59,8 +59,8 @@ public class EduTeacherController {
     }
 
     @ApiOperation("通过教师id查找指定的教师")
-    @GetMapping("/{id}")
-    public Result findOne(@ApiParam(name = "id", value = "教师id", required = true) @PathVariable String id) {
+    @GetMapping("teacher/{id}")
+    public Result findOne(@ApiParam(name = "id", value = "教师id", required = true,example = "1189389726308478977") @PathVariable String id) {
         if (id != null && !StringUtils.isEmpty(id)) {
             EduTeacher eduTeacher = eduTeacherService.getById(id);
             if (eduTeacher != null) {
@@ -72,16 +72,15 @@ public class EduTeacherController {
 
 
     @ApiOperation("带条件的分页查询教师")
-    @PostMapping("/{current}/{limit}")
-    public Result pagingFindByCondition(@ApiParam(name = "current", value = "当前页数", required = true) @PathVariable Integer current,
-                                        @ApiParam(name = "limit", value = "当前页显示记录数", required = true) @PathVariable Integer limit,
+    @PostMapping("teacher/{current}/{limit}")
+    public Result pagingFindByCondition(@ApiParam(name = "current", value = "当前页数",example = "1") @PathVariable Integer current,
+                                        @ApiParam(name = "limit", value = "当前页显示记录数", example = "10") @PathVariable Integer limit,
                                         @RequestBody(required = false) EduTeacherQueryDto eduTeacherQueryDto) {
         return eduTeacherService.pagingFindTeacherByCondition(current, limit, eduTeacherQueryDto);
     }
 
-
     @ApiOperation("添加教师")
-    @PostMapping("/")
+    @PostMapping("teacher")
     public Result insert(@Valid @RequestBody(required = true) EduTeacherInsertDto eduTeacherInsertDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
@@ -96,7 +95,7 @@ public class EduTeacherController {
 
 
     @ApiOperation("修改教师信息")
-    @PutMapping("/")
+    @PutMapping("teacher")
     public Result update(@Valid @RequestBody EduTeacherUpdateDto eduTeacherUpdateDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();

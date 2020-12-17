@@ -3,6 +3,7 @@ package com.danbro.dto;
 import com.danbro.entity.EduTeacher;
 import com.danbro.impl.DtoConvert;
 import com.google.common.base.Converter;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
@@ -39,6 +40,7 @@ public class EduTeacherUpdateDto implements DtoConvert<EduTeacherUpdateDto, EduT
     /**
      * 头衔 1高级讲师 2首席讲师
      */
+    @ApiModelProperty(value = "讲师等级", example = "1")
     private Integer level;
     /**
      * 讲师头像
@@ -47,6 +49,7 @@ public class EduTeacherUpdateDto implements DtoConvert<EduTeacherUpdateDto, EduT
     /**
      * 排序
      */
+    @ApiModelProperty(value = "排序", example = "1")
     private Integer sort;
 
     @Override
