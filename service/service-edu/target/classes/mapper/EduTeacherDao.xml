@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.danbro.mapper.EduTeacherDao">
+<mapper namespace="com.danbro.edu.mapper.EduTeacherDao">
 
-    <resultMap id="BaseResultMap" type="com.danbro.entity.EduTeacher">
+    <resultMap id="BaseResultMap" type="com.danbro.edu.entity.EduTeacher">
         <!--@Table edu_teacher-->
         <result property="id" column="id" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>

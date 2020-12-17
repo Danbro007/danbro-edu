@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>service-edu</module>
+        <module>service-oss</module>
     </modules>
     <dependencies>
 
@@ -41,6 +42,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--hutool 工具-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
         </dependency>
 
         <!--mybatis-plus-->
@@ -137,7 +143,7 @@
 
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-alibaba-nacos-com.danbro.config</artifactId>-->
+        <!--            <artifactId>spring-cloud-starter-alibaba-nacos-com.danbro.edu.config</artifactId>-->
         <!--        </dependency>-->
     </dependencies>
 
