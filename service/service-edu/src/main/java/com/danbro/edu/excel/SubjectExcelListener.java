@@ -50,6 +50,13 @@ public class SubjectExcelListener extends AnalysisEventListener<SubjectData> {
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
     }
 
+    /**
+     * 判断课程是否已存在
+     * @param subjectName 课程名
+     * @param eduSubjectService 课程服务类
+     * @param parentId 一级课程的ID
+     * @return 数据库中存储的课程对象
+     */
     private EduSubject isSubjectExist(String subjectName, EduSubjectService eduSubjectService, String parentId) {
         QueryWrapper<EduSubject> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("parent_id", parentId).eq("title", subjectName);

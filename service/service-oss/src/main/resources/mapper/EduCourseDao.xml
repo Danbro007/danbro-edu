@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.danbro.edu.mapper.EduCourseMapper">
+
+    <resultMap id="BaseResultMap" type="com.danbro.edu.entity.EduCourse">
+        <!--@Table edu_course-->
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="teacherId" column="teacher_id" jdbcType="VARCHAR"/>
+        <result property="subjectId" column="subject_id" jdbcType="VARCHAR"/>
+        <result property="subjectParentId" column="subject_parent_id" jdbcType="VARCHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="OTHER"/>
+        <result property="lessonNum" column="lesson_num" jdbcType="OTHER"/>
+        <result property="cover" column="cover" jdbcType="VARCHAR"/>
+        <result property="buyCount" column="buy_count" jdbcType="OTHER"/>
+        <result property="viewCount" column="view_count" jdbcType="OTHER"/>
+        <result property="version" column="version" jdbcType="OTHER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="OTHER"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, teacher_id, subject_id, subject_parent_id, title, price, lesson_num, cover, buy_count, view_count, version, status, is_deleted, gmt_create, gmt_modified
+        from guli.edu_course
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, teacher_id, subject_id, subject_parent_id, title, price, lesson_num, cover, buy_count, view_count, version, status, is_deleted, gmt_create, gmt_modified
+        from guli.edu_course
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, teacher_id, subject_id, subject_parent_id, title, price, lesson_num, cover, buy_count, view_count, version, status, is_deleted, gmt_create, gmt_modified
+        from guli.edu_course
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="teacherId != null and teacherId != ''">
+                and teacher_id = #{teacherId}
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                and subject_id = #{subjectId}
+            </if>
+            <if test="subjectParentId != null and subjectParentId != ''">
+                and subject_parent_id = #{subjectParentId}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="lessonNum != null">
+                and lesson_num = #{lessonNum}
+            </if>
+            <if test="cover != null and cover != ''">
+                and cover = #{cover}
+            </if>
+            <if test="buyCount != null">
+                and buy_count = #{buyCount}
+            </if>
+            <if test="viewCount != null">
+                and view_count = #{viewCount}
+            </if>
+            <if test="version != null">
+                and version = #{version}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="isDeleted != null">
+                and is_deleted = #{isDeleted}
+            </if>
+            <if test="gmtCreate != null">
+                and gmt_create = #{gmtCreate}
+            </if>
+            <if test="gmtModified != null">
+                and gmt_modified = #{gmtModified}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into guli.edu_course(teacher_id, subject_id, subject_parent_id, title, price, lesson_num, cover, buy_count, view_count, version, status, is_deleted, gmt_create, gmt_modified)
+        values (#{teacherId}, #{subjectId}, #{subjectParentId}, #{title}, #{price}, #{lessonNum}, #{cover}, #{buyCount}, #{viewCount}, #{version}, #{status}, #{isDeleted}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update guli.edu_course
+        <set>
+            <if test="teacherId != null and teacherId != ''">
+                teacher_id = #{teacherId},
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                subject_id = #{subjectId},
+            </if>
+            <if test="subjectParentId != null and subjectParentId != ''">
+                subject_parent_id = #{subjectParentId},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="lessonNum != null">
+                lesson_num = #{lessonNum},
+            </if>
+            <if test="cover != null and cover != ''">
+                cover = #{cover},
+            </if>
+            <if test="buyCount != null">
+                buy_count = #{buyCount},
+            </if>
+            <if test="viewCount != null">
+                view_count = #{viewCount},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from guli.edu_course where id = #{id}
+    </delete>
+
+</mapper>

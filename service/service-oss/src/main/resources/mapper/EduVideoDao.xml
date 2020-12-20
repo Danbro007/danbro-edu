@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.danbro.edu.mapper.EduVideoMapper">
+
+    <resultMap id="BaseResultMap" type="com.danbro.edu.entity.EduVideo">
+        <!--@Table edu_video-->
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="courseId" column="course_id" jdbcType="VARCHAR"/>
+        <result property="chapterId" column="chapter_id" jdbcType="VARCHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="videoSourceId" column="video_source_id" jdbcType="VARCHAR"/>
+        <result property="videoOriginalName" column="video_original_name" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="OTHER"/>
+        <result property="playCount" column="play_count" jdbcType="OTHER"/>
+        <result property="isFree" column="is_free" jdbcType="OTHER"/>
+        <result property="duration" column="duration" jdbcType="OTHER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="size" column="size" jdbcType="OTHER"/>
+        <result property="version" column="version" jdbcType="OTHER"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, course_id, chapter_id, title, video_source_id, video_original_name, sort, play_count, is_free, duration, status, size, version, gmt_create, gmt_modified
+        from guli.edu_video
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, course_id, chapter_id, title, video_source_id, video_original_name, sort, play_count, is_free, duration, status, size, version, gmt_create, gmt_modified
+        from guli.edu_video
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, course_id, chapter_id, title, video_source_id, video_original_name, sort, play_count, is_free, duration, status, size, version, gmt_create, gmt_modified
+        from guli.edu_video
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="courseId != null and courseId != ''">
+                and course_id = #{courseId}
+            </if>
+            <if test="chapterId != null and chapterId != ''">
+                and chapter_id = #{chapterId}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="videoSourceId != null and videoSourceId != ''">
+                and video_source_id = #{videoSourceId}
+            </if>
+            <if test="videoOriginalName != null and videoOriginalName != ''">
+                and video_original_name = #{videoOriginalName}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+            <if test="playCount != null">
+                and play_count = #{playCount}
+            </if>
+            <if test="isFree != null">
+                and is_free = #{isFree}
+            </if>
+            <if test="duration != null">
+                and duration = #{duration}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="size != null">
+                and size = #{size}
+            </if>
+            <if test="version != null">
+                and version = #{version}
+            </if>
+            <if test="gmtCreate != null">
+                and gmt_create = #{gmtCreate}
+            </if>
+            <if test="gmtModified != null">
+                and gmt_modified = #{gmtModified}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into guli.edu_video(course_id, chapter_id, title, video_source_id, video_original_name, sort, play_count, is_free, duration, status, size, version, gmt_create, gmt_modified)
+        values (#{courseId}, #{chapterId}, #{title}, #{videoSourceId}, #{videoOriginalName}, #{sort}, #{playCount}, #{isFree}, #{duration}, #{status}, #{size}, #{version}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update guli.edu_video
+        <set>
+            <if test="courseId != null and courseId != ''">
+                course_id = #{courseId},
+            </if>
+            <if test="chapterId != null and chapterId != ''">
+                chapter_id = #{chapterId},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="videoSourceId != null and videoSourceId != ''">
+                video_source_id = #{videoSourceId},
+            </if>
+            <if test="videoOriginalName != null and videoOriginalName != ''">
+                video_original_name = #{videoOriginalName},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="playCount != null">
+                play_count = #{playCount},
+            </if>
+            <if test="isFree != null">
+                is_free = #{isFree},
+            </if>
+            <if test="duration != null">
+                duration = #{duration},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="size != null">
+                size = #{size},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from guli.edu_video where id = #{id}
+    </delete>
+
+</mapper>

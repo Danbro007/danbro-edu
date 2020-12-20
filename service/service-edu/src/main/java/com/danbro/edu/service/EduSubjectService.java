@@ -2,9 +2,9 @@ package com.danbro.edu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.edu.entity.EduSubject;
+import com.danbro.edu.dto.FirstSubjectDto;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,4 +18,5 @@ public interface EduSubjectService extends IService<EduSubject> {
 
     void insert(MultipartFile file) throws IOException;
 
+    List<FirstSubjectDto> getAllSubject();
 }
