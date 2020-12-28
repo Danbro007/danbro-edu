@@ -26,14 +26,13 @@ import java.io.IOException;
 @Service
 @Slf4j
 public class OssServiceImpl implements OssService {
-    private final static String AVATAR = "avatar";
 
     @Override
-    public String uploadAvatar(MultipartFile file) throws IOException {
+    public String uploadAvatar(MultipartFile file,String type) throws IOException {
         OSS ossClient = getOssClient();
         String uploadFileName;
         try {
-            uploadFileName = OssClientUtils.getUploadFileName(file.getOriginalFilename(), AVATAR);
+            uploadFileName = OssClientUtils.getUploadFileName(file.getOriginalFilename(), type);
             ossClient.putObject(
                     OssClientUtils.BUCKET_NAME,
                     uploadFileName,

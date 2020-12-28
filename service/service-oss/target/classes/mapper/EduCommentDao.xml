@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.danbro.edu.mapper.EduCommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.danbro.edu.entity.EduComment">
+        <!--@Table edu_comment-->
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="courseId" column="course_id" jdbcType="VARCHAR"/>
+        <result property="teacherId" column="teacher_id" jdbcType="VARCHAR"/>
+        <result property="memberId" column="member_id" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="OTHER"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, course_id, teacher_id, member_id, nickname, avatar, content, is_deleted, gmt_create, gmt_modified
+        from guli.edu_comment
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, course_id, teacher_id, member_id, nickname, avatar, content, is_deleted, gmt_create, gmt_modified
+        from guli.edu_comment
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, course_id, teacher_id, member_id, nickname, avatar, content, is_deleted, gmt_create, gmt_modified
+        from guli.edu_comment
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="courseId != null and courseId != ''">
+                and course_id = #{courseId}
+            </if>
+            <if test="teacherId != null and teacherId != ''">
+                and teacher_id = #{teacherId}
+            </if>
+            <if test="memberId != null and memberId != ''">
+                and member_id = #{memberId}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and nickname = #{nickname}
+            </if>
+            <if test="avatar != null and avatar != ''">
+                and avatar = #{avatar}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="isDeleted != null">
+                and is_deleted = #{isDeleted}
+            </if>
+            <if test="gmtCreate != null">
+                and gmt_create = #{gmtCreate}
+            </if>
+            <if test="gmtModified != null">
+                and gmt_modified = #{gmtModified}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into guli.edu_comment(course_id, teacher_id, member_id, nickname, avatar, content, is_deleted, gmt_create, gmt_modified)
+        values (#{courseId}, #{teacherId}, #{memberId}, #{nickname}, #{avatar}, #{content}, #{isDeleted}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update guli.edu_comment
+        <set>
+            <if test="courseId != null and courseId != ''">
+                course_id = #{courseId},
+            </if>
+            <if test="teacherId != null and teacherId != ''">
+                teacher_id = #{teacherId},
+            </if>
+            <if test="memberId != null and memberId != ''">
+                member_id = #{memberId},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from guli.edu_comment where id = #{id}
+    </delete>
+
+</mapper>

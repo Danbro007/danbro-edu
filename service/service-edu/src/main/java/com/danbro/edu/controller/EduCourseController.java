@@ -1,6 +1,7 @@
 package com.danbro.edu.controller;
 
 import com.danbro.edu.dto.EduCourseInputDto;
+import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
@@ -16,7 +17,8 @@ import javax.annotation.Resource;
  * @since 2020-12-20 19:55:16
  */
 @RestController
-@RequestMapping("edu")
+@RequestMapping("edu/course")
+@CrossOrigin
 public class EduCourseController {
     /**
      * 服务对象
@@ -24,12 +26,12 @@ public class EduCourseController {
     @Resource
     private EduCourseService eduCourseService;
 
-    @ApiOperation("添加课程基本信息")
-    @PostMapping("course")
+    @ApiOperation("添加课程信息")
+    @PostMapping("info")
     public Result insert(@RequestBody EduCourseInputDto eduCourseInputDto) {
         if (eduCourseInputDto != null) {
-            eduCourseService.insert(eduCourseInputDto);
-            return Result.failureOf(ResultCode.SUCCESS);
+            EduCourse course = eduCourseService.insert(eduCourseInputDto);
+            return Result.successOf(ResultCode.SUCCESS, "courseId", course.getId());
         }
         return Result.failureOf(ResultCode.FAILURE);
     }

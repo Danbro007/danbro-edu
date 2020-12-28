@@ -26,7 +26,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     EduCourseDescriptionService eduCourseDescriptionService;
 
     @Override
-    public void insert(EduCourseInputDto eduCourseInputDto) {
+    public EduCourse insert(EduCourseInputDto eduCourseInputDto) {
         EduCourse eduCourse = new EduCourse();
         EduCourseDescription eduCourseDescription = new EduCourseDescription();
 
@@ -35,7 +35,6 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         if (!f) {
             throw new MyCustomException(ResultCode.INSERT_COURSE_FAILURE);
         }
-
         eduCourseDescription.
                 setDescription(eduCourseInputDto.getDescription()).
                 setId(eduCourse.getId());
@@ -43,5 +42,6 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         if (!b) {
             throw new MyCustomException(ResultCode.INSERT_COURSE_DESCRIPTION_FAILURE);
         }
+        return eduCourse;
     }
 }

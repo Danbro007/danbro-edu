@@ -33,7 +33,7 @@ public class OssClientUtils implements InitializingBean {
     public static String ACCESS_KEY_ID;
     public static String ACCESS_KEY_SECRET;
     public static String BUCKET_NAME;
-    public static long UPLOAD_FILE_SIZE_LIMIT = 1024 * 1024 * 5;
+    public static long UPLOAD_IMAGE_SIZE_LIMIT = 1024 * 1024 * 2;
 
     @Override
     public void afterPropertiesSet() throws Exception {

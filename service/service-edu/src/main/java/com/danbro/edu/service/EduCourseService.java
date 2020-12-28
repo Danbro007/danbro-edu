@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface EduCourseService extends IService<EduCourse>{
 
-    void insert(EduCourseInputDto eduCourseInputDto);
+    EduCourse insert(EduCourseInputDto eduCourseInputDto);
 }

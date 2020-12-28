@@ -20,5 +20,5 @@ public interface OssService {
      * @param file 头像文件
      * @return 上传后头像的url
      */
-    String uploadAvatar(MultipartFile file) throws IOException;
+    String uploadAvatar(MultipartFile file,String type) throws IOException;
 }
