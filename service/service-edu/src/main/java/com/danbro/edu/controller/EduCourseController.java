@@ -1,6 +1,6 @@
 package com.danbro.edu.controller;
 
-import com.danbro.edu.dto.EduCourseInputDto;
+import com.danbro.edu.dto.EduCourseDto;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.enums.Result;
@@ -28,11 +28,30 @@ public class EduCourseController {
 
     @ApiOperation("添加课程信息")
     @PostMapping("info")
-    public Result insert(@RequestBody EduCourseInputDto eduCourseInputDto) {
-        if (eduCourseInputDto != null) {
-            EduCourse course = eduCourseService.insert(eduCourseInputDto);
+    public Result insert(@RequestBody EduCourseDto eduCourseDto) {
+        if (eduCourseDto != null) {
+            EduCourse course = eduCourseService.insert(eduCourseDto);
             return Result.successOf(ResultCode.SUCCESS, "courseId", course.getId());
         }
         return Result.failureOf(ResultCode.FAILURE);
+    }
+
+
+    @ApiOperation("查看课程基本详细")
+    @GetMapping("info/{courseId}")
+    public Result findCourseInfo(@PathVariable String courseId) {
+        EduCourseDto courseInfo = eduCourseService.getCourseInfo(courseId);
+        return Result.successOf(ResultCode.SUCCESS, "courseInfo", courseInfo);
+    }
+
+
+    @ApiOperation("修改课程基本信息")
+    @PutMapping("info")
+    public Result updateCourseInfo(@RequestBody EduCourseDto eduCourseDto) {
+        Boolean flag = eduCourseService.updateCourseInfo(eduCourseDto);
+        if (flag) {
+            return Result.successOf(ResultCode.SUCCESS);
+        }
+        return Result.failureOf(ResultCode.UPDATE_COURSE_INFO_FAILURE);
     }
 }

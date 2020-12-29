@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -48,11 +49,11 @@ public class EduCourse implements Serializable {
     /**
      * 课程销售价格，设置为0则可免费观看
      */
-    private Object price;
+    private BigDecimal price;
     /**
      * 总课时
      */
-    private Object lessonNum;
+    private Integer lessonNum;
     /**
      * 课程封面图片路径
      */
@@ -60,15 +61,15 @@ public class EduCourse implements Serializable {
     /**
      * 销售数量
      */
-    private Object buyCount;
+    private Integer buyCount;
     /**
      * 浏览数量
      */
-    private Object viewCount;
+    private Long viewCount;
     /**
      * 乐观锁
      */
-    private Object version;
+    private Integer version;
     /**
      * 课程状态 Draft未发布  Normal已发布
      */
@@ -78,7 +79,7 @@ public class EduCourse implements Serializable {
      */
     @TableLogic()
     @TableField(fill = FieldFill.INSERT)
-    private Object isDeleted;
+    private Integer isDeleted;
     /**
      * 创建时间
      */

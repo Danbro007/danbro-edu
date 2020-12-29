@@ -3,6 +3,7 @@ package com.danbro.edu.dto;
 import com.danbro.edu.entity.EduChapter;
 import com.danbro.edu.entity.EduVideo;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,10 @@ import java.util.List;
  * @Author Danrbo
  */
 @Data
+@Accessors(chain = true)
 public class EduChapterOutPutDto {
-    private String title;
+    private String label;
     private String id;
+    private Integer sort;
     private List<EduVideoOutPutDto> children = new ArrayList<>();
 }

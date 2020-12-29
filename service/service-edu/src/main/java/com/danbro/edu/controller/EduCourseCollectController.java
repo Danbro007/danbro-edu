@@ -22,4 +22,5 @@ public class EduCourseCollectController {
     private EduCourseCollectService eduCourseCollectService;
 
 
+
 }

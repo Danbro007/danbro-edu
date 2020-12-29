@@ -1,9 +1,8 @@
 package com.danbro.edu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.edu.dto.EduCourseInputDto;
+import com.danbro.edu.dto.EduCourseDto;
 import com.danbro.edu.entity.EduCourse;
-import java.util.List;
 
 /**
  * 课程(EduCourse)表服务接口
@@ -13,5 +12,9 @@ import java.util.List;
  */
 public interface EduCourseService extends IService<EduCourse>{
 
-    EduCourse insert(EduCourseInputDto eduCourseInputDto);
+    EduCourse insert(EduCourseDto eduCourseDto);
+
+    EduCourseDto getCourseInfo(String courseId);
+
+    Boolean updateCourseInfo(EduCourseDto eduCourseDto);
 }

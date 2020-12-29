@@ -1,6 +1,7 @@
 package com.danbro.edu.dto;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * @Classname EduVideoDto
@@ -9,7 +10,10 @@ import lombok.Data;
  * @Author Danrbo
  */
 @Data
+@Accessors(chain = true)
 public class EduVideoOutPutDto {
     private String id;
-    private String title;
+    private String label;
+    private Boolean isFree;
+    private Integer sort;
 }

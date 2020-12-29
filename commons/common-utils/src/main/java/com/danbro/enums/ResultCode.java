@@ -27,6 +27,12 @@ public enum ResultCode {
      */
     INSERT_COURSE_FAILURE(200200, "添加课程失败！"),
     INSERT_COURSE_DESCRIPTION_FAILURE(200201, "添加课程描述失败！"),
+    UPDATE_COURSE_INFO_FAILURE(200202,"修改课程基本信息失败"),
+    DELETE_CHAPTER_FAILURE(200210,"删除章节失败"),
+    UPDATE_CHAPTER_FAILURE(200211,"修改章节失败"),
+    INSERT_VIDEO_FAILURE(200220,"添加视频信息失败"),
+    UPDATE_VIDEO_FAILURE(200221,"修改视频信息失败"),
+    DELETE_VIDEO_FAILURE(200221,"删除视频信息失败"),
     /**
      * 上传文件代码
      */

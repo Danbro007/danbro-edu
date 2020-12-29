@@ -46,19 +46,19 @@ public class EduVideo implements Serializable {
     /**
      * 排序字段
      */
-    private Object sort;
+    private Integer sort;
     /**
      * 播放次数
      */
-    private Object playCount;
+    private Long playCount;
     /**
      * 是否可以试听：0收费 1免费
      */
-    private Object isFree;
+    private Boolean isFree;
     /**
      * 视频时长（秒）
      */
-    private Object duration;
+    private Long duration;
     /**
      * Empty未上传 Transcoding转码中  Normal正常
      */
@@ -66,11 +66,11 @@ public class EduVideo implements Serializable {
     /**
      * 视频源文件大小（字节）
      */
-    private Object size;
+    private Long size;
     /**
      * 乐观锁
      */
-    private Object version;
+    private Integer version;
     /**
      * 创建时间
      */
