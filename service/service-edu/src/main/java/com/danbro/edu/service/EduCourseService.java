@@ -2,6 +2,7 @@ package com.danbro.edu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.edu.dto.EduCourseDto;
+import com.danbro.edu.dto.EduCoursePublishDto;
 import com.danbro.edu.entity.EduCourse;
 
 /**
@@ -17,4 +18,6 @@ public interface EduCourseService extends IService<EduCourse>{
     EduCourseDto getCourseInfo(String courseId);
 
     Boolean updateCourseInfo(EduCourseDto eduCourseDto);
+
+    EduCoursePublishDto getCourseInfoForPublish(String courseId);
 }

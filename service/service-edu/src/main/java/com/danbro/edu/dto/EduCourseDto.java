@@ -16,9 +16,6 @@ import java.math.BigDecimal;
 @ApiModel("课程提交参数")
 public class EduCourseDto {
 
-    @ApiModelProperty("课程ID")
-    private String id;
-
     @ApiModelProperty("课程讲师ID")
     private String teacherId;
 

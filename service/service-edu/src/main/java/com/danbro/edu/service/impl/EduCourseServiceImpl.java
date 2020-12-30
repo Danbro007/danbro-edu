@@ -2,6 +2,7 @@ package com.danbro.edu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.edu.dto.EduCourseDto;
+import com.danbro.edu.dto.EduCoursePublishDto;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduCourseDescription;
 import com.danbro.edu.mapper.EduCourseMapper;
@@ -30,7 +31,6 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     public EduCourse insert(EduCourseDto eduCourseDto) {
         EduCourse eduCourse = new EduCourse();
         EduCourseDescription eduCourseDescription = new EduCourseDescription();
-
         BeanUtils.copyProperties(eduCourseDto, eduCourse);
         boolean f = this.save(eduCourse);
         if (!f) {
@@ -69,5 +69,11 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             return false;
         }
         return true;
+    }
+
+
+    @Override
+    public EduCoursePublishDto getCourseInfoForPublish(String courseId) {
+        return baseMapper.getCourseInfoForPublish(courseId);
     }
 }

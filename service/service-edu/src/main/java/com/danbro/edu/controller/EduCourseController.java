@@ -1,11 +1,14 @@
 package com.danbro.edu.controller;
 
 import com.danbro.edu.dto.EduCourseDto;
+import com.danbro.edu.dto.EduCoursePublishDto;
+import com.danbro.edu.dto.EduCoursePublishStatusDto;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -53,5 +56,24 @@ public class EduCourseController {
             return Result.successOf(ResultCode.SUCCESS);
         }
         return Result.failureOf(ResultCode.UPDATE_COURSE_INFO_FAILURE);
+    }
+
+    @ApiOperation("查询要发布的课程信息")
+    @GetMapping("publish/{courseId}")
+    public Result updateCourseInfo(@PathVariable String courseId) {
+        EduCoursePublishDto courseInfoForPublish = eduCourseService.getCourseInfoForPublish(courseId);
+        return Result.successOf(ResultCode.SUCCESS, "coursePublish", courseInfoForPublish);
+    }
+
+    @ApiOperation("修改课程发布状态")
+    @PutMapping("publish/status")
+    public Result updatePublishStatus(@RequestBody EduCoursePublishStatusDto statusDto) {
+        EduCourse eduCourse = new EduCourse();
+        BeanUtils.copyProperties(statusDto,eduCourse);
+        boolean b = eduCourseService.updateById(eduCourse);
+        if (b) {
+            return Result.successOf(ResultCode.SUCCESS);
+        }
+        return Result.failureOf(ResultCode.UPDATE_COURSE_PUBLISH_STATUS_FAILURE);
     }
 }
