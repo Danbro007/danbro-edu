@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface EduVideoService extends IService<EduVideo>{
 
+    boolean removeByCourseId(String id);
 }

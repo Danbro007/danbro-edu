@@ -1,19 +1,28 @@
 package com.danbro.edu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.edu.dto.EduCourseDto;
 import com.danbro.edu.dto.EduCoursePublishDto;
+import com.danbro.edu.dto.SearchCourseConditionDto;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduCourseDescription;
 import com.danbro.edu.mapper.EduCourseMapper;
+import com.danbro.edu.service.EduChapterService;
 import com.danbro.edu.service.EduCourseDescriptionService;
 import com.danbro.edu.service.EduCourseService;
+import com.danbro.edu.service.EduVideoService;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * 课程(EduCourse)表服务实现类
@@ -26,6 +35,10 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Autowired
     EduCourseDescriptionService eduCourseDescriptionService;
+    @Autowired
+    EduChapterService eduChapterService;
+    @Autowired
+    EduVideoService eduVideoService;
 
     @Override
     public EduCourse insert(EduCourseDto eduCourseDto) {
@@ -75,5 +88,30 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Override
     public EduCoursePublishDto getCourseInfoForPublish(String courseId) {
         return baseMapper.getCourseInfoForPublish(courseId);
+    }
+
+    @Override
+    public Page<EduCourse> pagingFindByCondition(Integer current, Integer limit, SearchCourseConditionDto conditionDto) {
+        Page<EduCourse> coursePage = new Page<>(current, limit);
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        if (conditionDto != null) {
+            if (!StringUtils.isEmpty(conditionDto.getStatus())) {
+                queryWrapper.eq("status", conditionDto.getStatus());
+            }
+            if (!StringUtils.isEmpty(conditionDto.getTitle())) {
+                queryWrapper.like("title", conditionDto.getTitle());
+            }
+        }
+        queryWrapper.orderByDesc("gmt_create");
+        return this.page(coursePage, queryWrapper);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean removeCourse(String id) {
+        eduChapterService.removeByCourseId(id);
+        eduVideoService.removeByCourseId(id);
+        return eduCourseDescriptionService.removeById(id) &&
+                this.removeById(id);
     }
 }

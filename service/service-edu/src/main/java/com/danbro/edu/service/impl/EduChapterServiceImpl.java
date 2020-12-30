@@ -70,4 +70,11 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         return this.removeById(eduChapterDeleteInPutDto.getId()) &&
                 eduVideoService.removeByIds(eduChapterDeleteInPutDto.getChildren());
     }
+
+    @Override
+    public boolean removeByCourseId(String id) {
+        QueryWrapper<EduChapter> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("course_id",id);
+        return this.remove(queryWrapper);
+    }
 }

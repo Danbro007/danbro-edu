@@ -25,4 +25,6 @@ public interface EduChapterService extends IService<EduChapter> {
     Boolean insert(EduChapterInsertInPutDto eduChapterInsertInPutDto);
 
     boolean removeChapterAndVideo(EduChapterDeleteInPutDto eduChapterDeleteInPutDto);
+
+    boolean removeByCourseId(String id);
 }

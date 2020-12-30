@@ -1,5 +1,6 @@
 package com.danbro.edu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.edu.entity.EduVideo;
 import com.danbro.edu.mapper.EduVideoMapper;
@@ -14,4 +15,10 @@ import org.springframework.stereotype.Service;
  */
 @Service("eduVideoService")
 public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> implements EduVideoService {
+    @Override
+    public boolean removeByCourseId(String id) {
+        QueryWrapper<EduVideo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("course_id", id);
+        return this.remove(queryWrapper);
+    }
 }
