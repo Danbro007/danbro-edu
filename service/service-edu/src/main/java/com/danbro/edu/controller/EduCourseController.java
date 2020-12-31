@@ -1,6 +1,5 @@
 package com.danbro.edu.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.danbro.edu.dto.EduCourseDto;
 import com.danbro.edu.dto.EduCoursePublishDto;
@@ -11,7 +10,6 @@ import com.danbro.edu.service.EduCourseService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;

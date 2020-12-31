@@ -7,6 +7,8 @@ import com.danbro.edu.mapper.EduVideoMapper;
 import com.danbro.edu.service.EduVideoService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 课程视频(EduVideo)表服务实现类
  *
@@ -15,10 +17,18 @@ import org.springframework.stereotype.Service;
  */
 @Service("eduVideoService")
 public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> implements EduVideoService {
+
     @Override
     public boolean removeByCourseId(String id) {
         QueryWrapper<EduVideo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id", id);
+        return this.remove(queryWrapper);
+    }
+
+    @Override
+    public boolean removeByVideoList(List<String> videoList) {
+        QueryWrapper<EduVideo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("video_source_id", videoList);
         return this.remove(queryWrapper);
     }
 }

@@ -106,6 +106,11 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         return this.page(coursePage, queryWrapper);
     }
 
+    /**
+     * 删除课程相关的章节、视频
+     * @param id
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean removeCourse(String id) {

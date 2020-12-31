@@ -67,8 +67,9 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
 
     @Override
     public boolean removeChapterAndVideo(EduChapterDeleteInPutDto eduChapterDeleteInPutDto) {
-        return this.removeById(eduChapterDeleteInPutDto.getId()) &&
-                eduVideoService.removeByIds(eduChapterDeleteInPutDto.getChildren());
+        return this.removeById(eduChapterDeleteInPutDto.getId()) ;
+//        &&
+//        eduVideoService.removeByVideoList(eduChapterDeleteInPutDto.getChildren());
     }
 
     @Override
