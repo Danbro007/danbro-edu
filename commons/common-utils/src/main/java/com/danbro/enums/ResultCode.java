@@ -27,21 +27,25 @@ public enum ResultCode {
      */
     INSERT_COURSE_FAILURE(200200, "添加课程失败！"),
     INSERT_COURSE_DESCRIPTION_FAILURE(200201, "添加课程描述失败！"),
-    UPDATE_COURSE_INFO_FAILURE(200202,"修改课程基本信息失败"),
-    UPDATE_COURSE_PUBLISH_STATUS_FAILURE(200203,"修改课程发布状态失败"),
-    DELETE_COURSE_FAILURE(200204,"删除课程失败"),
-    DELETE_CHAPTER_FAILURE(200210,"删除章节失败"),
-    UPDATE_CHAPTER_FAILURE(200211,"修改章节失败"),
-    INSERT_VIDEO_FAILURE(200220,"添加视频信息失败"),
-    UPDATE_VIDEO_FAILURE(200221,"修改视频信息失败"),
-    DELETE_VIDEO_FAILURE(200221,"删除视频信息失败"),
+    UPDATE_COURSE_INFO_FAILURE(200202, "修改课程基本信息失败"),
+    UPDATE_COURSE_PUBLISH_STATUS_FAILURE(200203, "修改课程发布状态失败"),
+    DELETE_COURSE_FAILURE(200204, "删除课程失败"),
+    DELETE_CHAPTER_FAILURE(200210, "删除章节失败"),
+    UPDATE_CHAPTER_FAILURE(200211, "修改章节失败"),
+    INSERT_VIDEO_FAILURE(200220, "添加视频信息失败"),
+    UPDATE_VIDEO_FAILURE(200221, "修改视频信息失败"),
+    DELETE_VIDEO_FAILURE(200221, "删除视频信息失败"),
     /**
      * 上传文件代码
      */
     AVATAR_UPLOAD_FAILURE(30001, "头像上传失败！"),
     OSS_UPLOAD_EXCEPTION(30001, "上传到阿里云OSS出现异常！"),
     UPLOAD_FILE_OVER_SIZE(30002, "上传的文件超过 5 MB！"),
-    SUBJECT_UPLOAD_FAILURE(30003, "上传课程失败！");
+    SUBJECT_UPLOAD_FAILURE(30003, "上传课程失败！"),
+    VIDEO_UPLOAD_FAILURE(300020, "视频上传失败"),
+    VIDEO_DELETE_FAILURE(300021, "视频删除失败"),
+
+    ;
 
     private Integer code;
     private String message;
