@@ -15,12 +15,13 @@ import java.util.List;
  * @since 2020-12-20 19:55:16
  */
 public interface EduChapterService extends IService<EduChapter> {
-     /**
-      * 通过 courseId 找到相关的课程大纲
-      * @param courseId 课程Id
-      * @return 课程大纲
-      */
-     List<EduChapterOutPutDto> findAllByCourseId(String courseId);
+    /**
+     * 通过 courseId 找到相关的课程大纲
+     *
+     * @param courseId 课程Id
+     * @return 课程大纲
+     */
+    List<EduChapterOutPutDto> findAllByCourseId(String courseId);
 
     Boolean insert(EduChapterInsertInPutDto eduChapterInsertInPutDto);
 

@@ -45,11 +45,9 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
                     .setSort(m.getSort());
             eduVideoList.forEach(n -> {
                 if (n.getChapterId().equals(m.getId())) {
-                    EduVideoOutPutDto videoOutPutDto = new EduVideoOutPutDto()
-                            .setId(n.getId())
-                            .setLabel(n.getTitle())
-                            .setSort(n.getSort())
-                            .setIsFree(n.getIsFree());
+                    EduVideoOutPutDto videoOutPutDto = new EduVideoOutPutDto();
+                    BeanUtils.copyProperties(n, videoOutPutDto);
+                    videoOutPutDto.setLabel(n.getTitle());
                     outPutDto.getChildren().add(videoOutPutDto);
                 }
             });
@@ -74,7 +72,7 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
     @Override
     public boolean removeByCourseId(String id) {
         QueryWrapper<EduChapter> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("course_id",id);
+        queryWrapper.eq("course_id", id);
         return this.remove(queryWrapper);
     }
 }
