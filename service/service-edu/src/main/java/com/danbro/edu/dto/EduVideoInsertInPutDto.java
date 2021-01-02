@@ -28,4 +28,7 @@ public class EduVideoInsertInPutDto {
     private Integer sort;
 
     private Boolean isFree;
+
+    private String videoOriginalName;
+    private String videoSourceId;
 }

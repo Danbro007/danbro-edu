@@ -16,4 +16,6 @@ public class EduVideoOutPutDto {
     private String label;
     private Boolean isFree;
     private Integer sort;
+    private String videoSourceId;
+    private String videoOriginalName;
 }

@@ -2,7 +2,6 @@ package com.danbro.edu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.edu.entity.EduVideo;
-import java.util.List;
 
 /**
  * 课程视频(EduVideo)表服务接口
@@ -13,4 +12,6 @@ import java.util.List;
 public interface EduVideoService extends IService<EduVideo>{
 
     boolean removeByCourseId(String id);
+
+//    boolean removeUploadVideo(String videoSourceId);
 }

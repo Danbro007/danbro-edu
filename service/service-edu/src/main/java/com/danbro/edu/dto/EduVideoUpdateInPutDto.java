@@ -22,4 +22,7 @@ public class EduVideoUpdateInPutDto {
 
 
     private Boolean isFree;
+
+    private String videoSourceId;
+    private String videoOriginalName;
 }

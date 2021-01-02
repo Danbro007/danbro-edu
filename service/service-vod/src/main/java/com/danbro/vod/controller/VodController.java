@@ -49,15 +49,5 @@ public class VodController {
         }
     }
 
-//    @ApiOperation("批量删除视频")
-//    @DeleteMapping("video")
-//    public Result batchDeleteVideo(@RequestBody List<String> videoList) {
-//        try {
-//            vodService.batchVideoList(videoList);
-//            return Result.successOf(ResultCode.SUCCESS);
-//        } catch (ClientException e) {
-//            throw new MyCustomException(ResultCode.DELETE_VIDEO_FAILURE);
-//        }
-//    }
 
 }

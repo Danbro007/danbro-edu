@@ -15,10 +15,25 @@ import org.springframework.stereotype.Service;
  */
 @Service("eduVideoService")
 public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> implements EduVideoService {
+//    @Autowired
+//    VodAliYunUtils vodAliYunUtils;
+
     @Override
     public boolean removeByCourseId(String id) {
         QueryWrapper<EduVideo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id", id);
         return this.remove(queryWrapper);
     }
+
+//    @Override
+//    public boolean removeUploadVideo(String videoSourceId) {
+//        try {
+//            vodAliYunUtils.deleteVideo(videoSourceId);
+//            QueryWrapper<EduVideo> queryWrapper = new QueryWrapper<>();
+//            queryWrapper.eq("video_source_id", videoSourceId);
+//            return this.remove(queryWrapper);
+//        } catch (ClientException e) {
+//            throw new MyCustomException(ResultCode.DELETE_VIDEO_FAILURE);
+//        }
+//    }
 }

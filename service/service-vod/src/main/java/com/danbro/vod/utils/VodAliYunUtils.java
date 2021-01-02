@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * @Classname VodAliYunUtils
@@ -21,32 +20,23 @@ import java.util.List;
  * @Author Danrbo
  */
 @Component
-public class VodAliYunUtils implements InitializingBean {
+public class VodAliYunUtils {
     @Value("${aliyun.vod.keyid}")
     private String accessKeyId;
 
     @Value("${aliyun.vod.keysecret}")
     private String accessKeySecret;
 
-    public static String ACCESS_KEY_ID;
-    public static String ACCESS_KEY_SECRET;
     /**
      * 点播服务接入区域
      */
     private static final String REGION_ID = "cn-shanghai";
 
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        ACCESS_KEY_ID = accessKeyId;
-        ACCESS_KEY_SECRET = accessKeySecret;
-    }
-
-    public static DefaultAcsClient initVodClient() throws ClientException {
-        DefaultProfile profile = DefaultProfile.getProfile(REGION_ID, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+    private DefaultAcsClient initVodClient() throws ClientException {
+        DefaultProfile profile = DefaultProfile.getProfile(REGION_ID, accessKeyId, accessKeySecret);
         return new DefaultAcsClient(profile);
     }
-
 
     /**
      * 上传视频到阿里云
@@ -56,8 +46,8 @@ public class VodAliYunUtils implements InitializingBean {
      * @param inputStream
      * @return
      */
-    public static String uploadVideo(String title, String filename, InputStream inputStream) {
-        UploadStreamRequest request = new UploadStreamRequest(ACCESS_KEY_ID, ACCESS_KEY_SECRET, title, filename, inputStream);
+    public String uploadVideo(String title, String filename, InputStream inputStream) {
+        UploadStreamRequest request = new UploadStreamRequest(accessKeyId, accessKeySecret, title, filename, inputStream);
         UploadVideoImpl uploader = new UploadVideoImpl();
         request.setPrintProgress(true);
         UploadStreamResponse response = uploader.uploadStream(request);
@@ -74,25 +64,25 @@ public class VodAliYunUtils implements InitializingBean {
      * @return
      * @throws ClientException
      */
-    public static void deleteVideo(String videoId) throws ClientException {
+    public void deleteVideo(String videoId) throws ClientException {
         DefaultAcsClient client = initVodClient();
         DeleteVideoRequest request = new DeleteVideoRequest();
         request.setVideoIds(videoId);
         client.getAcsResponse(request);
     }
 
-    public static void batchDeleteVideo(List<String> videoList) throws ClientException {
-        StringBuilder videos = new StringBuilder();
-        for (int i = 0; i < videoList.size(); i++) {
-            if (i < videoList.size() - 1) {
-                videos.append(videoList.get(i)).append(",");
-            } else {
-                videos.append(videoList.get(i));
-            }
-        }
-        DefaultAcsClient client = initVodClient();
-        DeleteVideoRequest request = new DeleteVideoRequest();
-        request.setVideoIds(videos.toString());
-        client.getAcsResponse(request);
-    }
+//    public void batchDeleteVideo(List<String> videoList) throws ClientException {
+//        StringBuilder videos = new StringBuilder();
+//        for (int i = 0; i < videoList.size(); i++) {
+//            if (i < videoList.size() - 1) {
+//                videos.append(videoList.get(i)).append(",");
+//            } else {
+//                videos.append(videoList.get(i));
+//            }
+//        }
+//        DefaultAcsClient client = initVodClient();
+//        DeleteVideoRequest request = new DeleteVideoRequest();
+//        request.setVideoIds(videos.toString());
+//        client.getAcsResponse(request);
+//    }
 }

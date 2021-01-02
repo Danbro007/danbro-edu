@@ -28,7 +28,7 @@ public class EduVideoController {
     @Resource
     private EduVideoService eduVideoService;
 
-    @ApiOperation("添加视频")
+    @ApiOperation("添加小节信息")
     @PostMapping("video")
     public Result insertVideo(@RequestBody EduVideoInsertInPutDto inputVideo) {
         EduVideo eduVideo = new EduVideo();
@@ -40,7 +40,7 @@ public class EduVideoController {
         return Result.failureOf(ResultCode.INSERT_VIDEO_FAILURE);
     }
 
-    @ApiOperation("修改视频")
+    @ApiOperation("修改小节信息")
     @PutMapping("video")
     public Result updateVideo(@RequestBody EduVideoUpdateInPutDto updateVideo) {
         EduVideo eduVideo = new EduVideo();
@@ -52,9 +52,9 @@ public class EduVideoController {
         return Result.failureOf(ResultCode.UPDATE_VIDEO_FAILURE);
     }
 
-    @ApiOperation("删除视频")
+    @ApiOperation("删除小节信息")
     @DeleteMapping("video/{id}")
-    public Result updateVideo(@PathVariable String id) {
+    public Result deleteVideo(@PathVariable String id) {
         boolean b = eduVideoService.removeById(id);
         if (b) {
             return Result.successOf(ResultCode.SUCCESS);
