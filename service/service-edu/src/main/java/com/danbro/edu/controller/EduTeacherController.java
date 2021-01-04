@@ -1,5 +1,6 @@
 package com.danbro.edu.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.danbro.edu.dto.EduTeacherInsertDto;
 import com.danbro.edu.dto.EduTeacherQueryDto;
 import com.danbro.edu.dto.EduTeacherUpdateDto;
@@ -42,17 +43,17 @@ public class EduTeacherController {
     public Result findAll() {
         List<EduTeacher> eduTeachers = eduTeacherService.list();
         if (eduTeachers != null) {
-            return Result.successOf(ResultCode.SUCCESS, "items", eduTeachers);
+            return Result.successOf("items", eduTeachers);
         }
         throw new MyCustomException(ResultCode.TEACHER_NOT_FOUND);
     }
 
     @ApiOperation("通过教师id删除指定的教师")
     @DeleteMapping("teacher/{id}")
-    public Result deleteTeacherById(@ApiParam(name = "id", value = "教师id", required = true,example = "1189389726308478977") @PathVariable String id) {
+    public Result deleteTeacherById(@ApiParam(name = "id", value = "教师id", required = true, example = "1189389726308478977") @PathVariable String id) {
         if (id != null && !StringUtils.isEmpty(id)) {
             if (eduTeacherService.removeById(id)) {
-                return Result.successOf(ResultCode.SUCCESS);
+                return Result.successOf();
             }
         }
         throw new MyCustomException(ResultCode.DELETE_TEACHER_NOT_FOUND);
@@ -60,11 +61,11 @@ public class EduTeacherController {
 
     @ApiOperation("通过教师id查找指定的教师")
     @GetMapping("teacher/{id}")
-    public Result findOne(@ApiParam(name = "id", value = "教师id", required = true,example = "1189389726308478977") @PathVariable String id) {
+    public Result findOne(@ApiParam(name = "id", value = "教师id", required = true, example = "1189389726308478977") @PathVariable String id) {
         if (id != null && !StringUtils.isEmpty(id)) {
             EduTeacher eduTeacher = eduTeacherService.getById(id);
             if (eduTeacher != null) {
-                return Result.successOf(ResultCode.SUCCESS, "items", eduTeacher);
+                return Result.successOf("items", eduTeacher);
             }
         }
         throw new MyCustomException(ResultCode.TEACHER_NOT_FOUND);
@@ -73,7 +74,7 @@ public class EduTeacherController {
 
     @ApiOperation("带条件的分页查询教师")
     @PostMapping("teacher/{current}/{limit}")
-    public Result pagingFindByCondition(@ApiParam(name = "current", value = "当前页数",example = "1") @PathVariable Integer current,
+    public Result pagingFindByCondition(@ApiParam(name = "current", value = "当前页数", example = "1") @PathVariable Integer current,
                                         @ApiParam(name = "limit", value = "当前页显示记录数", example = "10") @PathVariable Integer limit,
                                         @RequestBody(required = false) EduTeacherQueryDto eduTeacherQueryDto) {
         return eduTeacherService.pagingFindTeacherByCondition(current, limit, eduTeacherQueryDto);
@@ -89,7 +90,7 @@ public class EduTeacherController {
         EduTeacher eduTeacher = eduTeacherInsertDto.convertTo();
         try {
             if (eduTeacherService.save(eduTeacher)) {
-                return Result.successOf(ResultCode.SUCCESS);
+                return Result.successOf();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,8 +108,18 @@ public class EduTeacherController {
         }
         EduTeacher eduTeacher = eduTeacherUpdateDto.convertTo();
         if (eduTeacherService.updateById(eduTeacher)) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         throw new MyCustomException(ResultCode.UPDATE_TEACHER_FAILURE);
+    }
+
+    @ApiOperation("获取等级排名为前 limit 名的讲师信息")
+    @GetMapping("teacher/top/{limit}")
+    public Result getTopTeacherList(@PathVariable String limit) {
+        QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("level");
+        queryWrapper.last(String.format("limit %s", limit));
+        List<EduTeacher> teachers = eduTeacherService.list(queryWrapper);
+        return Result.successOf("teacherList", teachers);
     }
 }

@@ -3,14 +3,11 @@ package com.danbro.edu.controller;
 import com.danbro.edu.dto.EduVideoInsertInPutDto;
 import com.danbro.edu.dto.EduVideoUpdateInPutDto;
 import com.danbro.edu.entity.EduVideo;
-import com.danbro.edu.rpcClient.VodClient;
 import com.danbro.edu.service.EduVideoService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -38,7 +35,7 @@ public class EduVideoController {
         BeanUtils.copyProperties(inputVideo, eduVideo);
         boolean b = eduVideoService.save(eduVideo);
         if (b) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         return Result.failureOf(ResultCode.INSERT_VIDEO_FAILURE);
     }
@@ -50,7 +47,7 @@ public class EduVideoController {
         BeanUtils.copyProperties(updateVideo, eduVideo);
         boolean b = eduVideoService.updateById(eduVideo);
         if (b) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         return Result.failureOf(ResultCode.UPDATE_VIDEO_FAILURE);
     }
@@ -58,9 +55,9 @@ public class EduVideoController {
     @ApiOperation("删除整个小节信息")
     @DeleteMapping("video/{id}")
     public Result deleteVideoInfo(@PathVariable String id) {
-        boolean b = eduVideoService.removeById(id);
+        Boolean b = eduVideoService.removeByVideoId(id);
         if (b) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         return Result.failureOf(ResultCode.DELETE_VIDEO_FAILURE);
     }
@@ -70,7 +67,7 @@ public class EduVideoController {
     public Result deleteVideo(@PathVariable String id) {
         Boolean b = eduVideoService.removeAliyunVideo(id);
         if (b) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         return Result.failureOf(ResultCode.DELETE_VIDEO_FAILURE);
     }

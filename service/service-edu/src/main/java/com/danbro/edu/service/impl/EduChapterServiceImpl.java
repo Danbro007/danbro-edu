@@ -2,7 +2,6 @@ package com.danbro.edu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.edu.dto.EduChapterDeleteInPutDto;
 import com.danbro.edu.dto.EduChapterInsertInPutDto;
 import com.danbro.edu.dto.EduChapterOutPutDto;
 import com.danbro.edu.dto.EduVideoOutPutDto;

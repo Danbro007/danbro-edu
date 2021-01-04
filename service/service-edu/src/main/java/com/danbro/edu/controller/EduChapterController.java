@@ -41,7 +41,7 @@ public class EduChapterController {
     @GetMapping("chapter/{courseId}")
     public Result getChapter(@PathVariable String courseId) {
         List<EduChapterOutPutDto> chapterOutPut = eduChapterService.findAllByCourseId(courseId);
-        return Result.successOf(ResultCode.SUCCESS, "chapters", chapterOutPut);
+        return Result.successOf("chapters", chapterOutPut);
     }
 
     /**
@@ -55,7 +55,7 @@ public class EduChapterController {
     public Result insertChapter(@RequestBody EduChapterInsertInPutDto eduChapterInsertInPutDto) {
         Boolean flag = eduChapterService.insert(eduChapterInsertInPutDto);
         if (flag) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         return Result.failureOf(ResultCode.FAILURE);
     }
@@ -71,7 +71,7 @@ public class EduChapterController {
     public Result deleteChapter(@PathVariable String chapterId) {
         boolean b = eduChapterService.removeChapterAndVideo(chapterId);
         if (b) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         return Result.failureOf(ResultCode.DELETE_CHAPTER_FAILURE);
     }
@@ -88,7 +88,7 @@ public class EduChapterController {
         EduChapter eduChapter = new EduChapter();
         BeanUtils.copyProperties(eduChapterUpdateInPutDto, eduChapter);
         boolean b = eduChapterService.updateById(eduChapter);
-        if (b) return Result.successOf(ResultCode.SUCCESS);
+        if (b) return Result.successOf();
         return Result.failureOf(ResultCode.UPDATE_CHAPTER_FAILURE);
     }
 

@@ -19,13 +19,13 @@ public class UserController {
     @ApiOperation("用户登录")
     @PostMapping("login")
     public Result login() {
-        return Result.successOf(ResultCode.SUCCESS, "token", "admin");
+        return Result.successOf("token", "admin");
     }
 
     @ApiOperation("返回用户信息")
     @GetMapping("info")
     public Result info() {
-        return Result.successOf(ResultCode.SUCCESS).
+        return Result.successOf().
                 setDataChain("roles", "[admin]").
                 setDataChain("name", "admin").
                 setDataChain("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");

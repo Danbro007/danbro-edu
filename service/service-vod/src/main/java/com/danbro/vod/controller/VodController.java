@@ -41,13 +41,9 @@ public class VodController {
 
     @ApiOperation("通过视频ID删除单个视频")
     @DeleteMapping("video/{videoId}")
-    public Result deleteVideo(@PathVariable String videoId) {
-        try {
-            vodService.deleteVideo(videoId);
-            return Result.successOf(ResultCode.SUCCESS);
-        } catch (ClientException e) {
-            throw new MyCustomException(ResultCode.DELETE_VIDEO_FAILURE);
-        }
+    public Result deleteVideo(@PathVariable String videoId) throws ClientException {
+        vodService.deleteVideo(videoId);
+        return Result.successOf(ResultCode.SUCCESS);
     }
 
     @ApiOperation("通过视频ID批量删除视频")

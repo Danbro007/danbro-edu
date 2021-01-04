@@ -48,7 +48,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         queryWrapper.orderByDesc("gmt_create");
         this.page(eduTeacherPage, queryWrapper);
         if (eduTeacherPage.getTotal() > 0) {
-            return Result.successOf(ResultCode.SUCCESS).
+            return Result.successOf().
                     setDataChain("total", eduTeacherPage.getTotal()).
                     setDataChain("rows", eduTeacherPage.getRecords());
         }

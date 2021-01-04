@@ -26,7 +26,7 @@ public class Result implements Serializable {
     @ApiModelProperty("响应的数据")
     private HashMap<String, Object> data;
     @ApiModelProperty("请求是否成功")
-    private Boolean success;
+    private Boolean isSuccess;
 
     private Result(ResultCode resultCode) {
         this.code = resultCode.getCode();
@@ -58,9 +58,9 @@ public class Result implements Serializable {
      *
      * @return 成功的结果
      */
-    public static Result successOf(ResultCode resultCode) {
-        Result result = new Result(resultCode);
-        result.setSuccess(true);
+    public static Result successOf() {
+        Result result = new Result(ResultCode.SUCCESS);
+        result.setIsSuccess(true);
         return result;
     }
 
@@ -71,7 +71,7 @@ public class Result implements Serializable {
      */
     public static Result failureOf(ResultCode resultCode) {
         Result result = new Result(resultCode);
-        result.setSuccess(false);
+        result.setIsSuccess(false);
         return result;
     }
 
@@ -80,27 +80,27 @@ public class Result implements Serializable {
      *
      * @return 成功的结果
      */
-    public static Result successOf(ResultCode resultCode, HashMap<String, Object> data) {
-        Result result = new Result(resultCode, data);
-        result.setSuccess(true);
+    public static Result successOf(HashMap<String, Object> data) {
+        Result result = new Result(ResultCode.SUCCESS, data);
+        result.setIsSuccess(true);
         return result;
     }
 
-    public static Result successOf(ResultCode resultCode, String key, Object value) {
-        Result result = new Result(resultCode).setDataChain(key, value);
-        result.setSuccess(true);
+    public static Result successOf(String key, Object value) {
+        Result result = new Result(ResultCode.SUCCESS).setDataChain(key, value);
+        result.setIsSuccess(true);
         return result;
     }
 
     public static Result failureOf(ResultCode resultCode, String key, Object value) {
         Result result = new Result(resultCode).setDataChain(key, value);
-        result.setSuccess(false);
+        result.setIsSuccess(false);
         return result;
     }
 
     public static Result failureOf(MyCustomException exception) {
         Result result = new Result(exception);
-        result.setSuccess(false);
+        result.setIsSuccess(false);
         return result;
     }
 }

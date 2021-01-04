@@ -1,6 +1,7 @@
 package com.danbro.edu.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.danbro.edu.dto.EduCourseDto;
 import com.danbro.edu.dto.EduCoursePublishDto;
@@ -45,7 +46,7 @@ public class EduCourseController {
             return Result.failureOf(ResultCode.FAILURE).setDataChain("errors", errors);
         }
         EduCourse course = eduCourseService.insert(eduCourseDto);
-        return Result.successOf(ResultCode.SUCCESS, "courseId", course.getId());
+        return Result.successOf("courseId", course.getId());
     }
 
 
@@ -53,7 +54,7 @@ public class EduCourseController {
     @GetMapping("info/{courseId}")
     public Result findCourseInfo(@PathVariable String courseId) {
         EduCourseDto courseInfo = eduCourseService.getCourseInfo(courseId);
-        return Result.successOf(ResultCode.SUCCESS, "courseInfo", courseInfo);
+        return Result.successOf("courseInfo", courseInfo);
     }
 
 
@@ -66,7 +67,7 @@ public class EduCourseController {
         }
         Boolean flag = eduCourseService.updateCourseInfo(eduCourseDto);
         if (flag) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         return Result.failureOf(ResultCode.UPDATE_COURSE_INFO_FAILURE);
     }
@@ -75,7 +76,7 @@ public class EduCourseController {
     @GetMapping("publish/{courseId}")
     public Result updateCourseInfo(@PathVariable String courseId) {
         EduCoursePublishDto courseInfoForPublish = eduCourseService.getCourseInfoForPublish(courseId);
-        return Result.successOf(ResultCode.SUCCESS, "coursePublish", courseInfoForPublish);
+        return Result.successOf("coursePublish", courseInfoForPublish);
     }
 
     @ApiOperation("修改课程发布状态")
@@ -89,7 +90,7 @@ public class EduCourseController {
         BeanUtils.copyProperties(statusDto, eduCourse);
         boolean b = eduCourseService.updateById(eduCourse);
         if (b) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         return Result.failureOf(ResultCode.UPDATE_COURSE_PUBLISH_STATUS_FAILURE);
     }
@@ -100,7 +101,7 @@ public class EduCourseController {
                                         @PathVariable Integer limit,
                                         @RequestBody(required = false) SearchCourseConditionDto conditionDto) {
         Page<EduCourse> page = eduCourseService.pagingFindByCondition(current, limit, conditionDto);
-        return Result.successOf(ResultCode.SUCCESS, "total", page.getTotal()).setDataChain("rows", page.getRecords());
+        return Result.successOf("total", page.getTotal()).setDataChain("rows", page.getRecords());
     }
 
     @ApiOperation("删除课程")
@@ -108,9 +109,19 @@ public class EduCourseController {
     public Result deleteCourseById(@PathVariable String id) {
         Boolean b = eduCourseService.removeCourse(id);
         if (b) {
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         }
         return Result.failureOf(ResultCode.DELETE_COURSE_FAILURE);
+    }
+
+    @ApiOperation("获取观看课程前 num 名的课程信息")
+    @GetMapping("top/{limit}")
+    public Result getTopCourseList(@PathVariable String limit) {
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("view_count");
+        queryWrapper.last(String.format("limit %s", limit));
+        List<EduCourse> courses = eduCourseService.list(queryWrapper);
+        return Result.successOf("courseList", courses);
     }
 
 }

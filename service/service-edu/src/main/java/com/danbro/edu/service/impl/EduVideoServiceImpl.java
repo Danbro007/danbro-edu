@@ -38,7 +38,6 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
             return this.remove(queryWrapper);
         }
         return false;
-
     }
 
     @Override
@@ -68,6 +67,17 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
         Result result = vodClient.batchDeleteVideo(videoList);
         if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
             return this.remove(queryWrapper);
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean removeByVideoId(String videoId) {
+        EduVideo eduVideo = this.getById(videoId);
+        Result result = vodClient.deleteVideoByVideoId(eduVideo.getVideoSourceId());
+        if (result.getCode().equals(ResultCode.SUCCESS.getCode())) {
+            this.removeById(videoId);
+            return true;
         }
         return false;
     }

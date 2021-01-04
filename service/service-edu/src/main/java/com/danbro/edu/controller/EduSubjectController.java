@@ -36,13 +36,13 @@ public class EduSubjectController {
         } catch (Exception e) {
             throw new MyCustomException(ResultCode.SUBJECT_UPLOAD_FAILURE);
         }
-        return Result.successOf(ResultCode.SUCCESS);
+        return Result.successOf();
     }
 
     @ApiOperation("获取课程列表并且按照级别分类")
     @GetMapping("subject")
     public Result getAllSubject() {
         List<FirstSubjectDto> subject = eduSubjectService.getAllSubject();
-        return Result.successOf(ResultCode.SUCCESS, "items", subject);
+        return Result.successOf("items", subject);
     }
 }

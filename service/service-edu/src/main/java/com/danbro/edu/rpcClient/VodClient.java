@@ -16,7 +16,7 @@ import java.util.List;
  * @Author Danrbo
  */
 @Component
-@FeignClient("service-vod")
+@FeignClient(name = "service-vod", fallback = VodClientFallBack.class)
 public interface VodClient {
 
     /**
@@ -30,6 +30,7 @@ public interface VodClient {
 
     /**
      * 批量删除阿里云的视频
+     *
      * @param videoList 视频ID列表
      * @return 删除结果
      */
