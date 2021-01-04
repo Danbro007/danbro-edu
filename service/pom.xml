@@ -30,15 +30,15 @@
         <!--        </dependency>-->
 
         <!--        &lt;!&ndash;服务注册&ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
-        <!--        </dependency>-->
-        <!--        &lt;!&ndash;服务调用&ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-openfeign</artifactId>-->
-        <!--        </dependency>-->
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                </dependency>
+                <!--服务调用-->
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-openfeign</artifactId>
+                </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -153,24 +153,5 @@
         <!--            <artifactId>spring-cloud-starter-alibaba-nacos-com.danbro.edu.config</artifactId>-->
         <!--        </dependency>-->
     </dependencies>
-
-
-    <plugin>
-        <groupId>org.flywaydb</groupId>
-        <artifactId>flyway-maven-plugin</artifactId>
-        <version>5.2.4</version>
-        <configuration>
-            <url>jdbc:mysql://localhost:3306/guli</url>
-            <user>root</user>
-            <password>123456</password>
-        </configuration>
-        <dependencies>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.47</version>
-            </dependency>
-        </dependencies>
-    </plugin>
 
 </project>

@@ -34,7 +34,6 @@ public enum ResultCode {
     UPDATE_CHAPTER_FAILURE(200211, "修改章节失败"),
     INSERT_VIDEO_FAILURE(200220, "添加视频信息失败"),
     UPDATE_VIDEO_FAILURE(200221, "修改视频信息失败"),
-    DELETE_VIDEO_FAILURE(200221, "删除视频信息失败"),
     /**
      * 上传文件代码
      */
@@ -42,8 +41,8 @@ public enum ResultCode {
     OSS_UPLOAD_EXCEPTION(30001, "上传到阿里云OSS出现异常！"),
     UPLOAD_FILE_OVER_SIZE(30002, "上传的文件超过 5 MB！"),
     SUBJECT_UPLOAD_FAILURE(30003, "上传课程失败！"),
-    VIDEO_UPLOAD_FAILURE(300020, "视频上传失败"),
-    VIDEO_DELETE_FAILURE(300021, "视频删除失败"),
+    VIDEO_UPLOAD_FAILURE(300020, "视频上传失败！"),
+    DELETE_VIDEO_FAILURE(300021, "客户端出现异常，视频删除失败！"),
 
     ;
 
@@ -54,6 +53,7 @@ public enum ResultCode {
         this.code = code;
         this.message = message;
     }
+    ResultCode(){}
 
     public Integer getCode() {
         return code;

@@ -3,8 +3,10 @@ package com.danbro.enums;
 import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -14,8 +16,9 @@ import java.util.HashMap;
  * @Author Danrbo
  */
 @Data
+@NoArgsConstructor
 @Accessors(chain = true)
-public class Result {
+public class Result implements Serializable {
     @ApiModelProperty("状态码")
     private Integer code;
     @ApiModelProperty("响应消息")

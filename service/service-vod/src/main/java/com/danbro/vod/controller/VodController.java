@@ -34,20 +34,18 @@ public class VodController {
             String videoId = vodService.uploadVideo(multipartFile);
             return Result.successOf(ResultCode.SUCCESS, "videoId", videoId);
         } catch (IOException e) {
-            throw new MyCustomException(ResultCode.VIDEO_UPLOAD_FAILURE);
+            return Result.failureOf(ResultCode.DELETE_VIDEO_FAILURE);
         }
     }
 
-    @ApiOperation("删除单个视频")
-    @DeleteMapping("video/{id}")
-    public Result deleteVideo(@PathVariable String id) {
+    @ApiOperation("通过视频ID删除单个视频")
+    @DeleteMapping("video/{videoId}")
+    public Result deleteVideo(@PathVariable String videoId) {
         try {
-            vodService.deleteVideo(id);
+            vodService.deleteVideo(videoId);
             return Result.successOf(ResultCode.SUCCESS);
         } catch (ClientException e) {
             throw new MyCustomException(ResultCode.DELETE_VIDEO_FAILURE);
         }
     }
-
-
 }
