@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 课程视频(EduVideo)表服务实现类
  *
@@ -27,7 +30,15 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
     public Boolean removeByCourseId(String id) {
         QueryWrapper<EduVideo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id", id);
-        return this.remove(queryWrapper);
+        List<EduVideo> eduVideos = this.list(queryWrapper);
+        ArrayList<String> videoList = new ArrayList<>();
+        eduVideos.forEach(e -> videoList.add(e.getVideoSourceId()));
+        Result result = vodClient.batchDeleteVideo(videoList);
+        if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
+            return this.remove(queryWrapper);
+        }
+        return false;
+
     }
 
     @Override
@@ -45,5 +56,19 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
         return false;
 
 
+    }
+
+    @Override
+    public Boolean removeByChapterId(String chapterId) {
+        QueryWrapper<EduVideo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("chapter_id", chapterId);
+        List<EduVideo> eduVideos = this.list(queryWrapper);
+        ArrayList<String> videoList = new ArrayList<>();
+        eduVideos.forEach(e -> videoList.add(e.getVideoSourceId()));
+        Result result = vodClient.batchDeleteVideo(videoList);
+        if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
+            return this.remove(queryWrapper);
+        }
+        return false;
     }
 }

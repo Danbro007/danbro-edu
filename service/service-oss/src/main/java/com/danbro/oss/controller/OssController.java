@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @Author Danrbo
  */
 @RestController
-@RequestMapping("upload")
+@RequestMapping("oss")
 @Slf4j
 @CrossOrigin
 public class OssController {

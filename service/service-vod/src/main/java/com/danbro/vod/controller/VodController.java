@@ -6,6 +6,7 @@ import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
 import com.danbro.vod.service.VodService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,6 +44,18 @@ public class VodController {
     public Result deleteVideo(@PathVariable String videoId) {
         try {
             vodService.deleteVideo(videoId);
+            return Result.successOf(ResultCode.SUCCESS);
+        } catch (ClientException e) {
+            throw new MyCustomException(ResultCode.DELETE_VIDEO_FAILURE);
+        }
+    }
+
+    @ApiOperation("通过视频ID批量删除视频")
+    @DeleteMapping("video")
+    public Result batchDeleteVideo(@RequestParam("videoList") List<String> videoList) {
+        try {
+            String videoIds = StringUtils.join(videoList.toArray(), ',');
+            vodService.batchDeleteVideo(videoIds);
             return Result.successOf(ResultCode.SUCCESS);
         } catch (ClientException e) {
             throw new MyCustomException(ResultCode.DELETE_VIDEO_FAILURE);

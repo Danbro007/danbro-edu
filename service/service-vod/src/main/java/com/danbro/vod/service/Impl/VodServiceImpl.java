@@ -1,8 +1,14 @@
 package com.danbro.vod.service.Impl;
 
+import com.aliyun.vod.upload.impl.UploadVideoImpl;
+import com.aliyun.vod.upload.req.UploadStreamRequest;
+import com.aliyun.vod.upload.resp.UploadStreamResponse;
+import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
 import com.danbro.vod.service.VodService;
 import com.danbro.vod.utils.VodAliYunUtils;
+import org.apache.commons.lang.StringUtils;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,12 +35,35 @@ public class VodServiceImpl implements VodService {
         String filename = multipartFile.getOriginalFilename();
         // 上传到阿里云后显示的视频名
         String title = filename.substring(0, filename.lastIndexOf("."));
-        return vodAliYunUtils.uploadVideo(title, multipartFile.getOriginalFilename(), multipartFile.getInputStream());
+        UploadStreamRequest request = new UploadStreamRequest(vodAliYunUtils.getAccessKeyId(),
+                vodAliYunUtils.getAccessKeySecret(),
+                title,
+                filename,
+                multipartFile.getInputStream());
+        UploadVideoImpl uploader = new UploadVideoImpl();
+        request.setPrintProgress(true);
+        UploadStreamResponse response = uploader.uploadStream(request);
+        if (response.isSuccess()) {
+            return response.getVideoId();
+        }
+        return null;
     }
 
     @Override
     public void deleteVideo(String videoId) throws ClientException {
-        vodAliYunUtils.deleteVideo(videoId);
+        DefaultAcsClient client = vodAliYunUtils.initVodClient();
+        DeleteVideoRequest request = new DeleteVideoRequest();
+        request.setVideoIds(videoId);
+        client.getAcsResponse(request);
     }
+
+    @Override
+    public void batchDeleteVideo(String videoList) throws ClientException {
+        DefaultAcsClient client = vodAliYunUtils.initVodClient();
+        DeleteVideoRequest request = new DeleteVideoRequest();
+        request.setVideoIds(videoList);
+        client.getAcsResponse(request);
+    }
+
 
 }

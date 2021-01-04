@@ -13,6 +13,7 @@ import com.danbro.edu.service.EduChapterService;
 import com.danbro.edu.service.EduCourseDescriptionService;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.edu.service.EduVideoService;
+import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
 import org.springframework.beans.BeanUtils;
@@ -109,9 +110,13 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean removeCourse(String id) {
-        eduChapterService.removeByCourseId(id);
-        eduVideoService.removeByCourseId(id);
-        return eduCourseDescriptionService.removeById(id) &&
-                this.removeById(id);
+        if (eduChapterService.removeByCourseId(id) &&
+                eduVideoService.removeByCourseId(id) &&
+                eduCourseDescriptionService.removeById(id) &&
+                this.removeById(id)) {
+            return true;
+        } else {
+            throw new MyCustomException(ResultCode.DELETE_COURSE_FAILURE);
+        }
     }
 }

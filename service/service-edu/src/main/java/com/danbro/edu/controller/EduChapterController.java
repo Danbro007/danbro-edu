@@ -61,15 +61,15 @@ public class EduChapterController {
     }
 
     /**
-     * 通过 chapterId 删除章节及对应的小节
+     * 通过 chapterId 删除章节及对应的小节（视频信息）
      *
-     * @param eduChapterDeleteInPutDto 章节ID和对应的小节ID
+     * @param chapterId 章节ID
      * @return 删除结果
      */
     @ApiOperation("删除章节")
-    @DeleteMapping("chapter")
-    public Result deleteChapter(@RequestBody EduChapterDeleteInPutDto eduChapterDeleteInPutDto) {
-        boolean b = eduChapterService.removeChapterAndVideo(eduChapterDeleteInPutDto);
+    @DeleteMapping("chapter/{chapterId}")
+    public Result deleteChapter(@PathVariable String chapterId) {
+        boolean b = eduChapterService.removeChapterAndVideo(chapterId);
         if (b) {
             return Result.successOf(ResultCode.SUCCESS);
         }

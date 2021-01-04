@@ -11,9 +11,12 @@ import com.danbro.edu.entity.EduVideo;
 import com.danbro.edu.mapper.EduChapterMapper;
 import com.danbro.edu.service.EduChapterService;
 import com.danbro.edu.service.EduVideoService;
+import com.danbro.enums.ResultCode;
+import com.danbro.exception.MyCustomException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,16 +66,19 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         return this.save(eduChapter);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean removeChapterAndVideo(EduChapterDeleteInPutDto eduChapterDeleteInPutDto) {
-        return this.removeById(eduChapterDeleteInPutDto.getId()) &&
-                eduVideoService.removeByIds(eduChapterDeleteInPutDto.getChildren());
+    public boolean removeChapterAndVideo(String chapterId) {
+        if (eduVideoService.removeByChapterId(chapterId) && this.removeById(chapterId)) {
+            return true;
+        }
+        throw new MyCustomException(ResultCode.DELETE_CHAPTER_FAILURE);
     }
 
     @Override
-    public boolean removeByCourseId(String id) {
+    public boolean removeByCourseId(String courseId) {
         QueryWrapper<EduChapter> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("course_id", id);
+        queryWrapper.eq("course_id", courseId);
         return this.remove(queryWrapper);
     }
 }

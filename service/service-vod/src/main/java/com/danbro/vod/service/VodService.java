@@ -29,4 +29,13 @@ public interface VodService {
      * @throws ClientException 访问阿里云视频点播的客户端异常
      */
     void deleteVideo(String videoId) throws ClientException;
+
+    /**
+     * 通过多个视频ID批量删除阿里云的视频
+     * @param videoList 多个视频ID的字符串
+     * @throws ClientException 访问阿里云视频点播的客户端异常
+     */
+    void batchDeleteVideo(String videoList) throws ClientException;
+
+
 }
