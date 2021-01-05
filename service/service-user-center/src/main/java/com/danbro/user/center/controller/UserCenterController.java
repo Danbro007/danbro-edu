@@ -2,14 +2,20 @@ package com.danbro.user.center.controller;
 
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.user.center.dto.UserLoginDto;
 import com.danbro.user.center.dto.UserRegisterDto;
+import com.danbro.user.center.entity.UcenterMember;
 import com.danbro.user.center.service.UcenterMemberService;
+import com.danbro.utils.JwtUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,5 +50,17 @@ public class UserCenterController {
             return Result.failureOf(ResultCode.RESISTER_FAILURE);
         }
     }
+
+    @ApiOperation("根据token获取用户信息")
+    @GetMapping("user/info")
+    public Result getUserInfo(HttpServletRequest request) {
+        String id = JwtUtils.getMemberIdByJwtToken(request);
+        if (StringUtils.isEmpty(id)) {
+            return Result.failureOf(ResultCode.FAILURE);
+        }
+        UcenterMember member = ucenterMemberService.getById(id);
+        return Result.successOf("user", member);
+    }
+
 
 }

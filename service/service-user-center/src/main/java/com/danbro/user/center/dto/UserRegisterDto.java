@@ -12,7 +12,7 @@ public class UserRegisterDto {
     @NotEmpty(message = "密码不能为空!")
     private String password;
     @NotEmpty(message = "昵称不能为空！")
-    private String nickName;
+    private String nickname;
     @Length(min = 4, max = 4, message = "验证码位数为 4 位，请重新输入！")
     private String captcha;
 }
