@@ -1,5 +1,14 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea
-*.iml
 out
 gen
+# IDEA
+.idea/
+*.ipr
+*.iml
+*.iws
+
+#maven
+target/
+dependency-reduced-pom.xml
+pom.xml.versionsBackup
+.factorypath
