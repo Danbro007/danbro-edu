@@ -53,13 +53,18 @@ public enum ResultCode {
     /**
      * 上传文件代码
      */
-    AVATAR_UPLOAD_FAILURE(30001, "头像上传失败！"),
-    OSS_UPLOAD_EXCEPTION(30001, "上传到阿里云OSS出现异常！"),
-    UPLOAD_FILE_OVER_SIZE(30002, "上传的文件超过 5 MB！"),
-    SUBJECT_UPLOAD_FAILURE(30003, "上传课程失败！"),
-    VIDEO_UPLOAD_FAILURE(300020, "视频上传失败！"),
-    DELETE_VIDEO_FAILURE(300021, "客户端出现异常，视频删除失败！"),
-    DELETE_VIDEO_TIME_OUT(300022, "删除视频超时！");
+    AVATAR_UPLOAD_FAILURE(300000, "头像上传失败！"),
+    OSS_UPLOAD_EXCEPTION(300001, "上传到阿里云OSS出现异常！"),
+    UPLOAD_FILE_OVER_SIZE(300002, "上传的文件超过 5 MB！"),
+    SUBJECT_UPLOAD_FAILURE(300003, "上传课程失败！"),
+    VIDEO_UPLOAD_FAILURE(3000020, "视频上传失败！"),
+    DELETE_VIDEO_FAILURE(3000021, "客户端出现异常，视频删除失败！"),
+    DELETE_VIDEO_TIME_OUT(3000022, "删除视频超时！"),
+    /**
+     * 短信代码
+     */
+    SEND_MESSAGE_FAILURE(300030,"请求发送验证短信失败！")
+    ;
 
     private Integer code;
     private String message;
