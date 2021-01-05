@@ -17,6 +17,7 @@
         <module>service-vod</module>
         <module>service-cms</module>
         <module>service-msm</module>
+        <module>service-user-center</module>
     </modules>
     <dependencies>
         <dependency>
@@ -49,7 +50,6 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-
         <!--mybatis-plus-->
         <dependency>
             <groupId>com.baomidou</groupId>

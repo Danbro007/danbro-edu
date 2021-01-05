@@ -33,7 +33,7 @@ public class VodController {
     public Result uploadVideo(@RequestParam("file") MultipartFile multipartFile) {
         try {
             String videoId = vodService.uploadVideo(multipartFile);
-            return Result.successOf(ResultCode.SUCCESS, "videoId", videoId);
+            return Result.successOf("videoId", videoId);
         } catch (IOException e) {
             return Result.failureOf(ResultCode.DELETE_VIDEO_FAILURE);
         }
@@ -43,7 +43,7 @@ public class VodController {
     @DeleteMapping("video/{videoId}")
     public Result deleteVideo(@PathVariable String videoId) throws ClientException {
         vodService.deleteVideo(videoId);
-        return Result.successOf(ResultCode.SUCCESS);
+        return Result.successOf();
     }
 
     @ApiOperation("通过视频ID批量删除视频")
@@ -52,7 +52,7 @@ public class VodController {
         try {
             String videoIds = StringUtils.join(videoList.toArray(), ',');
             vodService.batchDeleteVideo(videoIds);
-            return Result.successOf(ResultCode.SUCCESS);
+            return Result.successOf();
         } catch (ClientException e) {
             throw new MyCustomException(ResultCode.DELETE_VIDEO_FAILURE);
         }

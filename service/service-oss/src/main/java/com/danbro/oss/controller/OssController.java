@@ -36,7 +36,7 @@ public class OssController {
         try {
             String avatarUrl = ossService.uploadAvatar(image,type);
             if (avatarUrl != null && !StringUtils.isEmpty(avatarUrl)) {
-                return Result.successOf(ResultCode.SUCCESS, "imgUrl", String.format("https://%s.%s/%s",
+                return Result.successOf("imgUrl", String.format("https://%s.%s/%s",
                         OssClientUtils.BUCKET_NAME, OssClientUtils.END_POINT, avatarUrl));
             }
             throw new MyCustomException(ResultCode.AVATAR_UPLOAD_FAILURE);
