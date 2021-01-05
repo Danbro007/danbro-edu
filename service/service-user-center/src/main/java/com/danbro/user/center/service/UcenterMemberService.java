@@ -2,6 +2,7 @@ package com.danbro.user.center.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.user.center.dto.UserLoginDto;
+import com.danbro.user.center.dto.UserRegisterDto;
 import com.danbro.user.center.entity.UcenterMember;
 import java.util.List;
 
@@ -19,4 +20,10 @@ public interface UcenterMemberService extends IService<UcenterMember> {
      */
     String login(UserLoginDto user);
 
+    /**
+     * 通过用户手机号、密码、昵称和手机验证码来注册用户
+     * @param user 注册用户的信息
+     * @return 注册结果
+     */
+    Boolean register(UserRegisterDto user);
 }

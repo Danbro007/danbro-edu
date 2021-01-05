@@ -22,7 +22,7 @@ public enum ResultCode {
     MATCH_CONDITION_TEACHER_NOT_FOUND(200102, "符合筛选条件的讲师不存在！"),
     UPDATE_TEACHER_FAILURE(200103, "修改讲师失败，可能讲师不存在！"),
     INSERT_TEACHER_FAILURE(200104, "添加讲师失败，讲师已存在！"),
-    GET_TOP_TEACHER_LIST(200105,"获取热门讲师失败！"),
+    GET_TOP_TEACHER_LIST(200105, "获取热门讲师失败！"),
     /**
      * 课程管理代码
      */
@@ -31,7 +31,7 @@ public enum ResultCode {
     UPDATE_COURSE_INFO_FAILURE(200202, "修改课程基本信息失败"),
     UPDATE_COURSE_PUBLISH_STATUS_FAILURE(200203, "修改课程发布状态失败"),
     DELETE_COURSE_FAILURE(200204, "删除课程失败"),
-    GET_TOP_COURSE_LIST(200105,"获取热门课程失败！"),
+    GET_TOP_COURSE_LIST(200105, "获取热门课程失败！"),
     /**
      * 章节代码
      */
@@ -63,14 +63,20 @@ public enum ResultCode {
     /**
      * 短信代码
      */
-    SEND_MESSAGE_FAILURE(300030,"请求发送验证短信失败！"),
+    SEND_MESSAGE_FAILURE(300030, "请求发送验证短信失败！"),
 
     /**
      * 用户登录代码
      */
-    USER_NOT_EXIST(400000,"用户不存在，请重新输入！"),
-    PASSWORD_NOT_CORRECT(400001,"密码错误，请重新输入！"),
-    USER_IS_DISABLED(400002,"用户目前处于禁止登录状态！")
+    USER_NOT_EXIST(400000, "用户不存在，请重新输入！"),
+    PASSWORD_NOT_CORRECT(400001, "密码错误，请重新输入！"),
+    USER_IS_DISABLED(400002, "用户目前处于禁止登录状态！"),
+    /**
+     * 用户注册代码
+     */
+    CAPTCHA_NOT_CORRECT(400020, "手机验证码错误，请重新输入！"),
+    MOBILE_IS_EXIST(400021, "此手机号已注册，请重新输入！"),
+    RESISTER_FAILURE(400022, "注册失败！"),
     ;
 
     private Integer code;
@@ -81,8 +87,6 @@ public enum ResultCode {
         this.message = message;
     }
 
-    ResultCode() {
-    }
 
     public Integer getCode() {
         return code;
