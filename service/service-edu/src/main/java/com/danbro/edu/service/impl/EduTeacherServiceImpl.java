@@ -10,10 +10,12 @@ import com.danbro.edu.service.EduTeacherService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Classname EduTeacherServiceImpl
@@ -53,5 +55,13 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
                     setDataChain("rows", eduTeacherPage.getRecords());
         }
         throw new MyCustomException(ResultCode.MATCH_CONDITION_TEACHER_NOT_FOUND);
+    }
+    @Cacheable(value = "teacher",key = "'top-teacher-list'")
+    @Override
+    public List<EduTeacher> getTopTeacherList(String limit) {
+        QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("level");
+        queryWrapper.last(String.format("limit %s", limit));
+        return this.list(queryWrapper);
     }
 }

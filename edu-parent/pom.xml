@@ -47,6 +47,7 @@
         <service-base.version>1.0-SNAPSHOT</service-base.version>
         <hutool.version>4.5.15</hutool.version>
         <easyexcel.version>2.1.1</easyexcel.version>
+        <common.pool2.version>2.6.0</common.pool2.version>
     </properties>
 
     <dependencyManagement>
@@ -241,7 +242,11 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${common.pool2.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

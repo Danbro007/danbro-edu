@@ -7,6 +7,8 @@ import com.danbro.edu.dto.EduCoursePublishDto;
 import com.danbro.edu.dto.SearchCourseConditionDto;
 import com.danbro.edu.entity.EduCourse;
 
+import java.util.List;
+
 /**
  * 课程(EduCourse)表服务接口
  *
@@ -26,4 +28,6 @@ public interface EduCourseService extends IService<EduCourse>{
    Page<EduCourse> pagingFindByCondition(Integer current, Integer limit, SearchCourseConditionDto conditionDto);
 
     Boolean removeCourse(String id);
+
+    List<EduCourse> getTopCourseList(String limit);
 }

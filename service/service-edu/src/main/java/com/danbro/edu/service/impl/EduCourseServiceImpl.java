@@ -19,6 +19,7 @@ import com.danbro.exception.MyCustomException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -118,5 +119,13 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         } else {
             throw new MyCustomException(ResultCode.DELETE_COURSE_FAILURE);
         }
+    }
+    @Cacheable(value = "course",key = "'top-course-list'")
+    @Override
+    public List<EduCourse> getTopCourseList(String limit) {
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("view_count");
+        queryWrapper.last(String.format("limit %s", limit));
+        return this.list(queryWrapper);
     }
 }

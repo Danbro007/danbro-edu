@@ -117,11 +117,8 @@ public class EduCourseController {
     @ApiOperation("获取观看课程前 num 名的课程信息")
     @GetMapping("top/{limit}")
     public Result getTopCourseList(@PathVariable String limit) {
-        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("view_count");
-        queryWrapper.last(String.format("limit %s", limit));
-        List<EduCourse> courses = eduCourseService.list(queryWrapper);
-        return Result.successOf("courseList", courses);
+        List<EduCourse> topCourseList = eduCourseService.getTopCourseList(limit);
+        return Result.successOf("courseList", topCourseList);
     }
 
 }

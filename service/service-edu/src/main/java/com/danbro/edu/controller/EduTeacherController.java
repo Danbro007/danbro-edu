@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.danbro.edu.dto.EduTeacherInsertDto;
 import com.danbro.edu.dto.EduTeacherQueryDto;
 import com.danbro.edu.dto.EduTeacherUpdateDto;
+import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
@@ -116,10 +117,8 @@ public class EduTeacherController {
     @ApiOperation("获取等级排名为前 limit 名的讲师信息")
     @GetMapping("teacher/top/{limit}")
     public Result getTopTeacherList(@PathVariable String limit) {
-        QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("level");
-        queryWrapper.last(String.format("limit %s", limit));
-        List<EduTeacher> teachers = eduTeacherService.list(queryWrapper);
-        return Result.successOf("teacherList", teachers);
+
+        List<EduTeacher> topTeacherList = eduTeacherService.getTopTeacherList(limit);
+        return Result.successOf("teacherList", topTeacherList);
     }
 }

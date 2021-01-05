@@ -32,7 +32,7 @@ public class AdminCrmBannerController {
     @ApiOperation("获取所有的 banner")
     @GetMapping("banner/list")
     public Result getAllBannerList() {
-        List<CrmBanner> list = crmBannerService.list();
+        List<CrmBanner> list = crmBannerService.getAllBannerList();
         return Result.successOf("banners", list);
     }
 
@@ -41,7 +41,7 @@ public class AdminCrmBannerController {
     public Result insertBanner(@RequestBody CrmBannerInsertDto crmBannerInsertDto) {
         CrmBanner crmBanner = new CrmBanner();
         BeanUtils.copyProperties(crmBannerInsertDto, crmBanner);
-        boolean b = crmBannerService.save(crmBanner);
+        boolean b = crmBannerService.insertBanner(crmBanner);
         if (b) {
             return Result.successOf();
         }
@@ -51,7 +51,7 @@ public class AdminCrmBannerController {
     @ApiOperation("删除 banner")
     @DeleteMapping("banner/{bannerId}")
     public Result deleteBanner(@PathVariable String bannerId) {
-        boolean b = crmBannerService.removeById(bannerId);
+        boolean b = crmBannerService.deleteBanner(bannerId);
         if (b) {
             return Result.successOf();
         }
@@ -63,7 +63,7 @@ public class AdminCrmBannerController {
     public Result deleteBanner(@RequestBody CrmBannerUpdateDto crmBannerUpdateDto) {
         CrmBanner crmBanner = new CrmBanner();
         BeanUtils.copyProperties(crmBannerUpdateDto, crmBanner);
-        boolean b = crmBannerService.updateById(crmBanner);
+        boolean b = crmBannerService.updateBanner(crmBanner);
         if (b) {
             return Result.successOf();
         }

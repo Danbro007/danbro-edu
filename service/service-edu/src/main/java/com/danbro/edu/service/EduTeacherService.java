@@ -5,6 +5,8 @@ import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.dto.EduTeacherQueryDto;
 import com.danbro.enums.Result;
 
+import java.util.List;
+
 /**
  * @Classname EduTeacherService
  * @Description TODO
@@ -14,4 +16,5 @@ import com.danbro.enums.Result;
 public interface EduTeacherService extends IService<EduTeacher> {
     Result pagingFindTeacherByCondition(Integer current, Integer limit, EduTeacherQueryDto eduTeacherQueryDto);
 
+    List<EduTeacher> getTopTeacherList(String limit);
 }
