@@ -114,11 +114,5 @@ public class EduTeacherController {
         throw new MyCustomException(ResultCode.UPDATE_TEACHER_FAILURE);
     }
 
-    @ApiOperation("获取等级排名为前 limit 名的讲师信息")
-    @GetMapping("teacher/top/{limit}")
-    public Result getTopTeacherList(@PathVariable String limit) {
 
-        List<EduTeacher> topTeacherList = eduTeacherService.getTopTeacherList(limit);
-        return Result.successOf("teacherList", topTeacherList);
-    }
 }

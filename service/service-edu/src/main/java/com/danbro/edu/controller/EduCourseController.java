@@ -114,11 +114,6 @@ public class EduCourseController {
         return Result.failureOf(ResultCode.DELETE_COURSE_FAILURE);
     }
 
-    @ApiOperation("获取观看课程前 num 名的课程信息")
-    @GetMapping("top/{limit}")
-    public Result getTopCourseList(@PathVariable String limit) {
-        List<EduCourse> topCourseList = eduCourseService.getTopCourseList(limit);
-        return Result.successOf("courseList", topCourseList);
-    }
+
 
 }

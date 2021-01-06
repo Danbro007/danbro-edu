@@ -31,7 +31,7 @@ public class EduCourse implements Serializable {
     @TableId(type = IdType.ASSIGN_ID)
     private String id;
     /**
-     * 课程讲师ID
+     * 课程讲师IDa
      */
     private String teacherId;
     /**

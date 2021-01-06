@@ -1,6 +1,7 @@
 package com.danbro.edu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.danbro.edu.dto.EduTeacherInfoQueryDto;
 import com.danbro.edu.entity.EduTeacher;
 
 /**
@@ -10,5 +11,7 @@ import com.danbro.edu.entity.EduTeacher;
  * @since 2020-12-14 15:11:47
  */
 public interface EduTeacherMapper extends BaseMapper<EduTeacher> {
+
+    EduTeacherInfoQueryDto getTeacherInfoById(String id);
 
 }

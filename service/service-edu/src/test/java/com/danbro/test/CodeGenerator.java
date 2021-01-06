@@ -1,7 +1,10 @@
 package com.danbro.test;
 
 import com.danbro.edu.dto.EduCoursePublishDto;
+import com.danbro.edu.dto.EduTeacherInfoQueryDto;
 import com.danbro.edu.mapper.EduCourseMapper;
+import com.danbro.edu.mapper.EduTeacherMapper;
+import com.danbro.edu.service.EduTeacherService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,11 +14,4 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class CodeGenerator {
 
-    @Autowired
-    EduCourseMapper eduCourseMapper;
-    @Test
-    public void run() {
-        EduCoursePublishDto courseInfoForPublish = eduCourseMapper.getCourseInfoForPublish("1342070405946433538");
-        System.out.println(courseInfoForPublish);
-    }
 }

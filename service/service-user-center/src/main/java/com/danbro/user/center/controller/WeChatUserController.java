@@ -1,5 +1,6 @@
 package com.danbro.user.center.controller;
 
+import javax.annotation.Resource;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
@@ -10,15 +11,12 @@ import com.danbro.user.center.dto.WeChatUserInfoDto;
 import com.danbro.user.center.entity.UcenterMember;
 import com.danbro.user.center.service.UcenterMemberService;
 import com.danbro.user.center.utils.WeChatUtils;
-import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.annotation.Resource;
 
 /**
  * @Classname WeChatUserController
