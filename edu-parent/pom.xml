@@ -45,7 +45,7 @@
         <cloud-alibaba.version>0.2.2.RELEASE</cloud-alibaba.version>
         <guava.version>30.0-jre</guava.version>
         <service-base.version>1.0-SNAPSHOT</service-base.version>
-        <hutool.version>4.5.15</hutool.version>
+        <hutool.version>5.5.6</hutool.version>
         <easyexcel.version>2.1.1</easyexcel.version>
         <common.pool2.version>2.6.0</common.pool2.version>
         <dysmsapi.version>1.1.0</dysmsapi.version>

@@ -60,7 +60,7 @@ public class UserCenterController {
             return Result.failureOf(ResultCode.FAILURE);
         }
         UcenterMember member = ucenterMemberService.getById(id);
-        return Result.successOf("user", member);
+        return Result.successOf("userInfo", member);
     }
 
 

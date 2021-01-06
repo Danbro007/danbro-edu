@@ -72,11 +72,15 @@ public enum ResultCode {
     PASSWORD_NOT_CORRECT(400001, "密码错误，请重新输入！"),
     USER_IS_DISABLED(400002, "用户目前处于禁止登录状态！"),
     /**
-     * 用户注册代码
+     * 普通用户注册代码
      */
     CAPTCHA_NOT_CORRECT(400020, "手机验证码错误，请重新输入！"),
     MOBILE_IS_EXIST(400021, "此手机号已注册，请重新输入！"),
     RESISTER_FAILURE(400022, "注册失败！"),
+    /**
+     * 微信用户代码
+     */
+    WECHAT_REGISTER_FAILURE(400040,"微信用户注册失败！")
     ;
 
     private Integer code;

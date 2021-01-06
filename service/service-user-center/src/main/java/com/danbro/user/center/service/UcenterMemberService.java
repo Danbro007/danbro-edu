@@ -26,4 +26,14 @@ public interface UcenterMemberService extends IService<UcenterMember> {
      * @return 注册结果
      */
     Boolean register(UserRegisterDto user);
+
+    /**
+     * 微信用户的登录
+     * 先通过微信用户的 openId 到数据库里看有没有此用户，有的话则返回 true，
+     * 没有则添加给微信用户到数据库，添加成功返回 true，添加失败返回 false。
+     * @param ucenterMember 微信登录用户
+     * @return token
+     */
+    String wechatUserLogin(UcenterMember ucenterMember);
+
 }

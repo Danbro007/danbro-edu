@@ -45,9 +45,11 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         }
         return JwtUtils.getJwtToken(member.getId(), member.getNickname());
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean register(UserRegisterDto user) {
+        redisTemplate.delete(user.getMobile());
         if (!user.getCaptcha().equals(redisTemplate.opsForValue().get(user.getMobile()))) {
             throw new MyCustomException(ResultCode.CAPTCHA_NOT_CORRECT);
         }
@@ -59,6 +61,18 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         UcenterMember member = new UcenterMember();
         BeanUtils.copyProperties(user, member);
         member.setPassword(SecureUtil.md5(member.getPassword()));
-        return this.save(member) && redisTemplate.delete(member.getMobile());
+
+        return this.save(member);
+    }
+
+    @Override
+    public String wechatUserLogin(UcenterMember ucenterMember) {
+        QueryWrapper<UcenterMember> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("openid", ucenterMember.getOpenid());
+        UcenterMember member = this.getOne(queryWrapper);
+        if (member == null) {
+            this.save(ucenterMember);
+        }
+        return JwtUtils.getJwtToken(ucenterMember.getId(), ucenterMember.getNickname());
     }
 }

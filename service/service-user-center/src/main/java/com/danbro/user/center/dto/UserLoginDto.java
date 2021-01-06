@@ -8,6 +8,7 @@ import lombok.Data;
 public class UserLoginDto {
     @IsMobile
     private String mobile;
+
     @NotEmpty(message = "密码不能为空!")
     private String password;
 }
