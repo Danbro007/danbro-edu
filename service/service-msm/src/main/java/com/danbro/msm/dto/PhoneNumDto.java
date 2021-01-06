@@ -13,5 +13,5 @@ import lombok.Data;
 public class PhoneNumDto {
 
     @IsMobile
-    private String phone;
+    private String mobile;
 }

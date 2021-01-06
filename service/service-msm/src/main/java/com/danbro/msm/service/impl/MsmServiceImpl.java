@@ -43,27 +43,27 @@ public class MsmServiceImpl implements MsmService {
     @Value("${aliyun.msm.outId}")
     private String outId;
 
-
     @Override
     public Boolean sendMessage(String phone, HashMap<String, String> message) throws ClientException {
-        //设置超时时间-可自行调整
-        System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
-        System.setProperty("sun.net.client.defaultReadTimeout", "10000");
-        //初始化ascClient,暂时不支持多region（请勿修改）
-        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
-        DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
-        IAcsClient acsClient = new DefaultAcsClient(profile);
-        SendSmsRequest request = new SendSmsRequest();
-        request.setMethod(MethodType.POST);
-        request.setPhoneNumbers(phone);
-        request.setSignName(signName);
-        request.setTemplateCode(messageCode);
-        request.setTemplateParam(JSON.toJSONString(message));
-        request.setOutId(outId);
-        SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
-        if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
-            return true;
-        }
-        return false;
+//        //设置超时时间-可自行调整
+//        System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
+//        System.setProperty("sun.net.client.defaultReadTimeout", "10000");
+//        //初始化ascClient,暂时不支持多region（请勿修改）
+//        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
+//        DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+//        IAcsClient acsClient = new DefaultAcsClient(profile);
+//        SendSmsRequest request = new SendSmsRequest();
+//        request.setMethod(MethodType.POST);
+//        request.setPhoneNumbers(phone);
+//        request.setSignName(signName);
+//        request.setTemplateCode(messageCode);
+//        request.setTemplateParam(JSON.toJSONString(message));
+//        request.setOutId(outId);
+//        SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
+//        if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
+//            return true;
+//        }
+//        return false;
+        return true;
     }
 }

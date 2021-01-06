@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("edu")
+@RequestMapping("msm")
 public class MsmController {
 
     @Resource
@@ -37,20 +37,21 @@ public class MsmController {
     RedisTemplate<String, String> redisTemplate;
 
     @ApiOperation("请求发送短信验证码")
-    @PostMapping("msm")
+    @PostMapping("captcha")
     public Result sendMessage(@Valid @RequestBody PhoneNumDto phoneNumDto, BindingResult result) {
         if (result.hasErrors()) {
             return Result.failureOf(ResultCode.FAILURE, "errors", result.getAllErrors());
         }
-        if (!StringUtils.isEmpty(redisTemplate.opsForValue().get(phoneNumDto.getPhone()))) {
+        if (!StringUtils.isEmpty(redisTemplate.opsForValue().get(phoneNumDto.getMobile()))) {
             return Result.successOf();
         }
         HashMap<String, String> data = new HashMap<>(16);
         data.put("code", RandomUtil.getFourBitRandom());
+        System.out.println(data.get("code"));
         try {
-            Boolean isSuccess = msmService.sendMessage(phoneNumDto.getPhone(), data);
+            Boolean isSuccess = msmService.sendMessage(phoneNumDto.getMobile(), data);
             if (isSuccess) {
-                redisTemplate.opsForValue().set(phoneNumDto.getPhone(), data.get("code"), 5, TimeUnit.MINUTES);
+                redisTemplate.opsForValue().set(phoneNumDto.getMobile(), data.get("code"), 2, TimeUnit.MINUTES);
                 return Result.successOf();
             }
             throw new MyCustomException(ResultCode.SEND_MESSAGE_FAILURE);
