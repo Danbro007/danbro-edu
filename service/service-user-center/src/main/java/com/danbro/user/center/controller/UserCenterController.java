@@ -62,6 +62,4 @@ public class UserCenterController {
         UcenterMember member = ucenterMemberService.getById(id);
         return Result.successOf("userInfo", member);
     }
-
-
 }

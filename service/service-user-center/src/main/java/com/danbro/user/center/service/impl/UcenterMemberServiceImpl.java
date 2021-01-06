@@ -72,7 +72,9 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         UcenterMember member = this.getOne(queryWrapper);
         if (member == null) {
             this.save(ucenterMember);
+            return JwtUtils.getJwtToken(ucenterMember.getId(), ucenterMember.getNickname());
         }
-        return JwtUtils.getJwtToken(ucenterMember.getId(), ucenterMember.getNickname());
+        return JwtUtils.getJwtToken(member.getId(), member.getNickname());
+
     }
 }
