@@ -57,9 +57,11 @@ public enum ResultCode {
     OSS_UPLOAD_EXCEPTION(300001, "上传到阿里云OSS出现异常！"),
     UPLOAD_FILE_OVER_SIZE(300002, "上传的文件超过 5 MB！"),
     SUBJECT_UPLOAD_FAILURE(300003, "上传课程失败！"),
-    VIDEO_UPLOAD_FAILURE(3000020, "视频上传失败！"),
-    DELETE_VIDEO_FAILURE(3000021, "客户端出现异常，视频删除失败！"),
-    DELETE_VIDEO_TIME_OUT(3000022, "删除视频超时！"),
+    VIDEO_UPLOAD_FAILURE(300020, "视频上传失败！"),
+    DELETE_VIDEO_FAILURE(300021, "客户端出现异常，视频删除失败！"),
+    DELETE_VIDEO_TIME_OUT(300022, "删除视频超时！"),
+    UPLOAD_VIDEO_IS_EMPTY(300023, "上传的视频为空！"),
+    CLIENT_ALIYUN_CONNECTION_ERROR(300030,"与阿里云视频点播平台连接失败！"),
     /**
      * 短信代码
      */

@@ -36,6 +36,7 @@
             <result property="chapterTitle" column="chapterTitle"/>
             <collection property="videoList" ofType="com.danbro.edu.dto.FrontCourseDetailInfoVideoDto">
                 <id property="videoId" column="videoId"/>
+                <result property="isFree" column="isFree"/>
                 <result property="videoSourceId" column="videoSourceId"/>
                 <result property="videoTitle" column="videoTitle"/>
             </collection>
@@ -59,8 +60,9 @@
                et.name                as teacherName,
                et.intro               as teacherIntro,
                et.avatar              as teacherAvatar,
-               es1.title               as subjectLevelTwo,
-               es2.title               as subjectLevelOne
+               es1.title              as subjectLevelTwo,
+               es2.title              as subjectLevelOne,
+               ev.is_free             as isFree
         FROM edu_course ec
                  LEFT JOIN edu_chapter ep ON ec.id = ep.course_id
                  LEFT JOIN edu_video ev ON ep.id = ev.chapter_id

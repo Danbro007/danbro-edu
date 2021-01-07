@@ -1,10 +1,8 @@
 package com.danbro.vod.service;
 
+import java.io.IOException;
 import com.aliyuncs.exceptions.ClientException;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * @Classname VodService
@@ -36,6 +34,13 @@ public interface VodService {
      * @throws ClientException 访问阿里云视频点播的客户端异常
      */
     void batchDeleteVideo(String videoList) throws ClientException;
+
+    /**
+     * 根据视频ID获取到视频的播放凭证
+     * @param videoId 视频ID
+     * @return 视频的播放凭证
+     */
+    String getVideoPlayAuth(String videoId) throws ClientException;
 
 
 }

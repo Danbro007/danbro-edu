@@ -1,5 +1,8 @@
 package com.danbro.vod.controller;
 
+import java.io.IOException;
+import java.util.List;
+import javax.annotation.Resource;
 import com.aliyuncs.exceptions.ClientException;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
@@ -7,12 +10,8 @@ import com.danbro.exception.MyCustomException;
 import com.danbro.vod.service.VodService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * @Classname VodController
@@ -25,7 +24,7 @@ import java.util.List;
 @RequestMapping("vod")
 public class VodController {
 
-    @Autowired
+    @Resource
     VodService vodService;
 
     @ApiOperation("上传视频到阿里云")
@@ -55,6 +54,17 @@ public class VodController {
             return Result.successOf();
         } catch (ClientException e) {
             throw new MyCustomException(ResultCode.DELETE_VIDEO_FAILURE);
+        }
+    }
+
+    @ApiOperation("通过视频ID获取到播放视频的凭证")
+    @GetMapping("video/auth/{videoId}")
+    public Result getVideoPlayAuth(@PathVariable String videoId) {
+        try {
+            String playAuth = vodService.getVideoPlayAuth(videoId);
+            return Result.successOf("playAuth", playAuth);
+        } catch (ClientException e) {
+            throw new MyCustomException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
         }
     }
 }
