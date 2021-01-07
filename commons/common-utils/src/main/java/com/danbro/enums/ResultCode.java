@@ -70,7 +70,7 @@ public enum ResultCode {
     /**
      * 用户登录代码
      */
-    USER_NOT_EXIST(400000, "用户不存在，请重新输入！"),
+    USER_NOT_EXIST(400000, "用户不存在！"),
     PASSWORD_NOT_CORRECT(400001, "密码错误，请重新输入！"),
     USER_IS_DISABLED(400002, "用户目前处于禁止登录状态！"),
     /**
@@ -82,7 +82,12 @@ public enum ResultCode {
     /**
      * 微信用户代码
      */
-    WECHAT_REGISTER_FAILURE(400040,"微信用户注册失败！")
+    WECHAT_REGISTER_FAILURE(400040,"微信用户注册失败！"),
+
+    /**
+     * 前台用户评论代码S
+     */
+    INSERT_COMMENT_FAILURE(500000,"评论失败！")
     ;
 
     private Integer code;

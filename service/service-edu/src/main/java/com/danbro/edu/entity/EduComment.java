@@ -1,10 +1,13 @@
 package com.danbro.edu.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.Data;
-
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import lombok.Data;
 
 /**
  * 评论(EduComment)实体类
@@ -48,8 +51,7 @@ public class EduComment implements Serializable {
      * 逻辑删除 1（true）已删除， 0（false）未删除
      */
     @TableLogic()
-    @TableField(fill = FieldFill.INSERT)
-    private Object isDeleted;
+    private Boolean isDeleted;
     /**
      * 创建时间
      */

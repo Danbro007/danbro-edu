@@ -1,8 +1,11 @@
 package com.danbro.user.center.controller;
 
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
+import com.danbro.exception.MyCustomException;
 import com.danbro.user.center.dto.UserLoginDto;
 import com.danbro.user.center.dto.UserRegisterDto;
 import com.danbro.user.center.entity.UcenterMember;
@@ -12,9 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Classname UserCenterController
@@ -57,9 +57,19 @@ public class UserCenterController {
     public Result getUserInfo(HttpServletRequest request) {
         String id = JwtUtils.getMemberIdByJwtToken(request);
         if (StringUtils.isEmpty(id)) {
-            return Result.failureOf(ResultCode.FAILURE);
+            throw new MyCustomException(ResultCode.USER_NOT_EXIST);
         }
         UcenterMember member = ucenterMemberService.getById(id);
+        return Result.successOf("userInfo", member);
+    }
+
+    @ApiOperation("根据用户ID获取用户信息")
+    @GetMapping("info/{userId}")
+    public Result getUserInfo(@PathVariable String userId) {
+        if (StringUtils.isEmpty(userId)) {
+            throw new MyCustomException(ResultCode.USER_NOT_EXIST);
+        }
+        UcenterMember member = ucenterMemberService.getById(userId);
         return Result.successOf("userInfo", member);
     }
 }

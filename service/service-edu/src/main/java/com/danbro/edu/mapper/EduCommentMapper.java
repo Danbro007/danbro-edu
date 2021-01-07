@@ -10,5 +10,4 @@ import com.danbro.edu.entity.EduComment;
  * @since 2020-12-20 19:55:16
  */
 public interface EduCommentMapper extends BaseMapper<EduComment> {
-
 }

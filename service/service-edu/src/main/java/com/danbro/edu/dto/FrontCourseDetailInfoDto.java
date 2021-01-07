@@ -1,10 +1,8 @@
 package com.danbro.edu.dto;
 
-import com.danbro.edu.entity.EduCourse;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.util.List;
+import lombok.Data;
 
 /**
  * @Classname FrontCourseInfo
@@ -23,6 +21,7 @@ public class FrontCourseDetailInfoDto {
     private String courseTitle;
     private String courseDescription;
     private String teacherName;
+    private String teacherId;
     private String teacherIntro;
     private String teacherAvatar;
     /**

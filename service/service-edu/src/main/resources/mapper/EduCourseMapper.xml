@@ -29,6 +29,7 @@
         <result property="courseTitle" column="courseTitle"/>
         <result property="courseDescription" column="courseDescription"/>
         <result property="teacherName" column="teacherName"/>
+        <result property="teacherId" column="teacherId"/>
         <result property="teacherIntro" column="teacherIntro"/>
         <result property="teacherAvatar" column="teacherAvatar"/>
         <collection property="chapterList" ofType="com.danbro.edu.dto.FrontCourseDetailInfoChapterDto">
@@ -54,15 +55,16 @@
                ecd.description        AS courseDescription,
                ep.title               AS chapterTitle,
                ep.id                  AS chapterId,
-               ev.id                as videoId,
-               ev.title               as videoTitle,
-               ev.video_source_id     as videoSourceId,
-               et.name                as teacherName,
-               et.intro               as teacherIntro,
-               et.avatar              as teacherAvatar,
-               es1.title              as subjectLevelTwo,
-               es2.title              as subjectLevelOne,
-               ev.is_free             as isFree
+               ev.id                  AS videoId,
+               ev.title               AS videoTitle,
+               ev.video_source_id     AS videoSourceId,
+               et.name                AS teacherName,
+               et.id                  AS teacherid,
+               et.intro               AS teacherIntro,
+               et.avatar              AS teacherAvatar,
+               es1.title              AS subjectLevelTwo,
+               es2.title              AS subjectLevelOne,
+               ev.is_free             AS isFree
         FROM edu_course ec
                  LEFT JOIN edu_chapter ep ON ec.id = ep.course_id
                  LEFT JOIN edu_video ev ON ep.id = ev.chapter_id
