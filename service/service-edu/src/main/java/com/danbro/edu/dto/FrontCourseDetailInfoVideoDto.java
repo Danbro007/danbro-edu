@@ -13,11 +13,7 @@ import lombok.Data;
 @Data
 public class FrontCourseDetailInfoVideoDto {
     private String videoId;
-    private Boolean videoIsFree;
-    private Long videoDuration;
-    private Long videoPlayCount;
-    private Long videoSize;
     private String videoTitle;
-    private String videoOriginalName;
     private String videoSourceId;
+
 }

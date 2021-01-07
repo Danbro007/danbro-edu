@@ -17,11 +17,14 @@ public class FrontCourseDetailInfoDto {
     private String courseId;
     private String courseCover;
     private Integer buyCount;
-    private Integer courseLessonNum;
+    private String subjectLevelOne;
+    private String subjectLevelTwo;
     private BigDecimal coursePrice;
     private String courseTitle;
-    private Long viewCount;
     private String courseDescription;
+    private String teacherName;
+    private String teacherIntro;
+    private String teacherAvatar;
     /**
      * 章节列表
      */
