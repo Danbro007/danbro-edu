@@ -1,10 +1,8 @@
 package com.danbro.edu.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.danbro.edu.dto.EduTeacherInsertDto;
-import com.danbro.edu.dto.EduTeacherQueryDto;
+import com.danbro.edu.dto.FrontTeacherQueryDto;
 import com.danbro.edu.dto.EduTeacherUpdateDto;
-import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
@@ -77,8 +75,8 @@ public class EduTeacherController {
     @PostMapping("teacher/{current}/{limit}")
     public Result pagingFindByCondition(@ApiParam(name = "current", value = "当前页数", example = "1") @PathVariable Integer current,
                                         @ApiParam(name = "limit", value = "当前页显示记录数", example = "10") @PathVariable Integer limit,
-                                        @RequestBody(required = false) EduTeacherQueryDto eduTeacherQueryDto) {
-        return eduTeacherService.pagingFindTeacherByCondition(current, limit, eduTeacherQueryDto);
+                                        @RequestBody(required = false) FrontTeacherQueryDto frontTeacherQueryDto) {
+        return eduTeacherService.pagingFindTeacherByCondition(current, limit, frontTeacherQueryDto);
     }
 
     @ApiOperation("添加教师")

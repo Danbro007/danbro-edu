@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @Classname EduChapterDeleteInPutDto
- * @Description TODO
+ * @Description TODO 删除章节的参数
  * @Date 2020/12/29 15:28
  * @Author Danrbo
  */

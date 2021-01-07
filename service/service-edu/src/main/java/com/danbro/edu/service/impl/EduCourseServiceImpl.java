@@ -1,11 +1,10 @@
 package com.danbro.edu.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.edu.dto.EduCourseDto;
-import com.danbro.edu.dto.EduCoursePublishDto;
-import com.danbro.edu.dto.SearchCourseConditionDto;
+import com.danbro.edu.dto.*;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduCourseDescription;
 import com.danbro.edu.mapper.EduCourseMapper;
@@ -13,6 +12,7 @@ import com.danbro.edu.service.EduChapterService;
 import com.danbro.edu.service.EduCourseDescriptionService;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.edu.service.EduVideoService;
+import com.danbro.edu.utils.SortType;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
@@ -120,12 +120,41 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             throw new MyCustomException(ResultCode.DELETE_COURSE_FAILURE);
         }
     }
-    @Cacheable(value = "course",key = "'top-course-list'")
+
+    @Cacheable(value = "course", key = "'top-course-list'")
     @Override
     public List<EduCourse> getTopCourseList(String limit) {
         QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("view_count");
         queryWrapper.last(String.format("limit %s", limit));
         return this.list(queryWrapper);
+    }
+
+    @Override
+    public FrontCourseConditionPagingResultDto pagingFindCourseByCondition(Long current, Long limit, FrontCourseConditionPagingDto dto) {
+        Page<EduCourse> page = new Page<>(current, limit);
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(dto.getSubjectParentId())) {
+            queryWrapper.eq("subject_parent_id", dto.getSubjectParentId());
+        }
+        if (!StringUtils.isEmpty(dto.getSubjectId())) {
+            queryWrapper.eq("subject_id", dto.getSubjectId());
+        }
+        if (!StringUtils.isEmpty(dto.getSortType())) {
+            if ((dto.getSortType().equals(SortType.SALE_SORT.getType()) ||
+                    dto.getSortType().equals(SortType.PRICE_SORT.getType()) ||
+                    dto.getSortType().equals(SortType.CREATE_TIME_SORT.getType()))) {
+                queryWrapper.orderByDesc(dto.getSortType());
+            }
+        }
+        this.page(page, queryWrapper);
+        return FrontCourseConditionPagingResultDto.builder().
+                pages(page.getPages()).
+                current(page.getCurrent()).
+                size(page.getSize()).
+                hasPrevious(page.hasPrevious()).
+                hasNext(page.hasNext()).
+                items(page.getRecords()).
+                total(page.getTotal()).build();
     }
 }

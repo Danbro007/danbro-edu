@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 /**
  * @Classname CourseInputDto
- * @Description TODO
+ * @Description TODO 课程添加的提交参数
  * @Date 2020/12/20 19:48
  * @Author Danrbo
  */

@@ -6,10 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * @Classname FrontPagingFindTeacherResultDto
+ * @Description TODO 用户在前台分页查询讲师列表的结果
+ * @Date 2020/12/15 11:35
+ * @Author Danrbo
+ */
 @Accessors(chain = true)
 @Data
 @Builder
-public class PagingFindTeacherDto {
+public class FrontPagingFindTeacherResultDto {
     private List<EduTeacher> items;
     private Long current;
     private Long pages;

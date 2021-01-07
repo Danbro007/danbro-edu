@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.edu.dto.EduTeacherInfoQueryDto;
-import com.danbro.edu.dto.EduTeacherQueryDto;
-import com.danbro.edu.dto.PagingFindTeacherDto;
+import com.danbro.edu.dto.FrontTeacherQueryDto;
+import com.danbro.edu.dto.FrontPagingFindTeacherResultDto;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.mapper.EduTeacherMapper;
@@ -35,12 +35,12 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     EduCourseService eduCourseService;
 
     @Override
-    public Result pagingFindTeacherByCondition(Integer current, Integer limit, EduTeacherQueryDto eduTeacherQueryDto) {
+    public Result pagingFindTeacherByCondition(Integer current, Integer limit, FrontTeacherQueryDto frontTeacherQueryDto) {
         Page<EduTeacher> eduTeacherPage = new Page<>(current, limit);
-        Date end = eduTeacherQueryDto.getEnd();
-        Date start = eduTeacherQueryDto.getStart();
-        Integer level = eduTeacherQueryDto.getLevel();
-        String name = eduTeacherQueryDto.getName();
+        Date end = frontTeacherQueryDto.getEnd();
+        Date start = frontTeacherQueryDto.getStart();
+        Integer level = frontTeacherQueryDto.getLevel();
+        String name = frontTeacherQueryDto.getName();
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(name)) {
             queryWrapper.like("name", name);
@@ -75,12 +75,12 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     }
 
     @Override
-    public PagingFindTeacherDto pagingFindTeacher(Integer current, Integer limit) {
+    public FrontPagingFindTeacherResultDto pagingFindTeacher(Integer current, Integer limit) {
         Page<EduTeacher> page = new Page<>(current, limit);
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
         this.page(page, queryWrapper);
-        return PagingFindTeacherDto.builder().
+        return FrontPagingFindTeacherResultDto.builder().
                 current(page.getCurrent()).
                 total(page.getTotal()).
                 size(page.getSize()).

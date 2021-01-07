@@ -16,7 +16,7 @@ import java.util.Date;
  * @Author Danrbo
  */
 @Data
-public class EduTeacherQueryDto implements DtoConvert<EduTeacherQueryDto, EduTeacher> {
+public class FrontTeacherQueryDto implements DtoConvert<FrontTeacherQueryDto, EduTeacher> {
     @ApiModelProperty("教师名")
     private String name;
 
@@ -30,7 +30,7 @@ public class EduTeacherQueryDto implements DtoConvert<EduTeacherQueryDto, EduTea
     private Date end;
 
     @Override
-    public EduTeacherQueryDto convertFrom(EduTeacher eduTeacher) {
+    public FrontTeacherQueryDto convertFrom(EduTeacher eduTeacher) {
         EduTeacherDtoConvertor eduTeacherDtoConvertor = new EduTeacherDtoConvertor();
         return eduTeacherDtoConvertor.doBackward(eduTeacher);
     }
@@ -42,19 +42,19 @@ public class EduTeacherQueryDto implements DtoConvert<EduTeacherQueryDto, EduTea
     }
 
 
-    private static class EduTeacherDtoConvertor extends Converter<EduTeacherQueryDto, EduTeacher> {
+    private static class EduTeacherDtoConvertor extends Converter<FrontTeacherQueryDto, EduTeacher> {
         @Override
-        protected EduTeacher doForward(EduTeacherQueryDto eduTeacherQueryDto) {
+        protected EduTeacher doForward(FrontTeacherQueryDto frontTeacherQueryDto) {
             EduTeacher eduTeacher = new EduTeacher();
-            BeanUtils.copyProperties(eduTeacherQueryDto, eduTeacher);
+            BeanUtils.copyProperties(frontTeacherQueryDto, eduTeacher);
             return eduTeacher;
         }
 
         @Override
-        protected EduTeacherQueryDto doBackward(EduTeacher eduTeacher) {
-            EduTeacherQueryDto eduTeacherQueryDto = new EduTeacherQueryDto();
-            BeanUtils.copyProperties(eduTeacher, eduTeacherQueryDto);
-            return eduTeacherQueryDto;
+        protected FrontTeacherQueryDto doBackward(EduTeacher eduTeacher) {
+            FrontTeacherQueryDto frontTeacherQueryDto = new FrontTeacherQueryDto();
+            BeanUtils.copyProperties(eduTeacher, frontTeacherQueryDto);
+            return frontTeacherQueryDto;
         }
     }
 }
