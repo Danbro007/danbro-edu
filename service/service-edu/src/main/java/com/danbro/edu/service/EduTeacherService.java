@@ -1,7 +1,7 @@
 package com.danbro.edu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.edu.dto.EduTeacherInfoQueryDto;
+import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
 import com.danbro.edu.dto.FrontPagingFindTeacherResultDto;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.dto.FrontTeacherQueryDto;
@@ -22,5 +22,5 @@ public interface EduTeacherService extends IService<EduTeacher> {
 
     FrontPagingFindTeacherResultDto pagingFindTeacher(Integer current, Integer limit);
 
-    EduTeacherInfoQueryDto getTeacherInfoById(String id);
+    FrontTeacherInfoQueryDto getTeacherInfoById(String id);
 }

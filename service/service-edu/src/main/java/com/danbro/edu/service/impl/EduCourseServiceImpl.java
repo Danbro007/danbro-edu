@@ -1,6 +1,5 @@
 package com.danbro.edu.service.impl;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,7 +12,6 @@ import com.danbro.edu.service.EduCourseDescriptionService;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.edu.service.EduVideoService;
 import com.danbro.edu.utils.SortType;
-import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
 import org.springframework.beans.BeanUtils;
@@ -43,16 +41,16 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     EduVideoService eduVideoService;
 
     @Override
-    public EduCourse insert(EduCourseDto eduCourseDto) {
+    public EduCourse insert(EduCourseInsertDto eduCourseInsertDto) {
         EduCourse eduCourse = new EduCourse();
         EduCourseDescription eduCourseDescription = new EduCourseDescription();
-        BeanUtils.copyProperties(eduCourseDto, eduCourse);
+        BeanUtils.copyProperties(eduCourseInsertDto, eduCourse);
         boolean f = this.save(eduCourse);
         if (!f) {
             throw new MyCustomException(ResultCode.INSERT_COURSE_FAILURE);
         }
         eduCourseDescription.
-                setDescription(eduCourseDto.getDescription()).
+                setDescription(eduCourseInsertDto.getDescription()).
                 setId(eduCourse.getId());
         boolean b = eduCourseDescriptionService.save(eduCourseDescription);
         if (!b) {
@@ -62,23 +60,23 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
     @Override
-    public EduCourseDto getCourseInfo(String courseId) {
-        EduCourseDto eduCourseDto = new EduCourseDto();
+    public EduCourseInsertDto getCourseBasicInfo(String courseId) {
+        EduCourseInsertDto eduCourseInsertDto = new EduCourseInsertDto();
         EduCourse course = this.getById(courseId);
-        BeanUtils.copyProperties(course, eduCourseDto);
+        BeanUtils.copyProperties(course, eduCourseInsertDto);
         EduCourseDescription courseDescription = eduCourseDescriptionService.getById(courseId);
-        BeanUtils.copyProperties(courseDescription, eduCourseDto);
-        return eduCourseDto;
+        BeanUtils.copyProperties(courseDescription, eduCourseInsertDto);
+        return eduCourseInsertDto;
     }
 
     @Override
-    public Boolean updateCourseInfo(EduCourseDto eduCourseDto) {
+    public Boolean updateCourseInfo(EduCourseInsertDto eduCourseInsertDto) {
         try {
             EduCourse eduCourse = new EduCourse();
-            BeanUtils.copyProperties(eduCourseDto, eduCourse);
+            BeanUtils.copyProperties(eduCourseInsertDto, eduCourse);
             this.updateById(eduCourse);
             EduCourseDescription courseDescription = new EduCourseDescription();
-            BeanUtils.copyProperties(eduCourseDto, courseDescription);
+            BeanUtils.copyProperties(eduCourseInsertDto, courseDescription);
             eduCourseDescriptionService.updateById(courseDescription);
         } catch (BeansException e) {
             return false;
@@ -156,5 +154,10 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
                 hasNext(page.hasNext()).
                 items(page.getRecords()).
                 total(page.getTotal()).build();
+    }
+
+    @Override
+    public FrontCourseDetailInfoDto getCourseDetailInfo(String courseId) {
+        return this.baseMapper.getCourseDetailInfo(courseId);
     }
 }

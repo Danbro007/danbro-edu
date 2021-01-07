@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  */
 @Data
 @ApiModel("课程提交参数")
-public class EduCourseDto {
+public class EduCourseInsertDto {
     @NotBlank(message = "讲师ID不能为空！")
     @ApiModelProperty("课程讲师ID")
     private String teacherId;

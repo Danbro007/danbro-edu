@@ -2,10 +2,8 @@ package com.danbro.edu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.danbro.edu.dto.EduCoursePublishDto;
+import com.danbro.edu.dto.FrontCourseDetailInfoDto;
 import com.danbro.edu.entity.EduCourse;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * 课程(EduCourse)表数据库访问层
@@ -16,5 +14,6 @@ import java.util.List;
 public interface EduCourseMapper extends BaseMapper<EduCourse> {
 
     EduCoursePublishDto getCourseInfoForPublish(String courseId);
+    FrontCourseDetailInfoDto getCourseDetailInfo(String courseId);
 
 }

@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.danbro.edu.mapper.EduTeacherMapper">
-    <resultMap id="teacherInfoResultMap" type="com.danbro.edu.dto.EduTeacherInfoQueryDto">
-        <collection property="courseList" ofType="com.danbro.edu.entity.EduCourse" column="teacher_id">
-            <result column="title" property="title" javaType="string" jdbcType="VARCHAR"/>
+    <resultMap id="teacherInfoResultMap" type="com.danbro.edu.dto.FrontTeacherInfoQueryDto">
+        <result property="avatar" column="avatar"/>
+        <result property="name" column="name"/>
+        <result property="career" column="career"/>
+        <result property="intro" column="intro"/>
+        <collection property="courseList" ofType="com.danbro.edu.dto.FrontCourseTitleDto">
+            <result property="courseTitle" column="courseTitle"/>
         </collection>
     </resultMap>
 
     <select id="getTeacherInfoById" resultMap="teacherInfoResultMap">
         SELECT et.name   AS name,
                et.avatar AS avatar,
+               et.id AS id,
+               et.level AS level,
                et.career AS career,
                et.intro  AS intro,
-               ec.title  AS title
+               ec.title  AS courseTitle
         FROM edu_teacher et,
              edu_course ec
         WHERE et.id = ec.teacher_id
           AND et.id = #{id}
-</select>
+    </select>
 </mapper>

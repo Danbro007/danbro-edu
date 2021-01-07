@@ -1,9 +1,7 @@
 package com.danbro.edu.controller;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.danbro.edu.dto.EduCourseDto;
+import com.danbro.edu.dto.EduCourseInsertDto;
 import com.danbro.edu.dto.EduCoursePublishDto;
 import com.danbro.edu.dto.EduCoursePublishStatusDto;
 import com.danbro.edu.dto.SearchCourseConditionDto;
@@ -12,7 +10,6 @@ import com.danbro.edu.service.EduCourseService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -40,12 +37,12 @@ public class EduCourseController {
 
     @ApiOperation("添加课程信息")
     @PostMapping("info")
-    public Result insert(@Valid @RequestBody EduCourseDto eduCourseDto, BindingResult result) {
+    public Result insert(@Valid @RequestBody EduCourseInsertDto eduCourseInsertDto, BindingResult result) {
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
             return Result.failureOf(ResultCode.FAILURE).setDataChain("errors", errors);
         }
-        EduCourse course = eduCourseService.insert(eduCourseDto);
+        EduCourse course = eduCourseService.insert(eduCourseInsertDto);
         return Result.successOf("courseId", course.getId());
     }
 
@@ -53,19 +50,19 @@ public class EduCourseController {
     @ApiOperation("查看课程基本详细")
     @GetMapping("info/{courseId}")
     public Result findCourseInfo(@PathVariable String courseId) {
-        EduCourseDto courseInfo = eduCourseService.getCourseInfo(courseId);
+        EduCourseInsertDto courseInfo = eduCourseService.getCourseBasicInfo(courseId);
         return Result.successOf("courseInfo", courseInfo);
     }
 
 
     @ApiOperation("修改课程基本信息")
     @PutMapping("info")
-    public Result updateCourseInfo(@Valid @RequestBody EduCourseDto eduCourseDto, BindingResult result) {
+    public Result updateCourseInfo(@Valid @RequestBody EduCourseInsertDto eduCourseInsertDto, BindingResult result) {
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
             return Result.failureOf(ResultCode.FAILURE).setDataChain("errors", errors);
         }
-        Boolean flag = eduCourseService.updateCourseInfo(eduCourseDto);
+        Boolean flag = eduCourseService.updateCourseInfo(eduCourseInsertDto);
         if (flag) {
             return Result.successOf();
         }

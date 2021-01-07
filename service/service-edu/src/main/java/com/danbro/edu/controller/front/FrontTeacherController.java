@@ -3,7 +3,7 @@ package com.danbro.edu.controller.front;
 import java.util.List;
 import javax.annotation.Resource;
 
-import com.danbro.edu.dto.EduTeacherInfoQueryDto;
+import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
 import com.danbro.edu.dto.FrontPagingFindTeacherResultDto;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.service.EduTeacherService;
@@ -48,7 +48,7 @@ public class FrontTeacherController {
     @ApiOperation("获取讲师信息")
     @GetMapping("teacher/{id}")
     public Result getTeacherInfo(@PathVariable String id) {
-        EduTeacherInfoQueryDto teacherInfo = eduTeacherService.getTeacherInfoById(id);
+        FrontTeacherInfoQueryDto teacherInfo = eduTeacherService.getTeacherInfoById(id);
         return Result.successOf("teacherInfo", teacherInfo);
     }
 

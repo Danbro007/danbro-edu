@@ -43,6 +43,6 @@ public class EduSubjectController {
     @GetMapping("subject")
     public Result getAllSubject() {
         List<FirstSubjectDto> subject = eduSubjectService.getAllSubject();
-        return Result.successOf("items", subject);
+        return Result.successOf("subSubjectList", subject);
     }
 }
