@@ -32,6 +32,7 @@ public enum ResultCode {
     UPDATE_COURSE_PUBLISH_STATUS_FAILURE(200203, "修改课程发布状态失败"),
     DELETE_COURSE_FAILURE(200204, "删除课程失败"),
     GET_TOP_COURSE_LIST(200105, "获取热门课程失败！"),
+    COURSE_IS_NOT_EXIST(200106, "查找的课程不存在！"),
     /**
      * 章节代码
      */
@@ -61,7 +62,7 @@ public enum ResultCode {
     DELETE_VIDEO_FAILURE(300021, "客户端出现异常，视频删除失败！"),
     DELETE_VIDEO_TIME_OUT(300022, "删除视频超时！"),
     UPLOAD_VIDEO_IS_EMPTY(300023, "上传的视频为空！"),
-    CLIENT_ALIYUN_CONNECTION_ERROR(300030,"与阿里云视频点播平台连接失败！"),
+    CLIENT_ALIYUN_CONNECTION_ERROR(300030, "与阿里云视频点播平台连接失败！"),
     /**
      * 短信代码
      */
@@ -73,7 +74,7 @@ public enum ResultCode {
     USER_NOT_EXIST(400000, "用户不存在！"),
     PASSWORD_NOT_CORRECT(400001, "密码错误，请重新输入！"),
     USER_IS_DISABLED(400002, "用户目前处于禁止登录状态！"),
-    USER_NO_LOGIN(400003,"请先登录!"),
+    USER_NO_LOGIN(400003, "请先登录!"),
     /**
      * 普通用户注册代码
      */
@@ -83,13 +84,17 @@ public enum ResultCode {
     /**
      * 微信用户代码
      */
-    WECHAT_REGISTER_FAILURE(400040,"微信用户注册失败！"),
+    WECHAT_REGISTER_FAILURE(400040, "微信用户注册失败！"),
 
     /**
-     * 前台用户评论代码S
+     * 前台用户评论代码
      */
-    INSERT_COMMENT_FAILURE(500000,"评论失败！")
-    ;
+    INSERT_COMMENT_FAILURE(500000, "评论失败！"),
+
+    /**
+     * 订单服务相关代码
+     */
+    INSERT_ORDER_FAILURE(500500, "创建订单失败！");
 
     private Integer code;
     private String message;

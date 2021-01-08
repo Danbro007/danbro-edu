@@ -79,7 +79,7 @@ public class EduCourse implements Serializable {
      */
     @TableLogic()
     @TableField(fill = FieldFill.INSERT)
-    private Integer isDeleted;
+    private Boolean isDeleted;
     /**
      * 创建时间
      */

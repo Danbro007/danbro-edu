@@ -3,14 +3,13 @@ package com.danbro.edu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.danbro.dto.EduCourseBasicInfoDto;
 import com.danbro.edu.dto.*;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduCourseDescription;
+import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.mapper.EduCourseMapper;
-import com.danbro.edu.service.EduChapterService;
-import com.danbro.edu.service.EduCourseDescriptionService;
-import com.danbro.edu.service.EduCourseService;
-import com.danbro.edu.service.EduVideoService;
+import com.danbro.edu.service.*;
 import com.danbro.edu.utils.SortType;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
@@ -39,6 +38,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     EduChapterService eduChapterService;
     @Autowired
     EduVideoService eduVideoService;
+    @Autowired
+    EduTeacherService eduTeacherService;
 
     @Override
     public EduCourse insert(EduCourseInsertDto eduCourseInsertDto) {
@@ -60,13 +61,18 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
     @Override
-    public EduCourseInsertDto getCourseBasicInfo(String courseId) {
-        EduCourseInsertDto eduCourseInsertDto = new EduCourseInsertDto();
+    public EduCourseBasicInfoDto getCourseBasicInfo(String courseId) {
+        EduCourseBasicInfoDto eduCourseBasicInfoDto = new EduCourseBasicInfoDto();
         EduCourse course = this.getById(courseId);
-        BeanUtils.copyProperties(course, eduCourseInsertDto);
+        BeanUtils.copyProperties(course, eduCourseBasicInfoDto);
         EduCourseDescription courseDescription = eduCourseDescriptionService.getById(courseId);
-        BeanUtils.copyProperties(courseDescription, eduCourseInsertDto);
-        return eduCourseInsertDto;
+        BeanUtils.copyProperties(courseDescription, eduCourseBasicInfoDto);
+        EduTeacher teacher = eduTeacherService.getById(eduCourseBasicInfoDto.getTeacherId());
+        if (teacher == null) {
+            throw new MyCustomException(ResultCode.TEACHER_NOT_FOUND);
+        }
+        eduCourseBasicInfoDto.setTeacherName(teacher.getName());
+        return eduCourseBasicInfoDto;
     }
 
     @Override

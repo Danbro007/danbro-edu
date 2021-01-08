@@ -43,7 +43,7 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
     @Override
     public Boolean removeAliyunVideo(String videoId) {
         EduVideo eduVideo = this.getById(videoId);
-        if (!StringUtils.isEmpty(eduVideo.getVideoSourceId())) {
+        if (eduVideo != null && !StringUtils.isEmpty(eduVideo.getVideoSourceId())) {
             Result result = vodClient.deleteVideoByVideoId(eduVideo.getVideoSourceId());
             if (ResultCode.SUCCESS.getCode().equals(result.getCode())) {
                 eduVideo.setVideoOriginalName("");

@@ -1,14 +1,13 @@
 package com.danbro.edu.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.danbro.edu.dto.EduCourseInsertDto;
-import com.danbro.edu.dto.EduCoursePublishDto;
-import com.danbro.edu.dto.EduCoursePublishStatusDto;
-import com.danbro.edu.dto.SearchCourseConditionDto;
+import com.danbro.dto.EduCourseBasicInfoDto;
+import com.danbro.edu.dto.*;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
+import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
@@ -49,9 +48,12 @@ public class EduCourseController {
 
     @ApiOperation("查看课程基本详细")
     @GetMapping("info/{courseId}")
-    public Result findCourseInfo(@PathVariable String courseId) {
-        EduCourseInsertDto courseInfo = eduCourseService.getCourseBasicInfo(courseId);
-        return Result.successOf("courseInfo", courseInfo);
+    public EduCourseBasicInfoDto findCourseInfo(@PathVariable String courseId) {
+        EduCourseBasicInfoDto courseInfo = eduCourseService.getCourseBasicInfo(courseId);
+        if (courseInfo == null) {
+            throw new MyCustomException(ResultCode.COURSE_IS_NOT_EXIST);
+        }
+        return courseInfo;
     }
 
 

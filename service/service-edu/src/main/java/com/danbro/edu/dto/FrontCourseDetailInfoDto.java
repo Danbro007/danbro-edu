@@ -15,6 +15,8 @@ public class FrontCourseDetailInfoDto {
     private String courseId;
     private String courseCover;
     private Integer buyCount;
+    private Long viewCount;
+    private Integer lessonNum;
     private String subjectLevelOne;
     private String subjectLevelTwo;
     private BigDecimal coursePrice;

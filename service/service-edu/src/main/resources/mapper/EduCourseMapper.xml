@@ -23,6 +23,8 @@
         <id property="courseId" column="courseId"/>
         <result property="courseCover" column="courseCover"/>
         <result property="buyCount" column="buyCount"/>
+        <result property="viewCount" column="viewCount"/>
+        <result property="lessonNum" column="lessonNum"/>
         <result property="subjectLevelOne" column="subjectLevelOne"/>
         <result property="subjectLevelTwo" column="subjectLevelTwo"/>
         <result property="coursePrice" column="coursePrice"/>
@@ -46,25 +48,26 @@
     </resultMap>
 
     <select id="getCourseDetailInfo" resultMap="courseDetailInfoMap">
-        SELECT ec.id                  AS courseId,
-               ec.cover               AS courseCover,
-               ec.buy_count           AS buyCount,
-               ec.price               AS coursePrice,
-               ec.title               AS courseTitle,
-               ec.view_count          AS viewCount,
-               ecd.description        AS courseDescription,
-               ep.title               AS chapterTitle,
-               ep.id                  AS chapterId,
-               ev.id                  AS videoId,
-               ev.title               AS videoTitle,
-               ev.video_source_id     AS videoSourceId,
-               et.name                AS teacherName,
-               et.id                  AS teacherid,
-               et.intro               AS teacherIntro,
-               et.avatar              AS teacherAvatar,
-               es1.title              AS subjectLevelTwo,
-               es2.title              AS subjectLevelOne,
-               ev.is_free             AS isFree
+        SELECT ec.id              AS courseId,
+               ec.cover           AS courseCover,
+               ec.buy_count       AS buyCount,
+               ec.price           AS coursePrice,
+               ec.title           AS courseTitle,
+               ec.view_count      AS viewCount,
+               ec.lesson_num      AS lessonNum,
+               ecd.description    AS courseDescription,
+               ep.title           AS chapterTitle,
+               ep.id              AS chapterId,
+               ev.id              AS videoId,
+               ev.title           AS videoTitle,
+               ev.video_source_id AS videoSourceId,
+               et.name            AS teacherName,
+               et.id              AS teacherid,
+               et.intro           AS teacherIntro,
+               et.avatar          AS teacherAvatar,
+               es1.title          AS subjectLevelTwo,
+               es2.title          AS subjectLevelOne,
+               ev.is_free         AS isFree
         FROM edu_course ec
                  LEFT JOIN edu_chapter ep ON ec.id = ep.course_id
                  LEFT JOIN edu_video ev ON ep.id = ev.chapter_id
@@ -72,7 +75,6 @@
                  LEFT JOIN edu_teacher et ON et.id = ec.teacher_id
                  LEFT JOIN edu_subject es1 ON ec.subject_id = es1.id
                  LEFT JOIN edu_subject es2 ON ec.subject_parent_id = es2.id
-
         WHERE ec.id = #{id}
     </select>
 </mapper>

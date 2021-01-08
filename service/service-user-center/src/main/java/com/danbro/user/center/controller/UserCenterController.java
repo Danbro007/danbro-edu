@@ -4,6 +4,7 @@ package com.danbro.user.center.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.danbro.dto.UcenterMemberInfoDto;
 import com.danbro.dto.UserInfoDto;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
@@ -15,6 +16,7 @@ import com.danbro.user.center.service.UcenterMemberService;
 import com.danbro.utils.JwtUtils;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,11 +68,13 @@ public class UserCenterController {
 
     @ApiOperation("根据用户ID获取用户信息")
     @GetMapping("info/{userId}")
-    public Result getUserInfo(@PathVariable String userId) {
-        if (StringUtils.isEmpty(userId)) {
+    public UcenterMemberInfoDto getUserInfo(@PathVariable String userId) {
+        UcenterMember member = ucenterMemberService.getById(userId);
+        UcenterMemberInfoDto memberInfoDto = new UcenterMemberInfoDto();
+        if (member == null) {
             throw new MyCustomException(ResultCode.USER_NOT_EXIST);
         }
-        UcenterMember member = ucenterMemberService.getById(userId);
-        return Result.successOf("userInfo", member);
+        BeanUtils.copyProperties(member, memberInfoDto);
+        return memberInfoDto;
     }
 }
