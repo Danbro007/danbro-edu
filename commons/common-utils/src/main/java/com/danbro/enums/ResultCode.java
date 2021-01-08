@@ -73,6 +73,7 @@ public enum ResultCode {
     USER_NOT_EXIST(400000, "用户不存在！"),
     PASSWORD_NOT_CORRECT(400001, "密码错误，请重新输入！"),
     USER_IS_DISABLED(400002, "用户目前处于禁止登录状态！"),
+    USER_NO_LOGIN(400003,"请先登录!"),
     /**
      * 普通用户注册代码
      */

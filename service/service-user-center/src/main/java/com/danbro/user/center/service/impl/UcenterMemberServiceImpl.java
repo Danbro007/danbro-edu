@@ -43,7 +43,7 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         if (member.getIsDisabled()) {
             throw new MyCustomException(ResultCode.USER_IS_DISABLED);
         }
-        return JwtUtils.getJwtToken(member.getId(), member.getNickname());
+        return JwtUtils.getJwtToken(member.getId(), member.getNickname(),member.getAvatar());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -72,9 +72,9 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         UcenterMember member = this.getOne(queryWrapper);
         if (member == null) {
             this.save(ucenterMember);
-            return JwtUtils.getJwtToken(ucenterMember.getId(), ucenterMember.getNickname());
+            return JwtUtils.getJwtToken(ucenterMember.getId(), ucenterMember.getNickname(),ucenterMember.getAvatar());
         }
-        return JwtUtils.getJwtToken(member.getId(), member.getNickname());
+        return JwtUtils.getJwtToken(member.getId(), member.getNickname(),member.getAvatar());
 
     }
 }

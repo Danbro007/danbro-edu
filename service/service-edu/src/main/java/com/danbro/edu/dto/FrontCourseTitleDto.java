@@ -11,4 +11,6 @@ import lombok.Data;
 @Data
 public class FrontCourseTitleDto {
     private String courseTitle;
+    private String courseId;
+    private String courseCover;
 }

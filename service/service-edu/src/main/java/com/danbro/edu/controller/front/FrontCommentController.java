@@ -2,17 +2,18 @@ package com.danbro.edu.controller.front;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.danbro.dto.UserInfoDto;
 import com.danbro.edu.dto.FrontCourseCommentPagingDto;
 import com.danbro.edu.dto.FrontInsertCourseCommentDto;
-import com.danbro.edu.dto.FrontUcenterMemberDto;
-import com.danbro.edu.rpcClient.UCenterUserClient;
 import com.danbro.edu.service.EduCommentService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
+import com.danbro.exception.MyCustomException;
 import com.danbro.utils.JwtUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -29,9 +30,6 @@ public class FrontCommentController {
     @Resource
     EduCommentService eduCommentService;
 
-    @Autowired
-    UCenterUserClient userClient;
-
     @ApiOperation("分页查询课程的评论")
     @GetMapping("{courseId}/{current}/{limit}")
     public Result pagingGetCourseComment(@PathVariable String courseId,
@@ -44,13 +42,14 @@ public class FrontCommentController {
     @ApiOperation("添加课程评论")
     @PostMapping("")
     public Result insertComment(@RequestBody FrontInsertCourseCommentDto courseCommentDto, HttpServletRequest request) {
-        String memberId = JwtUtils.getMemberIdByJwtToken(request);
-        Result result = userClient.getUserInfo(memberId);
-        FrontUcenterMemberDto userInfo = (FrontUcenterMemberDto) result.getData().get("userInfo");
+        UserInfoDto userInfo = JwtUtils.getMemberIdByJwtToken(request);
+        if (userInfo == null) {
+            throw new MyCustomException(ResultCode.USER_NO_LOGIN);
+        }
         courseCommentDto.
-                setMemberId(userInfo.getId()).
+                setNickname(userInfo.getNickname()).
                 setAvatar(userInfo.getAvatar()).
-                setNickName(userInfo.getNickname());
+                setMemberId(userInfo.getId());
         Boolean b = eduCommentService.insertCourseComment(courseCommentDto);
         if (b) {
             return Result.successOf();

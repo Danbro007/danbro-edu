@@ -18,6 +18,6 @@ public class FrontInsertCourseCommentDto {
     private String content;
     private String teacherId;
     private String memberId;
-    private String nickName;
+    private String nickname;
     private String avatar;
 }

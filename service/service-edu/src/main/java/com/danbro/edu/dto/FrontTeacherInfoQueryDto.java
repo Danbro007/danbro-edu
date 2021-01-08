@@ -2,6 +2,7 @@ package com.danbro.edu.dto;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 /**
@@ -16,8 +17,6 @@ public class FrontTeacherInfoQueryDto {
     private String name;
     private String intro;
     private String career;
-    private Integer level;
     private String avatar;
-    private Integer sort;
     private List<FrontCourseTitleDto> courseList;
 }

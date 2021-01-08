@@ -3,6 +3,8 @@ package com.danbro.user.center.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.danbro.dto.UserInfoDto;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
@@ -55,12 +57,11 @@ public class UserCenterController {
     @ApiOperation("根据token获取用户信息")
     @GetMapping("info")
     public Result getUserInfo(HttpServletRequest request) {
-        String id = JwtUtils.getMemberIdByJwtToken(request);
-        if (StringUtils.isEmpty(id)) {
+        UserInfoDto userInfoDto = JwtUtils.getMemberIdByJwtToken(request);
+        if (userInfoDto == null) {
             throw new MyCustomException(ResultCode.USER_NOT_EXIST);
         }
-        UcenterMember member = ucenterMemberService.getById(id);
-        return Result.successOf("userInfo", member);
+        return Result.successOf("userInfo", userInfoDto);
     }
 
     @ApiOperation("根据用户ID获取用户信息")

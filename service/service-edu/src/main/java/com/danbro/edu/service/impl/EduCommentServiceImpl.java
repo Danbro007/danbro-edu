@@ -27,6 +27,7 @@ public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComm
         Page<EduComment> page = new Page<>(current, limit);
         QueryWrapper<EduComment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id", courseId);
+        queryWrapper.orderByDesc("gmt_create");
         this.page(page, queryWrapper);
         ArrayList<FrontCourseCommentDto> items = new ArrayList<>();
         page.getRecords().forEach(e -> {

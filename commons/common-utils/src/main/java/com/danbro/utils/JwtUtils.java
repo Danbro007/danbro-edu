@@ -1,5 +1,6 @@
 package com.danbro.utils;
 
+import com.danbro.dto.UserInfoDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -14,11 +15,16 @@ import java.util.Date;
  * @since 2019/10/16
  */
 public class JwtUtils {
-
+    /**
+     * 过期时间
+     */
     public static final long EXPIRE = 1000 * 60 * 60 * 24;
+    /**
+     * 秘钥
+     */
     public static final String APP_SECRET = "ukc8BDbRigUDaY6pZFfWus2jZWLPHO";
 
-    public static String getJwtToken(String id, String nickname){
+    public static String getJwtToken(String id, String nickname, String avatar) {
 
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
@@ -28,17 +34,19 @@ public class JwtUtils {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
                 .claim("id", id)
                 .claim("nickname", nickname)
+                .claim("avatar", avatar)
                 .signWith(SignatureAlgorithm.HS256, APP_SECRET)
                 .compact();
     }
 
     /**
      * 判断token是否存在与有效
+     *
      * @param jwtToken jwtToken
      * @return token是否合法
      */
     public static boolean checkToken(String jwtToken) {
-        if(StringUtils.isEmpty(jwtToken)) {
+        if (StringUtils.isEmpty(jwtToken)) {
             return false;
         }
         try {
@@ -52,13 +60,14 @@ public class JwtUtils {
 
     /**
      * 判断token是否存在与有效
+     *
      * @param request 请求
      * @return token是否合法
      */
     public static boolean checkToken(HttpServletRequest request) {
         try {
             String jwtToken = request.getHeader("token");
-            if(StringUtils.isEmpty(jwtToken)) {
+            if (StringUtils.isEmpty(jwtToken)) {
                 return false;
             }
             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
@@ -71,16 +80,21 @@ public class JwtUtils {
 
     /**
      * 根据token获取会员id
+     *
      * @param request 请求
      * @return 用户id
      */
-    public static String getMemberIdByJwtToken(HttpServletRequest request) {
+    public static UserInfoDto getMemberIdByJwtToken(HttpServletRequest request) {
         String jwtToken = request.getHeader("token");
-        if(StringUtils.isEmpty(jwtToken)) {
-            return "";
+        if (StringUtils.isEmpty(jwtToken)) {
+            return null;
         }
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         Claims claims = claimsJws.getBody();
-        return (String)claims.get("id");
+        return UserInfoDto.builder()
+                .avatar(claims.get("avatar", String.class))
+                .id(claims.get("id", String.class))
+                .nickname(claims.get("nickname", String.class))
+                .build();
     }
 }

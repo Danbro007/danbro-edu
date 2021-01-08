@@ -2,26 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.danbro.edu.mapper.EduTeacherMapper">
     <resultMap id="teacherInfoResultMap" type="com.danbro.edu.dto.FrontTeacherInfoQueryDto">
-        <result property="avatar" column="avatar"/>
+        <id property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="career" column="career"/>
         <result property="intro" column="intro"/>
+        <result property="career" column="career"/>
+        <result property="avatar" column="avatar"/>
         <collection property="courseList" ofType="com.danbro.edu.dto.FrontCourseTitleDto">
+            <id property="courseId" column="courseId"/>
             <result property="courseTitle" column="courseTitle"/>
+            <result property="courseCover" column="courseCover"/>
         </collection>
     </resultMap>
 
     <select id="getTeacherInfoById" resultMap="teacherInfoResultMap">
         SELECT et.name   AS name,
-               et.avatar AS avatar,
-               et.id AS id,
-               et.level AS level,
-               et.career AS career,
                et.intro  AS intro,
-               ec.title  AS courseTitle
-        FROM edu_teacher et,
-             edu_course ec
-        WHERE et.id = ec.teacher_id
-          AND et.id = #{id}
+               et.id     AS id,
+               et.career AS career,
+               et.avatar AS avatar,
+               ec.title  AS courseTitle,
+               ec.id     AS courseId,
+               ec.cover     AS courseCover
+        FROM edu_teacher et
+                 LEFT JOIN edu_course ec ON et.id = ec.teacher_id
+        WHERE et.id = #{id}
     </select>
 </mapper>

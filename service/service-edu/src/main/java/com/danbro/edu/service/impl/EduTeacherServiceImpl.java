@@ -86,7 +86,6 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
                 hasNext(page.hasNext()).
                 items(page.getRecords()).
                 pages(page.getPages()).build();
-
     }
 
     @Override
