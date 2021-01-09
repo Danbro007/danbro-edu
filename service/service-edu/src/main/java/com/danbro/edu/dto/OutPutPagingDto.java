@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 
 /**
  * @Classname TeacherPagingDto
- * @Description TODO 返回的分页数据
+ * @Description TODO 后台返回的分页数据
  * @Date 2021/1/9 13:13
  * @Created by Administrator
  */
