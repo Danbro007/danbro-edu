@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.edu.dto.FrontCourseCommentDto;
-import com.danbro.edu.dto.FrontCourseCommentPagingDto;
-import com.danbro.edu.dto.FrontInsertCourseCommentDto;
+import com.danbro.edu.dto.FrontInPutCommentInsertDto;
+import com.danbro.edu.dto.FrontPagingDto;
 import com.danbro.edu.entity.EduComment;
 import com.danbro.edu.mapper.EduCommentMapper;
 import com.danbro.edu.service.EduCommentService;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComment> implements EduCommentService {
 
     @Override
-    public FrontCourseCommentPagingDto pagingGetCourseComment(String courseId, Long current, Long limit) {
+    public FrontPagingDto<FrontCourseCommentDto> pagingGetCourseComment(String courseId, Long current, Long limit) {
         Page<EduComment> page = new Page<>(current, limit);
         QueryWrapper<EduComment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id", courseId);
@@ -35,18 +35,18 @@ public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComm
             BeanUtils.copyProperties(e, commentDto);
             items.add(commentDto);
         });
-        return FrontCourseCommentPagingDto.builder().
-                current(page.getCurrent()).
-                pages(page.getPages()).
-                total(page.getTotal()).
-                size(page.getSize()).
-                items(items).
-                hasNext(page.hasNext()).
-                hasPrevious(page.hasPrevious()).build();
+        return new FrontPagingDto<FrontCourseCommentDto>().
+                setCurrent(page.getCurrent()).
+                setPages(page.getPages()).
+                setTotal(page.getTotal()).
+                setSize(page.getSize()).
+                setItems(items).
+                setHasNext(page.hasNext()).
+                setHasPrevious(page.hasPrevious());
     }
 
     @Override
-    public Boolean insertCourseComment(FrontInsertCourseCommentDto courseCommentDto) {
+    public Boolean insertCourseComment(FrontInPutCommentInsertDto courseCommentDto) {
         EduComment eduComment = new EduComment();
         BeanUtils.copyProperties(courseCommentDto, eduComment);
         return this.save(eduComment);

@@ -14,6 +14,6 @@ import org.springframework.stereotype.Component;
 public class UCenterUserFallBack implements UCenterUserClient {
     @Override
     public Result getUserInfo(String userId) {
-        return Result.failureOf(ResultCode.USER_NOT_EXIST);
+        return Result.ofFail(ResultCode.USER_NOT_EXIST);
     }
 }

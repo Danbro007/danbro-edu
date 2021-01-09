@@ -2,10 +2,10 @@ package com.danbro.edu.controller.front;
 
 import java.util.List;
 import javax.annotation.Resource;
-
+import com.danbro.dto.CourseTopDto;
 import com.danbro.edu.dto.FrontCourseConditionPagingDto;
-import com.danbro.edu.dto.FrontCourseConditionPagingResultDto;
-import com.danbro.edu.dto.FrontCourseDetailInfoDto;
+import com.danbro.dto.FrontCourseDetailInfoDto;
+import com.danbro.edu.dto.FrontPagingDto;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.enums.Result;
@@ -27,24 +27,24 @@ public class FrontCourseController {
 
     @ApiOperation("获取观看课程前 limit 名的课程信息")
     @GetMapping("top/{limit}")
-    public Result getTopCourseList(@PathVariable String limit) {
-        List<EduCourse> topCourseList = eduCourseService.getTopCourseList(limit);
-        return Result.successOf("courseList", topCourseList);
+    public Result<List<CourseTopDto>> getTopCourseList(@PathVariable String limit) {
+        List<CourseTopDto> topCourseList = eduCourseService.getTopCourseList(limit);
+        return Result.ofSuccess(topCourseList);
     }
 
     @ApiOperation("待查询条件的课程分页")
     @PostMapping("{current}/{limit}")
-    public Result pagingFindCourseByCondition(@PathVariable Long current,
-                                              @PathVariable Long limit,
-                                              @RequestBody(required = false) FrontCourseConditionPagingDto dto) {
-        FrontCourseConditionPagingResultDto resultDto = eduCourseService.pagingFindCourseByCondition(current, limit, dto);
-        return Result.successOf("courseList", resultDto);
+    public Result<FrontPagingDto<EduCourse>> pagingFindCourseByCondition(@PathVariable Long current,
+                                                                         @PathVariable Long limit,
+                                                                         @RequestBody(required = false) FrontCourseConditionPagingDto dto) {
+        FrontPagingDto<EduCourse> resultDto = eduCourseService.pagingFindCourseByCondition(current, limit, dto);
+        return Result.ofSuccess(resultDto);
     }
 
     @ApiOperation("通过课程ID查看课程的下面的所有章节和小节")
     @GetMapping("{courseId}")
-    public Result getCourseAllInfo(@PathVariable String courseId) {
+    public Result<FrontCourseDetailInfoDto> getCourseAllInfo(@PathVariable String courseId) {
         FrontCourseDetailInfoDto courseDetailInfo = eduCourseService.getCourseDetailInfo(courseId);
-        return Result.successOf("courseInfo", courseDetailInfo);
+        return Result.ofSuccess(courseDetailInfo);
     }
 }

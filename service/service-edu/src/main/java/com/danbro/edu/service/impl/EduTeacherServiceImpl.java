@@ -1,25 +1,24 @@
 package com.danbro.edu.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.danbro.dto.TeacherTopDto;
+import com.danbro.edu.dto.FrontPagingDto;
 import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
 import com.danbro.edu.dto.FrontTeacherQueryDto;
-import com.danbro.edu.dto.FrontPagingFindTeacherResultDto;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.mapper.EduTeacherMapper;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.edu.service.EduTeacherService;
-import com.danbro.enums.Result;
-import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * @Classname EduTeacherServiceImpl
@@ -33,8 +32,8 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     EduCourseService eduCourseService;
 
     @Override
-    public Result pagingFindTeacherByCondition(Integer current, Integer limit, FrontTeacherQueryDto frontTeacherQueryDto) {
-        Page<EduTeacher> eduTeacherPage = new Page<>(current, limit);
+    public Page<EduTeacher> pagingFindTeacherByCondition(Integer current, Integer limit, FrontTeacherQueryDto frontTeacherQueryDto) {
+        Page<EduTeacher> page = new Page<>(current, limit);
         Date end = frontTeacherQueryDto.getEnd();
         Date start = frontTeacherQueryDto.getStart();
         Integer level = frontTeacherQueryDto.getLevel();
@@ -54,38 +53,40 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         }
         // 按照 gmt_create 排序
         queryWrapper.orderByDesc("gmt_create");
-        this.page(eduTeacherPage, queryWrapper);
-        if (eduTeacherPage.getTotal() > 0) {
-            return Result.successOf().
-                    setDataChain("total", eduTeacherPage.getTotal()).
-                    setDataChain("rows", eduTeacherPage.getRecords());
-        }
-        throw new MyCustomException(ResultCode.MATCH_CONDITION_TEACHER_NOT_FOUND);
+        this.page(page, queryWrapper);
+        return page;
     }
 
     @Cacheable(value = "teacher", key = "'top-teacher-list'")
     @Override
-    public List<EduTeacher> getTopTeacherList(String limit) {
+    public List<TeacherTopDto> getTopTeacherList(String limit) {
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("level");
         queryWrapper.last(String.format("limit %s", limit));
-        return this.list(queryWrapper);
+        List<EduTeacher> eduTeachers = this.list(queryWrapper);
+        ArrayList<TeacherTopDto> topDtos = new ArrayList<>();
+        eduTeachers.forEach(e -> {
+            TeacherTopDto topDto = new TeacherTopDto();
+            BeanUtils.copyProperties(e, topDto);
+            topDtos.add(topDto);
+        });
+        return topDtos;
     }
 
     @Override
-    public FrontPagingFindTeacherResultDto pagingFindTeacher(Integer current, Integer limit) {
+    public FrontPagingDto<EduTeacher> pagingFindTeacher(Integer current, Integer limit) {
         Page<EduTeacher> page = new Page<>(current, limit);
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
         this.page(page, queryWrapper);
-        return FrontPagingFindTeacherResultDto.builder().
-                current(page.getCurrent()).
-                total(page.getTotal()).
-                size(page.getSize()).
-                hasPrevious(page.hasPrevious()).
-                hasNext(page.hasNext()).
-                items(page.getRecords()).
-                pages(page.getPages()).build();
+        return new FrontPagingDto<EduTeacher>().
+                setCurrent(page.getCurrent()).
+                setTotal(page.getTotal()).
+                setSize(page.getSize()).
+                setHasPrevious(page.hasPrevious()).
+                setHasNext(page.hasNext()).
+                setItems(page.getRecords()).
+                setPages(page.getPages());
     }
 
     @Override

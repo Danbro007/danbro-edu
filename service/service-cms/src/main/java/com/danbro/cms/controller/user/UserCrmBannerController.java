@@ -1,5 +1,7 @@
 package com.danbro.cms.controller.user;
 
+import java.util.List;
+import javax.annotation.Resource;
 import com.danbro.cms.entity.CrmBanner;
 import com.danbro.cms.service.CrmBannerService;
 import com.danbro.enums.Result;
@@ -8,9 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @Classname UserCrmBannerController
@@ -27,8 +26,8 @@ public class UserCrmBannerController {
 
     @ApiOperation("获取所有的 banner")
     @GetMapping("banner/list")
-    public Result getAllBannerList() {
+    public Result<List<CrmBanner>> getAllBannerList() {
         List<CrmBanner> list = crmBannerService.getAllBannerList();
-        return Result.successOf("bannerList", list);
+        return Result.ofSuccess(list);
     }
 }

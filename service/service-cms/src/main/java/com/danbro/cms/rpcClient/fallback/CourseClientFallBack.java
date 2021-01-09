@@ -15,6 +15,6 @@ import org.springframework.stereotype.Component;
 public class CourseClientFallBack implements CourseClient {
     @Override
     public Result getTopCourseList(String limit) {
-        return Result.failureOf(ResultCode.GET_TOP_COURSE_LIST);
+        return Result.ofFail(ResultCode.GET_TOP_COURSE_LIST);
     }
 }

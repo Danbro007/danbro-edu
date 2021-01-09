@@ -35,13 +35,13 @@ public class WeChatUserController {
     @GetMapping("login")
     public String login() {
         String loginUrl = WeChatUtils.QR_CODE_URL;
-        return "redirect:" + loginUrl;
+        return String.format("redirect:%s", loginUrl);
     }
 
 
     @ApiOperation("返回微信登录的二维码")
     @GetMapping("callback")
-    public String callback(String code, String state) {
+    public String callback(String code) {
         if (!StringUtils.isEmpty(code)) {
             String url = String.format(WeChatUtils.TOKEN_URL, WeChatUtils.APP_ID, WeChatUtils.APP_SECRET, code);
             String tokenInfo = HttpUtil.get(url);

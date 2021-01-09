@@ -1,6 +1,8 @@
 package com.danbro.cms.rpcClient;
 
+import java.util.List;
 import com.danbro.cms.rpcClient.fallback.CourseClientFallBack;
+import com.danbro.dto.CourseTopDto;
 import com.danbro.enums.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -18,5 +20,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Component
 public interface CourseClient {
     @GetMapping("edu/course/top/{limit}")
-    Result getTopCourseList(@PathVariable String limit);
+    Result<List<CourseTopDto>> getTopCourseList(@PathVariable String limit);
 }

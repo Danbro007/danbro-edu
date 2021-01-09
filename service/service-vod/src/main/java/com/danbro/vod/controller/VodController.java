@@ -29,20 +29,24 @@ public class VodController {
 
     @ApiOperation("上传视频到阿里云")
     @PostMapping("video")
-    public Result uploadVideo(@RequestParam("file") MultipartFile multipartFile) {
+    public Result<String> uploadVideo(@RequestParam("file") MultipartFile multipartFile) {
         try {
             String videoId = vodService.uploadVideo(multipartFile);
-            return Result.successOf("videoId", videoId);
+            return Result.ofSuccess(videoId);
         } catch (IOException e) {
-            return Result.failureOf(ResultCode.DELETE_VIDEO_FAILURE);
+            return Result.ofFail(ResultCode.DELETE_VIDEO_FAILURE);
         }
     }
 
     @ApiOperation("通过视频ID删除单个视频")
     @DeleteMapping("video/{videoId}")
-    public Result deleteVideo(@PathVariable String videoId) throws ClientException {
-        vodService.deleteVideo(videoId);
-        return Result.successOf();
+    public Result deleteVideo(@PathVariable String videoId) {
+        try {
+            vodService.deleteVideo(videoId);
+            return Result.ofSuccess();
+        } catch (ClientException e) {
+            throw new MyCustomException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
+        }
     }
 
     @ApiOperation("通过视频ID批量删除视频")
@@ -51,18 +55,18 @@ public class VodController {
         try {
             String videoIds = StringUtils.join(videoList.toArray(), ',');
             vodService.batchDeleteVideo(videoIds);
-            return Result.successOf();
+            return Result.ofSuccess();
         } catch (ClientException e) {
-            throw new MyCustomException(ResultCode.DELETE_VIDEO_FAILURE);
+            throw new MyCustomException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
         }
     }
 
     @ApiOperation("通过视频ID获取到播放视频的凭证")
     @GetMapping("video/auth/{videoId}")
-    public Result getVideoPlayAuth(@PathVariable String videoId) {
+    public Result<String> getVideoPlayAuth(@PathVariable String videoId) {
         try {
             String playAuth = vodService.getVideoPlayAuth(videoId);
-            return Result.successOf("playAuth", playAuth);
+            return Result.ofSuccess(playAuth);
         } catch (ClientException e) {
             throw new MyCustomException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
         }

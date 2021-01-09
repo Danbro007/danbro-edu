@@ -1,10 +1,16 @@
 package com.danbro.cms.controller.user;
 
+import java.util.List;
 import com.danbro.cms.rpcClient.CourseClient;
+import com.danbro.dto.CourseTopDto;
 import com.danbro.enums.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Classname UserCrmBannerController
@@ -22,7 +28,7 @@ public class UserCourseController {
 
     @ApiOperation("获取观看课程前 num 名的课程信息")
     @GetMapping("course/top/{limit}")
-    public Result getTopCourseList(@PathVariable String limit) {
+    public Result<List<CourseTopDto>> getTopCourseList(@PathVariable String limit) {
         return courseClient.getTopCourseList(limit);
     }
 }

@@ -29,20 +29,20 @@ public class OssController {
 
     @ApiOperation("上传图片")
     @PostMapping("image/{type}")
-    public Result uploadAvatar(@RequestParam("file") MultipartFile image,@PathVariable String type) {
+    public Result<String> uploadAvatar(@RequestParam("file") MultipartFile image, @PathVariable String type) {
         if (image.getSize() > OssClientUtils.UPLOAD_IMAGE_SIZE_LIMIT) {
             throw new MyCustomException(ResultCode.UPLOAD_FILE_OVER_SIZE);
         }
         try {
-            String avatarUrl = ossService.uploadAvatar(image,type);
+            String avatarUrl = ossService.uploadAvatar(image, type);
             if (avatarUrl != null && !StringUtils.isEmpty(avatarUrl)) {
-                return Result.successOf("imgUrl", String.format("https://%s.%s/%s",
+                return Result.ofSuccess(String.format("https://%s.%s/%s",
                         OssClientUtils.BUCKET_NAME, OssClientUtils.END_POINT, avatarUrl));
             }
             throw new MyCustomException(ResultCode.AVATAR_UPLOAD_FAILURE);
         } catch (Exception e) {
             log.error("上传阿里云OSS服务器异常." + e.getMessage(), e);
-            return Result.failureOf(ResultCode.OSS_UPLOAD_EXCEPTION);
+            return Result.ofFail(ResultCode.OSS_UPLOAD_EXCEPTION);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.danbro.edu.controller;
 
-import com.danbro.edu.dto.EduVideoInsertInPutDto;
-import com.danbro.edu.dto.EduVideoUpdateInPutDto;
+import com.danbro.edu.dto.InPutEduVideoInsertDto;
+import com.danbro.edu.dto.InPutEduVideoUpdateDto;
 import com.danbro.edu.entity.EduVideo;
 import com.danbro.edu.service.EduVideoService;
 import com.danbro.enums.Result;
@@ -30,26 +30,26 @@ public class EduVideoController {
 
     @ApiOperation("添加小节信息")
     @PostMapping("video")
-    public Result insertVideo(@RequestBody EduVideoInsertInPutDto inputVideo) {
+    public Result insertVideo(@RequestBody InPutEduVideoInsertDto inputVideo) {
         EduVideo eduVideo = new EduVideo();
         BeanUtils.copyProperties(inputVideo, eduVideo);
         boolean b = eduVideoService.save(eduVideo);
         if (b) {
-            return Result.successOf();
+            return Result.ofSuccess();
         }
-        return Result.failureOf(ResultCode.INSERT_VIDEO_FAILURE);
+        return Result.ofFail(ResultCode.INSERT_VIDEO_FAILURE);
     }
 
     @ApiOperation("修改小节信息")
     @PutMapping("video")
-    public Result updateVideo(@RequestBody EduVideoUpdateInPutDto updateVideo) {
+    public Result updateVideo(@RequestBody InPutEduVideoUpdateDto updateVideo) {
         EduVideo eduVideo = new EduVideo();
         BeanUtils.copyProperties(updateVideo, eduVideo);
         boolean b = eduVideoService.updateById(eduVideo);
         if (b) {
-            return Result.successOf();
+            return Result.ofSuccess();
         }
-        return Result.failureOf(ResultCode.UPDATE_VIDEO_FAILURE);
+        return Result.ofFail(ResultCode.UPDATE_VIDEO_FAILURE);
     }
 
     @ApiOperation("删除整个小节信息")
@@ -57,9 +57,9 @@ public class EduVideoController {
     public Result deleteVideoInfo(@PathVariable String id) {
         Boolean b = eduVideoService.removeByVideoId(id);
         if (b) {
-            return Result.successOf();
+            return Result.ofSuccess();
         }
-        return Result.failureOf(ResultCode.DELETE_VIDEO_FAILURE);
+        return Result.ofFail(ResultCode.DELETE_VIDEO_FAILURE);
     }
 
     @ApiOperation("通过小节ID删除小节里的视频（数据库和阿里云都要删除掉）")
@@ -67,9 +67,9 @@ public class EduVideoController {
     public Result deleteVideo(@PathVariable String id) {
         Boolean b = eduVideoService.removeAliyunVideo(id);
         if (b) {
-            return Result.successOf();
+            return Result.ofSuccess();
         }
-        return Result.failureOf(ResultCode.DELETE_VIDEO_FAILURE);
+        return Result.ofFail(ResultCode.DELETE_VIDEO_FAILURE);
     }
 
 

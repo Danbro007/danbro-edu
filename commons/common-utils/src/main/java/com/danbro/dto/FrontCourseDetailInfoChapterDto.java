@@ -1,4 +1,4 @@
-package com.danbro.edu.dto;
+package com.danbro.dto;
 
 import lombok.Data;
 

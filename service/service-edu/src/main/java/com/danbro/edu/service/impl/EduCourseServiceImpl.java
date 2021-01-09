@@ -1,15 +1,23 @@
 package com.danbro.edu.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.danbro.dto.CourseTopDto;
 import com.danbro.dto.EduCourseBasicInfoDto;
+import com.danbro.dto.FrontCourseDetailInfoDto;
 import com.danbro.edu.dto.*;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduCourseDescription;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.mapper.EduCourseMapper;
-import com.danbro.edu.service.*;
+import com.danbro.edu.service.EduChapterService;
+import com.danbro.edu.service.EduCourseDescriptionService;
+import com.danbro.edu.service.EduCourseService;
+import com.danbro.edu.service.EduTeacherService;
+import com.danbro.edu.service.EduVideoService;
 import com.danbro.edu.utils.SortType;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
@@ -20,8 +28,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 /**
  * 课程(EduCourse)表服务实现类
@@ -42,16 +48,16 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     EduTeacherService eduTeacherService;
 
     @Override
-    public EduCourse insert(EduCourseInsertDto eduCourseInsertDto) {
+    public EduCourse insert(InPutEduCourseInsertDto inPutEduCourseInsertDto) {
         EduCourse eduCourse = new EduCourse();
         EduCourseDescription eduCourseDescription = new EduCourseDescription();
-        BeanUtils.copyProperties(eduCourseInsertDto, eduCourse);
+        BeanUtils.copyProperties(inPutEduCourseInsertDto, eduCourse);
         boolean f = this.save(eduCourse);
         if (!f) {
             throw new MyCustomException(ResultCode.INSERT_COURSE_FAILURE);
         }
         eduCourseDescription.
-                setDescription(eduCourseInsertDto.getDescription()).
+                setDescription(inPutEduCourseInsertDto.getDescription()).
                 setId(eduCourse.getId());
         boolean b = eduCourseDescriptionService.save(eduCourseDescription);
         if (!b) {
@@ -76,13 +82,13 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
     @Override
-    public Boolean updateCourseInfo(EduCourseInsertDto eduCourseInsertDto) {
+    public Boolean updateCourseInfo(InPutEduCourseInsertDto inPutEduCourseInsertDto) {
         try {
             EduCourse eduCourse = new EduCourse();
-            BeanUtils.copyProperties(eduCourseInsertDto, eduCourse);
+            BeanUtils.copyProperties(inPutEduCourseInsertDto, eduCourse);
             this.updateById(eduCourse);
             EduCourseDescription courseDescription = new EduCourseDescription();
-            BeanUtils.copyProperties(eduCourseInsertDto, courseDescription);
+            BeanUtils.copyProperties(inPutEduCourseInsertDto, courseDescription);
             eduCourseDescriptionService.updateById(courseDescription);
         } catch (BeansException e) {
             return false;
@@ -92,7 +98,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
 
     @Override
-    public EduCoursePublishDto getCourseInfoForPublish(String courseId) {
+    public OutPutEduCoursePublishDto getCourseInfoForPublish(String courseId) {
         return baseMapper.getCourseInfoForPublish(courseId);
     }
 
@@ -127,15 +133,21 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Cacheable(value = "course", key = "'top-course-list'")
     @Override
-    public List<EduCourse> getTopCourseList(String limit) {
+    public List<CourseTopDto> getTopCourseList(String limit) {
         QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("view_count");
         queryWrapper.last(String.format("limit %s", limit));
-        return this.list(queryWrapper);
+        List<CourseTopDto> topDtos = new ArrayList<>();
+        this.list(queryWrapper).forEach(e -> {
+            CourseTopDto topDto = new CourseTopDto();
+            BeanUtils.copyProperties(e, topDto);
+            topDtos.add(topDto);
+        });
+        return topDtos;
     }
 
     @Override
-    public FrontCourseConditionPagingResultDto pagingFindCourseByCondition(Long current, Long limit, FrontCourseConditionPagingDto dto) {
+    public FrontPagingDto<EduCourse> pagingFindCourseByCondition(Long current, Long limit, FrontCourseConditionPagingDto dto) {
         Page<EduCourse> page = new Page<>(current, limit);
         QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(dto.getSubjectParentId())) {
@@ -152,14 +164,14 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             }
         }
         this.page(page, queryWrapper);
-        return FrontCourseConditionPagingResultDto.builder().
-                pages(page.getPages()).
-                current(page.getCurrent()).
-                size(page.getSize()).
-                hasPrevious(page.hasPrevious()).
-                hasNext(page.hasNext()).
-                items(page.getRecords()).
-                total(page.getTotal()).build();
+        return new FrontPagingDto<EduCourse>().
+                setPages(page.getPages()).
+                setCurrent(page.getCurrent()).
+                setSize(page.getSize()).
+                setHasPrevious(page.hasPrevious()).
+                setHasNext(page.hasNext()).
+                setItems(page.getRecords()).
+                setTotal(page.getTotal());
     }
 
     @Override

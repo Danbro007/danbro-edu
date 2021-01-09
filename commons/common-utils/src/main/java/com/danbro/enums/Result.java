@@ -1,13 +1,14 @@
 package com.danbro.enums;
 
+import java.io.Serializable;
+import java.util.List;
 import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
-import java.util.HashMap;
+import org.springframework.validation.ObjectError;
 
 /**
  * @Classname Result
@@ -16,32 +17,28 @@ import java.util.HashMap;
  * @Author Danrbo
  */
 @Data
-@NoArgsConstructor
 @Accessors(chain = true)
-public class Result implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Result<R> implements Serializable {
     @ApiModelProperty("状态码")
     private Integer code;
     @ApiModelProperty("响应消息")
     private String message;
     @ApiModelProperty("响应的数据")
-    private HashMap<String, Object> data;
+    private R data;
+    @ApiModelProperty("校验数据错误列表")
+    private List<ObjectError> errors;
     @ApiModelProperty("请求是否成功")
-    private Boolean isSuccess;
+    private Boolean isSuccess = false;
 
     private Result(ResultCode resultCode) {
         this.code = resultCode.getCode();
         this.message = resultCode.getMessage();
     }
 
-    public Result setDataChain(String key, Object value) {
-        if (this.data == null) {
-            this.data = new HashMap<>(16);
-        }
-        this.data.put(key, value);
-        return this;
-    }
 
-    private Result(ResultCode resultCode, HashMap<String, Object> data) {
+    private Result(ResultCode resultCode, R data) {
         this.code = resultCode.getCode();
         this.message = resultCode.getMessage();
         this.data = data;
@@ -51,6 +48,7 @@ public class Result implements Serializable {
     private Result(MyCustomException customException) {
         this.code = customException.getCode();
         this.message = customException.getMessage();
+        this.errors = customException.getErrors();
     }
 
     /**
@@ -58,8 +56,8 @@ public class Result implements Serializable {
      *
      * @return 成功的结果
      */
-    public static Result successOf() {
-        Result result = new Result(ResultCode.SUCCESS);
+    public static <R> Result<R> ofSuccess() {
+        Result<R> result = new Result<>(ResultCode.SUCCESS);
         result.setIsSuccess(true);
         return result;
     }
@@ -69,10 +67,8 @@ public class Result implements Serializable {
      *
      * @return 失败的结果
      */
-    public static Result failureOf(ResultCode resultCode) {
-        Result result = new Result(resultCode);
-        result.setIsSuccess(false);
-        return result;
+    public static <R> Result<R> ofFail(ResultCode resultCode) {
+        return new Result<>(resultCode);
     }
 
     /**
@@ -80,27 +76,23 @@ public class Result implements Serializable {
      *
      * @return 成功的结果
      */
-    public static Result successOf(HashMap<String, Object> data) {
-        Result result = new Result(ResultCode.SUCCESS, data);
+    public static <R> Result<R> ofSuccess(R data) {
+        Result<R> result = new Result<>(ResultCode.SUCCESS, data);
         result.setIsSuccess(true);
         return result;
     }
 
-    public static Result successOf(String key, Object value) {
-        Result result = new Result(ResultCode.SUCCESS).setDataChain(key, value);
-        result.setIsSuccess(true);
-        return result;
+    public static <R> Result<R> ofFail(ResultCode resultCode, R data) {
+        return new Result<>(resultCode, data);
     }
 
-    public static Result failureOf(ResultCode resultCode, String key, Object value) {
-        Result result = new Result(resultCode).setDataChain(key, value);
-        result.setIsSuccess(false);
-        return result;
+    public static <R> Result<R> ofFail(MyCustomException exception) {
+        return new Result<>(exception);
     }
 
-    public static Result failureOf(MyCustomException exception) {
-        Result result = new Result(exception);
-        result.setIsSuccess(false);
+    public static <R> Result<R> ofFail(MyCustomException exception, List<ObjectError> errors) {
+        Result<R> result = new Result<>(exception);
+        result.setErrors(errors);
         return result;
     }
 }

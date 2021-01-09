@@ -1,12 +1,17 @@
 package com.danbro.edu.service;
 
+import java.util.List;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.danbro.dto.CourseTopDto;
 import com.danbro.dto.EduCourseBasicInfoDto;
-import com.danbro.edu.dto.*;
+import com.danbro.edu.dto.InPutEduCourseInsertDto;
+import com.danbro.edu.dto.OutPutEduCoursePublishDto;
+import com.danbro.edu.dto.FrontCourseConditionPagingDto;
+import com.danbro.dto.FrontCourseDetailInfoDto;
+import com.danbro.edu.dto.FrontPagingDto;
+import com.danbro.edu.dto.SearchCourseConditionDto;
 import com.danbro.edu.entity.EduCourse;
-
-import java.util.List;
 
 /**
  * 课程(EduCourse)表服务接口
@@ -18,10 +23,10 @@ public interface EduCourseService extends IService<EduCourse> {
     /**
      * 添加课程
      *
-     * @param eduCourseInsertDto 课程参数
+     * @param inPutEduCourseInsertDto 课程参数
      * @return
      */
-    EduCourse insert(EduCourseInsertDto eduCourseInsertDto);
+    EduCourse insert(InPutEduCourseInsertDto inPutEduCourseInsertDto);
 
     /**
      * 根据 courseId 获取课程基本信息（不包括课程里的章节和小节）
@@ -34,10 +39,10 @@ public interface EduCourseService extends IService<EduCourse> {
     /**
      * 更新课程
      *
-     * @param eduCourseInsertDto 课程信息
+     * @param inPutEduCourseInsertDto 课程信息
      * @return 更新结果
      */
-    Boolean updateCourseInfo(EduCourseInsertDto eduCourseInsertDto);
+    Boolean updateCourseInfo(InPutEduCourseInsertDto inPutEduCourseInsertDto);
 
     /**
      * 根据课程Id获取要发布的课程信息
@@ -45,7 +50,7 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param courseId 课程Id
      * @return 要发布的课程信息
      */
-    EduCoursePublishDto getCourseInfoForPublish(String courseId);
+    OutPutEduCoursePublishDto getCourseInfoForPublish(String courseId);
 
     /**
      * 分页查询课程带有查询条件
@@ -71,7 +76,7 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param limit 个数
      * @return 课程列表
      */
-    List<EduCourse> getTopCourseList(String limit);
+    List<CourseTopDto> getTopCourseList(String limit);
 
     /**
      * @param current
@@ -79,7 +84,7 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param dto
      * @return
      */
-    FrontCourseConditionPagingResultDto pagingFindCourseByCondition(Long current, Long limit, FrontCourseConditionPagingDto dto);
+    FrontPagingDto<EduCourse> pagingFindCourseByCondition(Long current, Long limit, FrontCourseConditionPagingDto dto);
 
     /**
      * 通过课程ID获取所有相关的章节和小节

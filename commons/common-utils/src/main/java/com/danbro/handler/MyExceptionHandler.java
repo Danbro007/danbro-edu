@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @ControllerAdvice
 public class MyExceptionHandler {
+
+
     @ResponseBody
     @ExceptionHandler(MyCustomException.class)
     public Result myCustomException(MyCustomException e) {
         log.error(e.getMessage());
-        return Result.failureOf(e);
+        return Result.ofFail(e);
     }
 
 }

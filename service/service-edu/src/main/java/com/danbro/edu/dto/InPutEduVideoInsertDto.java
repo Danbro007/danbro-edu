@@ -9,7 +9,7 @@ import lombok.Data;
  * @Author Danrbo
  */
 @Data
-public class EduVideoInsertInPutDto {
+public class InPutEduVideoInsertDto {
     /**
      * 课程ID
      */

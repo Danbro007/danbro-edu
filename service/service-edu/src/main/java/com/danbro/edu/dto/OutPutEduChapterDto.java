@@ -1,24 +1,21 @@
 package com.danbro.edu.dto;
 
-import com.danbro.edu.entity.EduChapter;
-import com.danbro.edu.entity.EduVideo;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @Classname EduChapterListDto
- * @Description TODO
+ * @Description TODO 展示给后台用户章节及所有小节的返回数据
  * @Date 2020/12/23 15:13
  * @Author Danrbo
  */
 @Data
 @Accessors(chain = true)
-public class EduChapterOutPutDto {
+public class OutPutEduChapterDto {
     private String label;
     private String id;
     private Integer sort;
-    private List<EduVideoOutPutDto> children = new ArrayList<>();
+    private List<OutPutEduVideoDto> children = new ArrayList<>();
 }

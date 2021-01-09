@@ -1,9 +1,8 @@
 package com.danbro.edu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.edu.dto.EduChapterDeleteInPutDto;
-import com.danbro.edu.dto.EduChapterInsertInPutDto;
-import com.danbro.edu.dto.EduChapterOutPutDto;
+import com.danbro.edu.dto.InPutEduChapterInsertDto;
+import com.danbro.edu.dto.OutPutEduChapterDto;
 import com.danbro.edu.entity.EduChapter;
 
 import java.util.List;
@@ -21,9 +20,9 @@ public interface EduChapterService extends IService<EduChapter> {
      * @param courseId 课程Id
      * @return 课程大纲
      */
-    List<EduChapterOutPutDto> findAllByCourseId(String courseId);
+    List<OutPutEduChapterDto> findAllByCourseId(String courseId);
 
-    Boolean insert(EduChapterInsertInPutDto eduChapterInsertInPutDto);
+    Boolean insert(InPutEduChapterInsertDto inPutEduChapterInsertDto);
 
     boolean removeChapterAndVideo(String chapterId);
 

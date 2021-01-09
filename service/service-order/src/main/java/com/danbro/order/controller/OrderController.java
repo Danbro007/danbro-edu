@@ -1,5 +1,7 @@
 package com.danbro.order.controller;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import com.danbro.dto.EduCourseBasicInfoDto;
 import com.danbro.dto.UcenterMemberInfoDto;
 import com.danbro.enums.Result;
@@ -9,12 +11,12 @@ import com.danbro.order.rpcClient.CourseClient;
 import com.danbro.order.rpcClient.UserClient;
 import com.danbro.order.service.TOrderService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 订单(TOrder)表控制层
@@ -47,10 +49,10 @@ public class OrderController {
 //        }
 //        Result userInfoResult = userClient.getUserInfo(userInfoDto.getId());
         UcenterMemberInfoDto userInfo = userClient.getUserInfo("1346732034546044929");
-        EduCourseBasicInfoDto courseBasicInfo = courseClient.getCourseBasicInfo(courseId);
-        Boolean b = tOrderService.insertOrder(userInfo, courseBasicInfo);
+        Result<EduCourseBasicInfoDto> courseBasicInfo = courseClient.getCourseBasicInfo(courseId);
+        Boolean b = tOrderService.insertOrder(userInfo, courseBasicInfo.getData());
         if (b) {
-            return Result.successOf();
+            return Result.ofSuccess();
         }
         throw new MyCustomException(ResultCode.INSERT_ORDER_FAILURE);
 

@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Builder
-public class FrontInsertCourseCommentDto {
+public class FrontInPutCommentInsertDto {
     private String courseId;
     private String content;
     private String teacherId;

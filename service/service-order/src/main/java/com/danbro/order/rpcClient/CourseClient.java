@@ -19,5 +19,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CourseClient {
 
     @GetMapping("edu/course/info/{courseId}")
-    EduCourseBasicInfoDto getCourseBasicInfo(@PathVariable String courseId);
+    Result<EduCourseBasicInfoDto> getCourseBasicInfo(@PathVariable String courseId);
 }

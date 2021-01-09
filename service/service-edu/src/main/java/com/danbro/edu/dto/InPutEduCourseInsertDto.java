@@ -1,21 +1,23 @@
 package com.danbro.edu.dto;
 
+import java.math.BigDecimal;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.*;
-import java.math.BigDecimal;
-
 /**
  * @Classname CourseInputDto
- * @Description TODO 课程添加的提交参数
+ * @Description TODO 后台用户添加课程的参数
  * @Date 2020/12/20 19:48
  * @Author Danrbo
  */
 @Data
 @ApiModel("课程提交参数")
-public class EduCourseInsertDto {
+public class InPutEduCourseInsertDto {
     @NotBlank(message = "讲师ID不能为空！")
     @ApiModelProperty("课程讲师ID")
     private String teacherId;
@@ -25,17 +27,17 @@ public class EduCourseInsertDto {
     private String subjectId;
 
     @NotBlank(message = "课程标题不能为空！")
-    @Size(max = 20,message = "课程标题不能超过 20 个字！")
+    @Size(max = 20, message = "课程标题不能超过 20 个字！")
     @ApiModelProperty("课程标题")
     private String title;
 
     @NotNull(message = "课程价格不能为空！")
-    @Min(value = 0,message = "课程价格不能小于 0 元！")
+    @Min(value = 0, message = "课程价格不能小于 0 元！")
     @ApiModelProperty("课程价格，设置0表示免费。")
     private BigDecimal price;
 
     @NotNull(message = "课程总课时不能为空！")
-    @Min(value = 1,message = "课程总课时要大于 0 ！")
+    @Min(value = 1, message = "课程总课时要大于 0 ！")
     @ApiModelProperty("课程总课时")
     private Integer lessonNum;
 

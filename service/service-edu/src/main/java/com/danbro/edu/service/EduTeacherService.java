@@ -1,13 +1,13 @@
 package com.danbro.edu.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
-import com.danbro.edu.dto.FrontPagingFindTeacherResultDto;
-import com.danbro.edu.entity.EduTeacher;
-import com.danbro.edu.dto.FrontTeacherQueryDto;
-import com.danbro.enums.Result;
-
 import java.util.List;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.danbro.dto.TeacherTopDto;
+import com.danbro.edu.dto.FrontPagingDto;
+import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
+import com.danbro.edu.dto.FrontTeacherQueryDto;
+import com.danbro.edu.entity.EduTeacher;
 
 /**
  * @Classname EduTeacherService
@@ -16,11 +16,11 @@ import java.util.List;
  * @Author Danrbo
  */
 public interface EduTeacherService extends IService<EduTeacher> {
-    Result pagingFindTeacherByCondition(Integer current, Integer limit, FrontTeacherQueryDto frontTeacherQueryDto);
+    Page<EduTeacher> pagingFindTeacherByCondition(Integer current, Integer limit, FrontTeacherQueryDto frontTeacherQueryDto);
 
-    List<EduTeacher> getTopTeacherList(String limit);
+    List<TeacherTopDto> getTopTeacherList(String limit);
 
-    FrontPagingFindTeacherResultDto pagingFindTeacher(Integer current, Integer limit);
+    FrontPagingDto<EduTeacher> pagingFindTeacher(Integer current, Integer limit);
 
     FrontTeacherInfoQueryDto getTeacherInfoById(String id);
 }

@@ -2,9 +2,9 @@ package com.danbro.edu.controller.front;
 
 import java.util.List;
 import javax.annotation.Resource;
-
+import com.danbro.dto.TeacherTopDto;
+import com.danbro.edu.dto.FrontPagingDto;
 import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
-import com.danbro.edu.dto.FrontPagingFindTeacherResultDto;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.service.EduTeacherService;
 import com.danbro.enums.Result;
@@ -31,25 +31,25 @@ public class FrontTeacherController {
 
     @ApiOperation("获取等级排名为前 limit 名的讲师信息")
     @GetMapping("teacher/top/{limit}")
-    public Result getTopTeacherList(@PathVariable String limit) {
+    public Result<List<TeacherTopDto>> getTopTeacherList(@PathVariable String limit) {
 
-        List<EduTeacher> topTeacherList = eduTeacherService.getTopTeacherList(limit);
-        return Result.successOf("teacherList", topTeacherList);
+        List<TeacherTopDto> topTeacherList = eduTeacherService.getTopTeacherList(limit);
+        return Result.ofSuccess(topTeacherList);
     }
 
     @ApiOperation("分页查询讲师")
     @GetMapping("teacher/{current}/{limit}")
-    public Result pagingFind(@ApiParam(name = "current", value = "当前页数", example = "1") @PathVariable Integer current,
-                             @ApiParam(name = "limit", value = "当前页显示记录数", example = "10") @PathVariable Integer limit) {
-        FrontPagingFindTeacherResultDto frontPagingFindTeacherResultDto = eduTeacherService.pagingFindTeacher(current, limit);
-        return Result.successOf("data", frontPagingFindTeacherResultDto);
+    public Result<FrontPagingDto<EduTeacher>> pagingFind(@ApiParam(name = "current", value = "当前页数", example = "1") @PathVariable Integer current,
+                                                         @ApiParam(name = "limit", value = "当前页显示记录数", example = "10") @PathVariable Integer limit) {
+        FrontPagingDto<EduTeacher> frontPagingDto = eduTeacherService.pagingFindTeacher(current, limit);
+        return Result.ofSuccess(frontPagingDto);
     }
 
     @ApiOperation("获取讲师信息")
     @GetMapping("teacher/{id}")
-    public Result getTeacherInfo(@PathVariable String id) {
+    public Result<FrontTeacherInfoQueryDto> getTeacherInfo(@PathVariable String id) {
         FrontTeacherInfoQueryDto teacherInfo = eduTeacherService.getTeacherInfoById(id);
-        return Result.successOf("teacherInfo", teacherInfo);
+        return Result.ofSuccess(teacherInfo);
     }
 
 }

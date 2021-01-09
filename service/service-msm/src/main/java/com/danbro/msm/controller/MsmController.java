@@ -1,5 +1,9 @@
 package com.danbro.msm.controller;
 
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.Resource;
+import javax.validation.Valid;
 import com.aliyuncs.exceptions.ClientException;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
@@ -12,12 +16,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Classname MsmController
@@ -40,10 +43,10 @@ public class MsmController {
     @PostMapping("captcha")
     public Result sendMessage(@Valid @RequestBody PhoneNumDto phoneNumDto, BindingResult result) {
         if (result.hasErrors()) {
-            return Result.failureOf(ResultCode.FAILURE, "errors", result.getAllErrors());
+            throw new MyCustomException(ResultCode.PARAMS_ERROR, result.getAllErrors());
         }
         if (!StringUtils.isEmpty(redisTemplate.opsForValue().get(phoneNumDto.getMobile()))) {
-            return Result.successOf();
+            return Result.ofSuccess();
         }
         HashMap<String, String> data = new HashMap<>(16);
         data.put("code", RandomUtil.getFourBitRandom());
@@ -52,7 +55,7 @@ public class MsmController {
             Boolean isSuccess = msmService.sendMessage(phoneNumDto.getMobile(), data);
             if (isSuccess) {
                 redisTemplate.opsForValue().set(phoneNumDto.getMobile(), data.get("code"), 2, TimeUnit.MINUTES);
-                return Result.successOf();
+                return Result.ofSuccess();
             }
             throw new MyCustomException(ResultCode.SEND_MESSAGE_FAILURE);
         } catch (ClientException e) {

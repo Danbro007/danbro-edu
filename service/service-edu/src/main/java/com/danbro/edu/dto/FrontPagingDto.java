@@ -1,25 +1,32 @@
 package com.danbro.edu.dto;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * @Classname FrontCourseCommentDto
- * @Description TODO 返回给前台用户的课程评论分页类
- * @Date 2021/1/7 21:01
- * @Created by Administrator
+ * @Classname FrontPagingDto
+ * @Description TODO 用户在前台分页查询 R 列表的结果
+ * @Date 2020/12/15 11:35
+ * @Author Danrbo
  */
-@Data
 @Accessors(chain = true)
+@Data
 @Builder
-public class FrontCourseCommentPagingDto {
-    private List<FrontCourseCommentDto> items;
+@NoArgsConstructor
+@AllArgsConstructor
+public class FrontPagingDto<R> {
+    private List<R> items;
     private Long current;
     private Long pages;
     private Long size;
     private Long total;
     private Boolean hasNext;
     private Boolean hasPrevious;
+
+
+
 }

@@ -9,7 +9,7 @@ import lombok.Data;
  * @Author Danrbo
  */
 @Data
-public class EduVideoUpdateInPutDto {
+public class InPutEduVideoUpdateDto {
     private String id;
     /**
      * 节点名称

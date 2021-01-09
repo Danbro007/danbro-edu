@@ -4,12 +4,12 @@ import lombok.Data;
 
 /**
  * @Classname EduChapterInPutDto
- * @Description TODO
+ * @Description TODO 添加章节的输入参数
  * @Date 2020/12/28 16:27
  * @Author Danrbo
  */
 @Data
-public class EduChapterInsertInPutDto {
+public class InPutEduChapterInsertDto {
     private String courseId;
     private String title;
     private Integer sort;

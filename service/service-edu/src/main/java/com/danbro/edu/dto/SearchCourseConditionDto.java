@@ -10,6 +10,12 @@ import lombok.Data;
  */
 @Data
 public class SearchCourseConditionDto {
+    /**
+     * 课程名
+     */
     private String title;
+    /**
+     * 课程状态
+     */
     private String status;
 }

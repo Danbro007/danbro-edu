@@ -15,7 +15,6 @@ import com.danbro.user.center.entity.UcenterMember;
 import com.danbro.user.center.service.UcenterMemberService;
 import com.danbro.utils.JwtUtils;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -35,46 +34,46 @@ public class UserCenterController {
 
     @ApiOperation("用户登录")
     @PostMapping("login")
-    public Result login(@RequestBody UserLoginDto user, BindingResult result) {
+    public Result<String> login(@RequestBody UserLoginDto user, BindingResult result) {
         if (result.hasErrors()) {
-            return Result.failureOf(ResultCode.FAILURE, "errors", result.getAllErrors());
+            throw new MyCustomException(ResultCode.PARAMS_ERROR, result.getAllErrors());
         }
         String token = ucenterMemberService.login(user);
-        return Result.successOf("token", token);
+        return Result.ofSuccess(token);
     }
 
     @ApiOperation("用户注册")
     @PostMapping("register")
     public Result register(@RequestBody UserRegisterDto user, BindingResult result) {
         if (result.hasErrors()) {
-            return Result.failureOf(ResultCode.FAILURE, "errors", result.getAllErrors());
+            throw new MyCustomException(ResultCode.PARAMS_ERROR, result.getAllErrors());
         }
         if (ucenterMemberService.register(user)) {
-            return Result.successOf();
+            return Result.ofSuccess();
         } else {
-            return Result.failureOf(ResultCode.RESISTER_FAILURE);
+            return Result.ofFail(ResultCode.RESISTER_FAILURE);
         }
     }
 
     @ApiOperation("根据token获取用户信息")
     @GetMapping("info")
-    public Result getUserInfo(HttpServletRequest request) {
-        UserInfoDto userInfoDto = JwtUtils.getMemberIdByJwtToken(request);
-        if (userInfoDto == null) {
+    public Result<UserInfoDto> getUserInfo(HttpServletRequest request) {
+        UserInfoDto userInfo = JwtUtils.getMemberIdByJwtToken(request);
+        if (userInfo == null) {
             throw new MyCustomException(ResultCode.USER_NOT_EXIST);
         }
-        return Result.successOf("userInfo", userInfoDto);
+        return Result.ofSuccess(userInfo);
     }
 
     @ApiOperation("根据用户ID获取用户信息")
     @GetMapping("info/{userId}")
-    public UcenterMemberInfoDto getUserInfo(@PathVariable String userId) {
+    public Result<UcenterMemberInfoDto> getUserInfo(@PathVariable String userId) {
         UcenterMember member = ucenterMemberService.getById(userId);
         UcenterMemberInfoDto memberInfoDto = new UcenterMemberInfoDto();
         if (member == null) {
             throw new MyCustomException(ResultCode.USER_NOT_EXIST);
         }
         BeanUtils.copyProperties(member, memberInfoDto);
-        return memberInfoDto;
+        return Result.ofSuccess(memberInfoDto);
     }
 }

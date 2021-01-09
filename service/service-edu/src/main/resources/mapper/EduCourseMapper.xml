@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.danbro.edu.mapper.EduCourseMapper">
-    <select id="getCourseInfoForPublish" resultType="com.danbro.edu.dto.EduCoursePublishDto">
+    <select id="getCourseInfoForPublish" resultType="com.danbro.edu.dto.OutPutEduCoursePublishDto">
         SELECT ec.id           AS id,
                ec.title        AS title,
                ec.price        AS price,
@@ -19,7 +19,7 @@
         WHERE ec.id = #{id}
     </select>
 
-    <resultMap id="courseDetailInfoMap" type="com.danbro.edu.dto.FrontCourseDetailInfoDto">
+    <resultMap id="courseDetailInfoMap" type="com.danbro.dto.FrontCourseDetailInfoDto">
         <id property="courseId" column="courseId"/>
         <result property="courseCover" column="courseCover"/>
         <result property="buyCount" column="buyCount"/>
@@ -34,10 +34,10 @@
         <result property="teacherId" column="teacherId"/>
         <result property="teacherIntro" column="teacherIntro"/>
         <result property="teacherAvatar" column="teacherAvatar"/>
-        <collection property="chapterList" ofType="com.danbro.edu.dto.FrontCourseDetailInfoChapterDto">
+        <collection property="chapterList" ofType="com.danbro.dto.FrontCourseDetailInfoChapterDto">
             <id property="chapterId" column="chapterId"/>
             <result property="chapterTitle" column="chapterTitle"/>
-            <collection property="videoList" ofType="com.danbro.edu.dto.FrontCourseDetailInfoVideoDto">
+            <collection property="videoList" ofType="com.danbro.dto.FrontCourseDetailInfoVideoDto">
                 <id property="videoId" column="videoId"/>
                 <result property="isFree" column="isFree"/>
                 <result property="videoSourceId" column="videoSourceId"/>

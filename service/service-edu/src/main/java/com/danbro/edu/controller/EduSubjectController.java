@@ -1,16 +1,20 @@
 package com.danbro.edu.controller;
 
-import com.danbro.edu.dto.FirstSubjectDto;
+import java.util.List;
+import javax.annotation.Resource;
+import com.danbro.edu.dto.OutPutFirstSubjectDto;
 import com.danbro.edu.service.EduSubjectService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 课程科目(EduSubject)表控制层
@@ -36,13 +40,13 @@ public class EduSubjectController {
         } catch (Exception e) {
             throw new MyCustomException(ResultCode.SUBJECT_UPLOAD_FAILURE);
         }
-        return Result.successOf();
+        return Result.ofSuccess();
     }
 
     @ApiOperation("获取课程列表并且按照级别分类")
     @GetMapping("subject")
-    public Result getAllSubject() {
-        List<FirstSubjectDto> subject = eduSubjectService.getAllSubject();
-        return Result.successOf("subSubjectList", subject);
+    public Result<List<OutPutFirstSubjectDto>> getAllSubject() {
+        List<OutPutFirstSubjectDto> subjectList = eduSubjectService.getAllSubject();
+        return Result.ofSuccess(subjectList);
     }
 }

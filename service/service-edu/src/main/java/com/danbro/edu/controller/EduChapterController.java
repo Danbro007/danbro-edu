@@ -1,9 +1,10 @@
 package com.danbro.edu.controller;
 
-import com.danbro.edu.dto.EduChapterDeleteInPutDto;
-import com.danbro.edu.dto.EduChapterInsertInPutDto;
-import com.danbro.edu.dto.EduChapterOutPutDto;
-import com.danbro.edu.dto.EduChapterUpdateInPutDto;
+import java.util.List;
+import javax.annotation.Resource;
+import com.danbro.edu.dto.InPutEduChapterInsertDto;
+import com.danbro.edu.dto.OutPutEduChapterDto;
+import com.danbro.edu.dto.InPutEduChapterUpdateDto;
 import com.danbro.edu.entity.EduChapter;
 import com.danbro.edu.service.EduChapterService;
 import com.danbro.enums.Result;
@@ -11,9 +12,6 @@ import com.danbro.enums.ResultCode;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 课程(EduChapter)表控制层
@@ -39,25 +37,25 @@ public class EduChapterController {
      */
     @ApiOperation("返回章节列表")
     @GetMapping("chapter/{courseId}")
-    public Result getChapter(@PathVariable String courseId) {
-        List<EduChapterOutPutDto> chapterOutPut = eduChapterService.findAllByCourseId(courseId);
-        return Result.successOf("chapters", chapterOutPut);
+    public Result<List<OutPutEduChapterDto>> getChapter(@PathVariable String courseId) {
+        List<OutPutEduChapterDto> chapterOutPut = eduChapterService.findAllByCourseId(courseId);
+        return Result.ofSuccess(chapterOutPut);
     }
 
     /**
      * 添加章节
      *
-     * @param eduChapterInsertInPutDto 要添加的章节参数
+     * @param inPutEduChapterInsertDto 要添加的章节参数
      * @return 添加结果
      */
     @ApiOperation("添加章节")
     @PostMapping("chapter")
-    public Result insertChapter(@RequestBody EduChapterInsertInPutDto eduChapterInsertInPutDto) {
-        Boolean flag = eduChapterService.insert(eduChapterInsertInPutDto);
+    public Result insertChapter(@RequestBody InPutEduChapterInsertDto inPutEduChapterInsertDto) {
+        Boolean flag = eduChapterService.insert(inPutEduChapterInsertDto);
         if (flag) {
-            return Result.successOf();
+            return Result.ofSuccess();
         }
-        return Result.failureOf(ResultCode.FAILURE);
+        return Result.ofFail(ResultCode.FAILURE);
     }
 
     /**
@@ -71,25 +69,25 @@ public class EduChapterController {
     public Result deleteChapter(@PathVariable String chapterId) {
         boolean b = eduChapterService.removeChapterAndVideo(chapterId);
         if (b) {
-            return Result.successOf();
+            return Result.ofSuccess();
         }
-        return Result.failureOf(ResultCode.DELETE_CHAPTER_FAILURE);
+        return Result.ofFail(ResultCode.DELETE_CHAPTER_FAILURE);
     }
 
     /**
      * 通过 eduChapter 更新章节
      *
-     * @param eduChapterUpdateInPutDto 要更新chapter参数
+     * @param inPutEduChapterUpdateDto 要更新chapter参数
      * @return 更新结果
      */
     @ApiOperation("修改章节")
     @PutMapping("chapter")
-    public Result updateChapter(@RequestBody EduChapterUpdateInPutDto eduChapterUpdateInPutDto) {
+    public Result updateChapter(@RequestBody InPutEduChapterUpdateDto inPutEduChapterUpdateDto) {
         EduChapter eduChapter = new EduChapter();
-        BeanUtils.copyProperties(eduChapterUpdateInPutDto, eduChapter);
+        BeanUtils.copyProperties(inPutEduChapterUpdateDto, eduChapter);
         boolean b = eduChapterService.updateById(eduChapter);
-        if (b) return Result.successOf();
-        return Result.failureOf(ResultCode.UPDATE_CHAPTER_FAILURE);
+        if (b) return Result.ofSuccess();
+        return Result.ofFail(ResultCode.UPDATE_CHAPTER_FAILURE);
     }
 
 }
