@@ -1,6 +1,10 @@
 package com.danbro.order.dto;
 
+import com.danbro.impl.DtoConvert;
+import com.danbro.order.entity.TOrder;
+import com.google.common.base.Converter;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
 
@@ -11,7 +15,7 @@ import java.math.BigDecimal;
  * @Author Danrbo
  */
 @Data
-public class OutPutOrderInsertDto {
+public class OutPutOrderInsertDto implements DtoConvert<OutPutOrderInsertDto, TOrder> {
 
     private String id;
     private String orderNo;
@@ -25,4 +29,32 @@ public class OutPutOrderInsertDto {
     private BigDecimal totalFee;
     private Integer payType;
     private Boolean status;
+
+    @Override
+    public OutPutOrderInsertDto convertFrom(TOrder tOrder) {
+        TOrderDtoConvertor convertor = new TOrderDtoConvertor();
+        return convertor.doBackward(tOrder);
+    }
+
+    @Override
+    public TOrder convertTo() {
+        TOrderDtoConvertor convertor = new TOrderDtoConvertor();
+        return convertor.doForward(this);
+    }
+
+    private static class TOrderDtoConvertor extends Converter<OutPutOrderInsertDto, TOrder> {
+        @Override
+        protected TOrder doForward(OutPutOrderInsertDto outPutOrderInsertDto) {
+            TOrder order = new TOrder();
+            BeanUtils.copyProperties(outPutOrderInsertDto, order);
+            return order;
+        }
+
+        @Override
+        protected OutPutOrderInsertDto doBackward(TOrder tOrder) {
+            OutPutOrderInsertDto outPutOrderInsertDto = new OutPutOrderInsertDto();
+            BeanUtils.copyProperties(tOrder, outPutOrderInsertDto);
+            return outPutOrderInsertDto;
+        }
+    }
 }

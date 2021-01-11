@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("edu/order")
+@RequestMapping("order")
 public class OrderController {
     /**
      * 服务对象
@@ -56,12 +56,13 @@ public class OrderController {
         return Result.ofSuccess(order);
     }
 
-    @ApiOperation("通过订单号查询订单支付状态")
-    @GetMapping("status/{orderNo}")
-    public Result<TOrder> getOrderStatusByOrderNo(@PathVariable String orderNo) {
+    @ApiOperation("通过订单编号查询订单信息")
+    @GetMapping("info/{orderNo}")
+    public Result<OutPutOrderInsertDto> getOrderStatusByOrderNo(@PathVariable String orderNo) {
         QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("order_no", orderNo);
         TOrder order = tOrderService.getOne(queryWrapper);
-        return Result.ofSuccess(order);
+        OutPutOrderInsertDto outPutOrderInsertDto = new OutPutOrderInsertDto();
+        return Result.ofSuccess(outPutOrderInsertDto.convertFrom(order));
     }
 }
