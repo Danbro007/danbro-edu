@@ -1,13 +1,18 @@
 package com.danbro.order.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.experimental.Accessors;
-
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 支付日志表(TPayLog)实体类
@@ -17,6 +22,8 @@ import java.io.Serializable;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
 public class TPayLog implements Serializable {
 

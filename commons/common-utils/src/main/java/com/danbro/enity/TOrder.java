@@ -1,15 +1,18 @@
-package com.danbro.order.entity;
+package com.danbro.enity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.io.Serializable;
 
 /**
  * 订单(TOrder)实体类

@@ -2,14 +2,20 @@ package com.danbro.edu.controller.front;
 
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import com.danbro.dto.CourseTopDto;
+import com.danbro.dto.OrderDto;
+import com.danbro.dto.UserInfoDto;
 import com.danbro.edu.dto.FrontCourseConditionPagingDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
 import com.danbro.edu.dto.FrontPagingDto;
 import com.danbro.edu.entity.EduCourse;
+import com.danbro.edu.rpcClient.OrderClient;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.enums.Result;
+import com.danbro.utils.JwtUtils;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -24,6 +30,10 @@ import org.springframework.web.bind.annotation.*;
 public class FrontCourseController {
     @Resource
     EduCourseService eduCourseService;
+
+
+    @Autowired
+    OrderClient orderClient;
 
     @ApiOperation("获取观看课程前 limit 名的课程信息")
     @GetMapping("top/{limit}")
@@ -46,5 +56,13 @@ public class FrontCourseController {
     public Result<FrontCourseDetailInfoDto> getCourseAllInfo(@PathVariable String courseId) {
         FrontCourseDetailInfoDto courseDetailInfo = eduCourseService.getCourseDetailInfo(courseId);
         return Result.ofSuccess(courseDetailInfo);
+    }
+
+    @ApiOperation("通过课程ID和用户Id查询订单信息")
+    @GetMapping("order/{courseId}")
+    public Result<OrderDto> getCourseOrderInfo(@PathVariable String courseId,
+                                               HttpServletRequest request) {
+        UserInfoDto userInfoDto = JwtUtils.getMemberIdByJwtToken(request);
+        return orderClient.getOrderInfoByCourseId(userInfoDto.getId(), courseId);
     }
 }

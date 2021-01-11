@@ -6,10 +6,10 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.danbro.enity.TOrder;
 import com.danbro.order.dto.WeChatPayInfo;
 import com.danbro.order.dto.WeChatPayReturnDto;
 import com.danbro.order.dto.WeChatPayStatusDto;
-import com.danbro.order.entity.TOrder;
 import com.danbro.order.entity.TPayLog;
 import com.danbro.order.mapper.TPayLogMapper;
 import com.danbro.order.service.TOrderService;
@@ -71,6 +71,7 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
         queryWrapper.eq("order_no", map.get("out_trade_no"));
         TOrder tOrder = tOrderService.getOne(queryWrapper);
         tOrder.setStatus(true);
+        tOrderService.updateById(tOrder);
         TPayLog log = TPayLog.builder()
                 .id(tOrder.getId())
                 .payType(tOrder.getPayType())

@@ -2,9 +2,9 @@ package com.danbro.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.dto.EduCourseBasicInfoDto;
+import com.danbro.dto.OrderDto;
 import com.danbro.dto.UcenterMemberInfoDto;
-import com.danbro.order.dto.OutPutOrderInsertDto;
-import com.danbro.order.entity.TOrder;
+import com.danbro.enity.TOrder;
 
 /**
  * 订单(TOrder)表服务接口
@@ -21,6 +21,6 @@ public interface TOrderService extends IService<TOrder> {
      * @param courseInfo 课程信息
      * @return 订单对象
      */
-    OutPutOrderInsertDto insertOrder(UcenterMemberInfoDto userInfo, EduCourseBasicInfoDto courseInfo);
+    OrderDto insertOrder(UcenterMemberInfoDto userInfo, EduCourseBasicInfoDto courseInfo);
 
 }

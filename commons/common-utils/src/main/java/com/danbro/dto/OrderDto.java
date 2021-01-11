@@ -1,12 +1,11 @@
-package com.danbro.order.dto;
+package com.danbro.dto;
 
+import java.math.BigDecimal;
+import com.danbro.enity.TOrder;
 import com.danbro.impl.DtoConvert;
-import com.danbro.order.entity.TOrder;
 import com.google.common.base.Converter;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-
-import java.math.BigDecimal;
 
 /**
  * @Classname OutPutOrderInsertDto
@@ -15,7 +14,7 @@ import java.math.BigDecimal;
  * @Author Danrbo
  */
 @Data
-public class OutPutOrderInsertDto implements DtoConvert<OutPutOrderInsertDto, TOrder> {
+public class OrderDto implements DtoConvert<OrderDto, TOrder> {
 
     private String id;
     private String orderNo;
@@ -31,7 +30,7 @@ public class OutPutOrderInsertDto implements DtoConvert<OutPutOrderInsertDto, TO
     private Boolean status;
 
     @Override
-    public OutPutOrderInsertDto convertFrom(TOrder tOrder) {
+    public OrderDto convertFrom(TOrder tOrder) {
         TOrderDtoConvertor convertor = new TOrderDtoConvertor();
         return convertor.doBackward(tOrder);
     }
@@ -42,19 +41,19 @@ public class OutPutOrderInsertDto implements DtoConvert<OutPutOrderInsertDto, TO
         return convertor.doForward(this);
     }
 
-    private static class TOrderDtoConvertor extends Converter<OutPutOrderInsertDto, TOrder> {
+    private static class TOrderDtoConvertor extends Converter<OrderDto, TOrder> {
         @Override
-        protected TOrder doForward(OutPutOrderInsertDto outPutOrderInsertDto) {
+        protected TOrder doForward(OrderDto orderDto) {
             TOrder order = new TOrder();
-            BeanUtils.copyProperties(outPutOrderInsertDto, order);
+            BeanUtils.copyProperties(orderDto, order);
             return order;
         }
 
         @Override
-        protected OutPutOrderInsertDto doBackward(TOrder tOrder) {
-            OutPutOrderInsertDto outPutOrderInsertDto = new OutPutOrderInsertDto();
-            BeanUtils.copyProperties(tOrder, outPutOrderInsertDto);
-            return outPutOrderInsertDto;
+        protected OrderDto doBackward(TOrder tOrder) {
+            OrderDto orderDto = new OrderDto();
+            BeanUtils.copyProperties(tOrder, orderDto);
+            return orderDto;
         }
     }
 }

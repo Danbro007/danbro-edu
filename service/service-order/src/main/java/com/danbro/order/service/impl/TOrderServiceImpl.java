@@ -2,16 +2,14 @@ package com.danbro.order.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.dto.EduCourseBasicInfoDto;
+import com.danbro.dto.OrderDto;
 import com.danbro.dto.UcenterMemberInfoDto;
-import com.danbro.order.dto.OutPutOrderInsertDto;
-import com.danbro.order.entity.TOrder;
-import com.danbro.order.entity.TPayLog;
+import com.danbro.enity.TOrder;
 import com.danbro.order.mapper.TOrderMapper;
 import com.danbro.order.service.TOrderService;
 import com.danbro.order.service.TPayLogService;
 import com.danbro.order.typeEnum.OrderStatus;
 import com.danbro.order.typeEnum.PayType;
-import com.danbro.order.typeEnum.TradeState;
 import com.danbro.order.utils.OrderNoUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ public class TOrderServiceImpl extends ServiceImpl<TOrderMapper, TOrder> impleme
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public OutPutOrderInsertDto insertOrder(UcenterMemberInfoDto userInfo, EduCourseBasicInfoDto courseInfo) {
+    public OrderDto insertOrder(UcenterMemberInfoDto userInfo, EduCourseBasicInfoDto courseInfo) {
         TOrder tOrder = TOrder.builder().
                 courseId(courseInfo.getId()).
                 orderNo(OrderNoUtils.getOrderNo()).
@@ -45,9 +43,8 @@ public class TOrderServiceImpl extends ServiceImpl<TOrderMapper, TOrder> impleme
                 payType(PayType.WECHAT.getType()).
                 status(OrderStatus.UN_PAID.getStatus()).build();
         this.save(tOrder);
-
-        OutPutOrderInsertDto outPutOrderInsertDto = new OutPutOrderInsertDto();
-        BeanUtils.copyProperties(tOrder, outPutOrderInsertDto);
-        return outPutOrderInsertDto;
+        OrderDto orderDto = new OrderDto();
+        BeanUtils.copyProperties(tOrder, orderDto);
+        return orderDto;
     }
 }
