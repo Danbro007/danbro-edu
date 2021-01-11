@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserFallback implements UserClient {
     @Override
-    public UcenterMemberInfoDto getUserInfo(String userId) {
-        throw new MyCustomException(ResultCode.USER_NOT_EXIST);
+    public Result<UcenterMemberInfoDto> getUserInfo(String userId) {
+        throw new MyCustomException(ResultCode.USER_SERVICE_TIME_OUT);
     }
 }

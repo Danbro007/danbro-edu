@@ -2,6 +2,7 @@ package com.danbro.edu.rpcClient;
 
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
+import com.danbro.exception.MyCustomException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +15,6 @@ import org.springframework.stereotype.Component;
 public class UCenterUserFallBack implements UCenterUserClient {
     @Override
     public Result getUserInfo(String userId) {
-        return Result.ofFail(ResultCode.USER_NOT_EXIST);
+        throw new MyCustomException(ResultCode.USER_SERVICE_TIME_OUT);
     }
 }

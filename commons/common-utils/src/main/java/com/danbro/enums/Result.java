@@ -2,6 +2,8 @@ package com.danbro.enums;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.danbro.dto.EduCourseBasicInfoDto;
 import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.validation.ObjectError;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Result<R> implements Serializable {
+    private static final long serialVersionUID = 5676862892560293265L;
     @ApiModelProperty("状态码")
     private Integer code;
     @ApiModelProperty("响应消息")

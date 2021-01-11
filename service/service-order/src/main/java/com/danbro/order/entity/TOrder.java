@@ -20,12 +20,11 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class TOrder implements Serializable {
     private static final long serialVersionUID = 162845033241560135L;
-
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 订单号
      */
-    @TableId(type = IdType.ASSIGN_ID)
     private String orderNo;
     /**
      * 课程id

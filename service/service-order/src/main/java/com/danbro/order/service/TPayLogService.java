@@ -1,6 +1,8 @@
 package com.danbro.order.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.order.entity.TPayLog;
+import com.danbro.order.mapper.TPayLogMapper;
 
 import java.util.List;
 
@@ -10,5 +12,5 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-08 13:51:55
  */
-public interface TPayLogService {
+public interface TPayLogService extends IService<TPayLog> {
 }

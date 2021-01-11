@@ -2,6 +2,7 @@ package com.danbro.edu.rpcClient;
 
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
+import com.danbro.exception.MyCustomException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,14 +14,14 @@ import java.util.List;
  * @Author Danrbo
  */
 @Component
-public class VodClientFallBack implements VodClient{
+public class VodClientFallBack implements VodClient {
     @Override
     public Result deleteVideoByVideoId(String videoId) {
-        return Result.ofFail(ResultCode.DELETE_VIDEO_TIME_OUT);
+        throw new MyCustomException(ResultCode.VOD_SERVICE_TIME_OUT);
     }
 
     @Override
     public Result batchDeleteVideo(List<String> videoList) {
-        return Result.ofFail(ResultCode.DELETE_VIDEO_TIME_OUT);
+        throw new MyCustomException(ResultCode.VOD_SERVICE_TIME_OUT);
     }
 }

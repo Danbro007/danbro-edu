@@ -3,6 +3,7 @@ package com.danbro.cms.rpcClient.fallback;
 import com.danbro.cms.rpcClient.TeacherClient;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
+import com.danbro.exception.MyCustomException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +17,6 @@ public class TeacherClientFallBack implements TeacherClient {
 
     @Override
     public Result getTopTeacherList(String limit) {
-        return Result.ofFail(ResultCode.GET_TOP_TEACHER_LIST);
+        throw new MyCustomException(ResultCode.TEACHER_SERVICE_TIME_OUT);
     }
 }

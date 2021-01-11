@@ -13,7 +13,7 @@ public enum ResultCode {
      */
     SUCCESS(20000, "成功"),
     FAILURE(20001, "失败"),
-    PARAMS_ERROR(20002,"参数不正确！"),
+    PARAMS_ERROR(20002, "参数不正确！"),
 
     /**
      * 讲师管理代码
@@ -24,6 +24,8 @@ public enum ResultCode {
     UPDATE_TEACHER_FAILURE(20103, "修改讲师失败，可能讲师不存在！"),
     INSERT_TEACHER_FAILURE(20104, "添加讲师失败，讲师已存在！"),
     GET_TOP_TEACHER_LIST(20105, "获取热门讲师失败！"),
+    TEACHER_SERVICE_TIME_OUT(20106, "讲师服务调用超时！"),
+
     /**
      * 课程管理代码
      */
@@ -34,6 +36,7 @@ public enum ResultCode {
     DELETE_COURSE_FAILURE(20204, "删除课程失败"),
     GET_TOP_COURSE_LIST(20105, "获取热门课程失败！"),
     COURSE_IS_NOT_EXIST(20106, "查找的课程不存在！"),
+    COURSE_SERVICE_TIME_OUT(20107, "课程服务调用超时！"),
     /**
      * 章节代码
      */
@@ -64,6 +67,7 @@ public enum ResultCode {
     DELETE_VIDEO_TIME_OUT(30022, "删除视频超时！"),
     UPLOAD_VIDEO_IS_EMPTY(30023, "上传的视频为空！"),
     CLIENT_ALIYUN_CONNECTION_ERROR(30030, "与阿里云视频点播平台连接失败！"),
+    VOD_SERVICE_TIME_OUT(30031, "视频点播服务调用超时！"),
     /**
      * 短信代码
      */
@@ -76,6 +80,7 @@ public enum ResultCode {
     PASSWORD_NOT_CORRECT(40001, "密码错误，请重新输入！"),
     USER_IS_DISABLED(40002, "用户目前处于禁止登录状态！"),
     USER_NO_LOGIN(40003, "请先登录!"),
+    USER_SERVICE_TIME_OUT(40004, "用户服务调用超时！"),
     /**
      * 普通用户注册代码
      */

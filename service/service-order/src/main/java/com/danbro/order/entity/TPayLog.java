@@ -1,7 +1,9 @@
 package com.danbro.order.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,14 +16,17 @@ import java.io.Serializable;
  * @since 2021-01-08 13:51:55
  */
 @Data
+@Builder
+@Accessors(chain = true)
 public class TPayLog implements Serializable {
-    private static final long serialVersionUID = 678397497593579589L;
 
+    private static final long serialVersionUID = 8650101845509384024L;
+
+    @TableId(type = IdType.INPUT)
     private String id;
     /**
      * 订单号
      */
-    @TableId(type = IdType.INPUT)
     private String orderNo;
     /**
      * 支付完成时间
@@ -42,7 +47,7 @@ public class TPayLog implements Serializable {
     /**
      * 支付类型（1：微信 2：支付宝）
      */
-    private Object payType;
+    private Integer payType;
     /**
      * 其他属性
      */
