@@ -45,14 +45,7 @@ public class TOrderServiceImpl extends ServiceImpl<TOrderMapper, TOrder> impleme
                 payType(PayType.WECHAT.getType()).
                 status(OrderStatus.UN_PAID.getStatus()).build();
         this.save(tOrder);
-        TPayLog log = TPayLog.builder()
-                .id(tOrder.getId())
-                .payType(tOrder.getPayType())
-                .orderNo(tOrder.getOrderNo())
-                .totalFee(tOrder.getTotalFee())
-                .tradeState(TradeState.SUCCESS.getStatus())
-                .build();
-        tPayLogService.save(log);
+
         OutPutOrderInsertDto outPutOrderInsertDto = new OutPutOrderInsertDto();
         BeanUtils.copyProperties(tOrder, outPutOrderInsertDto);
         return outPutOrderInsertDto;

@@ -1,13 +1,14 @@
 package com.danbro.order.dto;
 
+import java.util.HashMap;
+import java.util.Map;
+import cn.hutool.core.annotation.Alias;
 import cn.hutool.core.bean.BeanUtil;
+import com.danbro.order.utils.WeChatPayUtils;
+import com.github.wxpay.sdk.WXPayUtil;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import java.math.BigDecimal;
-import java.util.Map;
 
 /**
  * @Classname WeChatPayInfo
@@ -17,12 +18,23 @@ import java.util.Map;
  */
 @Data
 @AllArgsConstructor
-@Builder
 @Accessors(chain = true)
 public class WeChatPayInfo {
 
+    public WeChatPayInfo() {
+        this.appId = WeChatPayUtils.APP_ID;
+        this.mchId = WeChatPayUtils.MCH_ID;
+        this.nonceStr = WXPayUtil.generateNonceStr();
+        this.spBillCreateIp = WeChatPayUtils.BILL_CREATE_IP;
+        this.notifyUrl = WeChatPayUtils.NOTIFY_URL;
+        this.tradeType = WeChatPayUtils.TRADE_TYPE;
+    }
+
+    @Alias("appid")
     private String appId;
+    @Alias("mch_id")
     private String mchId;
+    @Alias("nonce_str")
     private String nonceStr;
     /**
      * 订单的课程名
@@ -31,35 +43,33 @@ public class WeChatPayInfo {
     /**
      * 订单编号
      */
+    @Alias("out_trade_no")
     private String outTradeNo;
     /**
      * 订单总金额
      */
-    private BigDecimal totalFee;
+    @Alias("total_fee")
+    private String totalFee;
     /**
      * 交易创建的IP
      */
+    @Alias("spbill_create_ip")
     private String spBillCreateIp;
     /**
      * 支付成功后要通知的接口
      */
+    @Alias("notify_url")
     private String notifyUrl;
     /**
      * 交易类型
      */
+    @Alias("trade_type")
     private String tradeType;
 
-    private Map<String, String> mapping;
-
-
-    public Map<String, Object> getWeChatMap() {
-        WeChatPayInfo weChatPayInfo = WeChatPayInfo.builder().appId("1").body("2").mchId("3").build();
-        Map<String, Object> map = BeanUtil.beanToMap(weChatPayInfo, true, true);
-        Object app_id = map.get("app_id");
-        map.remove("app_id");
-        map.put("appid", app_id);
-        return map;
+    public Map<String, String> getWeChatMap() {
+        Map<String, Object> map = BeanUtil.beanToMap(this, true, false);
+        HashMap<String, String> hashMap = new HashMap<>();
+        map.forEach((key, value) -> hashMap.put(key, (String) value));
+        return hashMap;
     }
-
-
 }
