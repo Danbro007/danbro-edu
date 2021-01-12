@@ -76,4 +76,11 @@ public class UserCenterController {
         BeanUtils.copyProperties(member, memberInfoDto);
         return Result.ofSuccess(memberInfoDto);
     }
+
+    @ApiOperation("通过日期获取那天注册的用户数")
+    @GetMapping("statistic/register/{date}")
+    public Result<Integer> getRegisterStatistic(@PathVariable String date) {
+        Integer userNum = ucenterMemberService.getRegisterStatisticByDate(date);
+        return Result.ofSuccess(userNum);
+    }
 }

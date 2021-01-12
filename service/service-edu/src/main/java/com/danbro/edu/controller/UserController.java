@@ -26,7 +26,7 @@ public class UserController {
     @GetMapping("info")
     public Result<AdminUserLoginInfoDto> info() {
         AdminUserLoginInfoDto admin = new AdminUserLoginInfoDto().
-                setAvatar("[admin]").
+                setRoles("[admin]").
                 setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif").
                 setName("admin");
         return Result.ofSuccess(admin);
