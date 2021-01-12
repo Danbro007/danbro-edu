@@ -1,6 +1,8 @@
 package com.danbro.statistic.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.statistic.dto.QueryStatisticsDto;
@@ -57,16 +59,10 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
         List<String> numList = new ArrayList<>(map.size());
         statisticsDailies.forEach(e -> {
             dateList.add(e.getDateCalculated());
-            if (QueryStatisticsEnum.LOGIN.getType().equals(dto.getType())) {
-                numList.add(e.getLoginNum().toString());
-            } else if (QueryStatisticsEnum.REGISTER.getType().equals(dto.getType())) {
-                numList.add(e.getRegisterNum().toString());
-            } else if (QueryStatisticsEnum.COURSE.getType().equals(dto.getType())) {
-                numList.add(e.getCourseNum().toString());
-            } else if (QueryStatisticsEnum.VIDEO_VIEW.getType().equals(dto.getType())) {
-                numList.add(e.getVideoViewNum().toString());
-            }
+            Integer data = ReflectUtil.invoke(e, String.format("get%s", StrUtil.upperFirst(StrUtil.toCamelCase(dto.getType()))));
+            numList.add(data.toString());
         });
+
         map.put("dateList", dateList);
         map.put("numList", numList);
         return map;
