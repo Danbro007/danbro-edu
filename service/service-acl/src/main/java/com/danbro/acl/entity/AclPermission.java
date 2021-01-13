@@ -65,11 +65,4 @@ public class AclPermission implements Serializable {
      */
     private Date gmtModified;
 
-
-    @TableField(exist = false)
-    private Integer level;
-
-    @TableField(exist = false)
-    private List<AclPermission> children;
-
 }
