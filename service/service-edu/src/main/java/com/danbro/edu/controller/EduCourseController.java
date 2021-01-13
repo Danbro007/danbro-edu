@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("edu/course")
-@CrossOrigin
+
 public class EduCourseController {
     /**
      * 服务对象

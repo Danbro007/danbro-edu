@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2021/1/4 15:43
  * @Author Danrbo
  */
-@CrossOrigin
+
 @RequestMapping("cms")
 @RestController
 public class UserCourseController {

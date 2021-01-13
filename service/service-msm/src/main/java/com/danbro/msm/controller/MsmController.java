@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author Danrbo
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("msm")
 public class MsmController {
 

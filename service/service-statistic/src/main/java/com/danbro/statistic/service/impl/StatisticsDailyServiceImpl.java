@@ -59,7 +59,10 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
         List<String> numList = new ArrayList<>(map.size());
         statisticsDailies.forEach(e -> {
             dateList.add(e.getDateCalculated());
-            Integer data = ReflectUtil.invoke(e, String.format("get%s", StrUtil.upperFirst(StrUtil.toCamelCase(dto.getType()))));
+            Integer data = ReflectUtil.invoke(e, String.format("get%s", StrUtil
+                    .upperFirst(StrUtil
+                            .toCamelCase(dto
+                                    .getType()))));
             numList.add(data.toString());
         });
 

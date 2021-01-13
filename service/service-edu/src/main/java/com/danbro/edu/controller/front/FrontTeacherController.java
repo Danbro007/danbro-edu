@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author Danrbo
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("edu/front")
 public class FrontTeacherController {
     @Resource

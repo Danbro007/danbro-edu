@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("api/ucenter/wx/")
-@CrossOrigin
+
 public class WeChatUserController {
     @Resource
     UcenterMemberService ucenterMemberService;

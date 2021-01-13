@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-12-14 15:11:47
  */
 @Api("教师资源")
-@CrossOrigin
+
 @RestController
 @RequestMapping("edu")
 public class EduTeacherController {

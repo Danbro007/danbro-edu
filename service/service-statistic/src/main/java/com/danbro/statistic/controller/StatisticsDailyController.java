@@ -20,7 +20,7 @@ import java.util.Map;
  * @author makejava
  * @since 2021-01-12 10:35:54
  */
-@CrossOrigin
+
 @RestController
 @RequestMapping("statistic/daily")
 public class StatisticsDailyController {

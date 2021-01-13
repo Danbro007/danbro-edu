@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  * @Author Danrbo
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("edu/front/course")
 public class FrontCourseController {
     @Resource

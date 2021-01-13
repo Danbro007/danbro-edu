@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @Author Danrbo
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("vod")
 public class VodController {
 

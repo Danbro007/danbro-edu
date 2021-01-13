@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author makejava
  * @since 2020-12-17 16:59:16
  */
-@CrossOrigin
+
 @RestController
 @RequestMapping("edu")
 public class EduSubjectController {

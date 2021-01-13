@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Data
 @RestController
-@CrossOrigin
+
 @RequestMapping("edu/front/comment")
 public class FrontCommentController {
     @Resource

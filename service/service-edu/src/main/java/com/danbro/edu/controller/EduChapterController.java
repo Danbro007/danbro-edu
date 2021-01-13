@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * @author makejava
  * @since 2020-12-20 19:55:16
  */
-@CrossOrigin
+
 @RestController
 @RequestMapping("edu")
 public class EduChapterController {

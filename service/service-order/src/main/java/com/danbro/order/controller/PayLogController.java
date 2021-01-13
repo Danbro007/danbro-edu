@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-01-08 13:51:55
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("order/pay/")
 public class PayLogController {
     /**

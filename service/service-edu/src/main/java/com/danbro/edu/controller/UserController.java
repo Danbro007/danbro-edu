@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * @Author Danrbo
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("edu/user")
 public class UserController {
 

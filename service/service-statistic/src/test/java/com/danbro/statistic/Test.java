@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 
 public class Test {
     @org.junit.Test
-    public void test() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException {
+    public void test() {
         StatisticsDaily statisticsDaily = new StatisticsDaily();
         statisticsDaily.setId("123");
         Object getId = ReflectUtil.invoke(statisticsDaily, "getId");

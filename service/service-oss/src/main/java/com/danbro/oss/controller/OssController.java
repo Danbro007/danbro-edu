@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("oss")
 @Slf4j
-@CrossOrigin
+
 public class OssController {
 
     @Autowired

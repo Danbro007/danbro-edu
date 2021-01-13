@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author makejava
  * @since 2021-01-08 13:51:10
  */
-@CrossOrigin
+
 @RestController
 @RequestMapping("order")
 public class OrderController {
