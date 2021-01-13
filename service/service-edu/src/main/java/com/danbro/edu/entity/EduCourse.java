@@ -81,7 +81,6 @@ public class EduCourse implements Serializable {
      * 逻辑删除 1（true）已删除， 0（false）未删除
      */
     @TableLogic()
-    @TableField(fill = FieldFill.INSERT)
     private Boolean isDeleted;
     /**
      * 创建时间

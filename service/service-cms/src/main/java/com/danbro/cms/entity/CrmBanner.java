@@ -40,7 +40,7 @@ public class CrmBanner implements Serializable {
      * 逻辑删除 1（true）已删除， 0（false）未删除
      */
     @TableLogic()
-    private Object isDeleted;
+    private Boolean isDeleted;
     /**
      * 创建时间
      */
