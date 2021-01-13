@@ -19,4 +19,12 @@ public interface AclPermissionService extends IService<AclPermission> {
      * @return 所有权限
      */
     List<TreeNodePermissionDto> getAllPermission();
+
+    /**
+     * 递归删除菜单
+     *
+     * @param permissionId 权限ID
+     */
+    void removePermissionRecursively(String permissionId);
+
 }
