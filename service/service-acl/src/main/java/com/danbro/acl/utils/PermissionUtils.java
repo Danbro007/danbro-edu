@@ -1,11 +1,10 @@
 package com.danbro.acl.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.danbro.acl.dto.TreeNodePermissionDto;
 import com.danbro.acl.entity.AclPermission;
 import org.springframework.beans.BeanUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Classname PermissionUtils
@@ -48,5 +47,42 @@ public class PermissionUtils {
             }
         }
         return fatherNode;
+    }
+
+    /**
+     * 找到要删除的权限
+     *
+     * @param allPermission 所有的权限
+     * @param permissionId  权限Id
+     * @return 要删除的权限
+     */
+    public static TreeNodePermissionDto findNodeToRemove(List<TreeNodePermissionDto> allPermission, String permissionId) {
+        for (TreeNodePermissionDto permission : allPermission) {
+            if (permission.getId().equals(permissionId)) {
+                return permission;
+            } else if (permission.getChildren().size() > 0) {
+                TreeNodePermissionDto nodeToRemove = findNodeToRemove(permission.getChildren(), permissionId);
+                if (nodeToRemove == null) {
+                    continue;
+                }
+                return nodeToRemove;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 获取要删除权限的ID
+     *
+     * @param node 删除的权限
+     * @param list 删除的权限 ID 列表
+     */
+    public static void getRemoveIdList(TreeNodePermissionDto node, List<String> list) {
+        list.add(node.getId());
+        if (node.getChildren() != null && node.getChildren().size() > 0) {
+            for (TreeNodePermissionDto child : node.getChildren()) {
+                getRemoveIdList(child, list);
+            }
+        }
     }
 }

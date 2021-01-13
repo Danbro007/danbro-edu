@@ -1,7 +1,14 @@
 package com.danbro.acl.entity;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 用户表(AclUser)实体类
@@ -9,11 +16,14 @@ import java.io.Serializable;
  * @author makejava
  * @since 2021-01-13 14:18:15
  */
+@Data
+@Accessors(chain = true)
 public class AclUser implements Serializable {
     private static final long serialVersionUID = -40664230232660608L;
     /**
      * 会员id
      */
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 微信openid
@@ -38,87 +48,17 @@ public class AclUser implements Serializable {
     /**
      * 逻辑删除 1（true）已删除， 0（false）未删除
      */
-    private Object isDeleted;
+    @TableLogic
+    private Boolean isDeleted;
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date gmtCreate;
     /**
      * 更新时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Object getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Object isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
 
 }

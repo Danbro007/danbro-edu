@@ -1,13 +1,17 @@
 package com.danbro.acl.controller;
 
+import java.util.List;
+import javax.annotation.Resource;
 import com.danbro.acl.dto.TreeNodePermissionDto;
 import com.danbro.acl.service.AclPermissionService;
 import com.danbro.enums.Result;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 权限(AclPermission)表控制层
@@ -35,6 +39,13 @@ public class AclPermissionController {
     @DeleteMapping("{permissionId}")
     public Result deletePermission(@PathVariable String permissionId) {
         aclPermissionService.removePermissionRecursively(permissionId);
+        return Result.ofSuccess();
+    }
+
+    @ApiOperation("给角色分配权限")
+    @PostMapping()
+    public Result insertPermission(String roleId, String[] permissions) {
+        aclPermissionService.insertRolePermission(roleId, permissions);
         return Result.ofSuccess();
     }
 
