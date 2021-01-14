@@ -89,7 +89,8 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         String token = tokenManager.createToken(user.getCurrentUserInfo().getUsername());
         redisTemplate.opsForValue().set(user.getCurrentUserInfo().getUsername(), user.getPermissionValueList());
         HashMap<String, String> map = new HashMap<>();
-        ResponseUtil.out(res, Result.ofSuccess().setData(map.put("token", token)));
+        map.put("token",token);
+        ResponseUtil.out(res, Result.ofSuccess(map));
     }
 
     /**

@@ -1,13 +1,11 @@
 package com.danbro.utils;
 
-import cn.hutool.http.HttpResponse;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import com.danbro.enums.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class ResponseUtil {
 
