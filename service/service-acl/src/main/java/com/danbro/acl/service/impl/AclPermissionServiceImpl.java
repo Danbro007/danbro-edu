@@ -81,6 +81,12 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
 //        return MenuUtils.bulid(nodePermissionDtos);
     }
 
+    @Override
+    public List<TreeNodePermissionDto> getRolePermission(String roleId) {
+        List<AclPermission> permissionList = this.baseMapper.getRolePermissionByRoleId(roleId);
+        return PermissionUtils.buildPermissionTree(permissionList);
+    }
+
     /**
      * 判断用户是否系统管理员
      *

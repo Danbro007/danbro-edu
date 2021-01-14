@@ -20,4 +20,12 @@ public interface AclPermissionMapper extends BaseMapper<AclPermission> {
      */
     List<String> getUserPermissionByUserId(String userId);
 
+    /**
+     * 通过角色ID找到角色的权限
+     *
+     * @param roleId 角色ID
+     * @return 角色权限
+     */
+    List<AclPermission> getRolePermissionByRoleId(String roleId);
+
 }

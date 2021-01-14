@@ -44,4 +44,13 @@ public interface AclPermissionService extends IService<AclPermission> {
      * @return 用户权限
      */
     List<String> getPermissionByUserId(String id);
+
+    /**
+     * 通过角色ID查询角色的所有权限
+     *
+     * @param roleId 角色ID
+     * @return 角色所拥有的权限
+     */
+    List<TreeNodePermissionDto> getRolePermission(String roleId);
+
 }

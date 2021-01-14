@@ -1,4 +1,4 @@
-package com.danbro.edu.dto;
+package com.danbro.enity;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

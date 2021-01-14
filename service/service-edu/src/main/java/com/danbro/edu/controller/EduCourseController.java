@@ -8,7 +8,7 @@ import com.danbro.dto.EduCourseBasicInfoDto;
 import com.danbro.edu.dto.InPutEduCourseInsertDto;
 import com.danbro.edu.dto.OutPutEduCoursePublishDto;
 import com.danbro.edu.dto.InPutEduCourseUpdatePublishStatusDto;
-import com.danbro.edu.dto.OutPutPagingDto;
+import com.danbro.enity.OutPutPagingDto;
 import com.danbro.edu.dto.SearchCourseConditionDto;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.service.EduCourseService;

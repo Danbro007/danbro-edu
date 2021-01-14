@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @Classname AclApplication
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @Date 2021/1/13 15:12
  * @Author Danrbo
  */
+@EnableSwagger2
 @SpringBootApplication
 @EnableDiscoveryClient
 @ComponentScan(basePackages = "com.danbro")

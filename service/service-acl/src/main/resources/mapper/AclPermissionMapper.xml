@@ -7,4 +7,19 @@
                  LEFT JOIN acl_role_permission arp ON arp.permission_id = ap.id
         WHERE arp.role_id = (SELECT role_id FROM acl_user_role WHERE user_id = #{id})
     </select>
+
+    <select id="getRolePermissionByRoleId" resultType="com.danbro.acl.entity.AclPermission">
+        SELECT ap.id               AS id,
+               ap.pid              AS pid,
+               ap.name             AS name,
+               ap.type             AS type,
+               ap.permission_value AS permissionValue,
+               ap.path             AS path,
+               ap.component        AS component,
+               ap.icon             AS icon,
+               ap.`status`         AS `status`
+        FROM acl_permission ap
+                 LEFT JOIN acl_role_permission arp ON arp.permission_id = ap.id
+        WHERE arp.role_id = #{id}
+    </select>
 </mapper>

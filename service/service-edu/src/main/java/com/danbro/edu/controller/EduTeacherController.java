@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.danbro.edu.dto.InPutEduTeacherInsertDto;
 import com.danbro.edu.dto.InPutEduTeacherUpdateDto;
 import com.danbro.edu.dto.FrontTeacherQueryDto;
-import com.danbro.edu.dto.OutPutPagingDto;
+import com.danbro.enity.OutPutPagingDto;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.service.EduTeacherService;
 import com.danbro.enums.Result;

@@ -43,7 +43,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
 
     /**
      * 内部拦截器：
-     * 1、把 admin 的请求拦截下来
+     * 1、把请求路径带有 admin 的拦截下来
      * 2、获取 admin 的权限
      * 3、把权限放入 SecurityContextHolder 来管理
      *
@@ -95,7 +95,9 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
             Collection<GrantedAuthority> authorities = new ArrayList<>();
             assert permissionValueList != null;
             for (String permissionValue : permissionValueList) {
-                if (StringUtils.isEmpty(permissionValue)) continue;
+                if (StringUtils.isEmpty(permissionValue)) {
+                    continue;
+                }
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permissionValue);
                 authorities.add(authority);
             }
