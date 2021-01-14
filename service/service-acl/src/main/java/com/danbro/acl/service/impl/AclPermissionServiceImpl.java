@@ -2,7 +2,6 @@ package com.danbro.acl.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,7 +12,6 @@ import com.danbro.acl.entity.AclUser;
 import com.danbro.acl.mapper.AclPermissionMapper;
 import com.danbro.acl.service.AclPermissionService;
 import com.danbro.acl.service.AclRolePermissionService;
-import com.danbro.acl.service.AclUserRoleService;
 import com.danbro.acl.service.AclUserService;
 import com.danbro.acl.utils.MenuUtils;
 import com.danbro.acl.utils.PermissionUtils;
@@ -69,22 +67,33 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
     }
 
     @Override
-    public List<String> getPermissionByUserId(String id) {
-        return this.baseMapper.getUserPermissionByUserId(id);
-//        List<AclPermission> aclPermissions;
-//        if (isSysAdmin(id)) {
-//            aclPermissions = this.list();
-//        } else {
-//            aclPermissions = this.baseMapper.getUserPermissionByUserId(id);
-//        }
-//        List<TreeNodePermissionDto> nodePermissionDtos = PermissionUtils.buildPermissionTree(aclPermissions);
-//        return MenuUtils.bulid(nodePermissionDtos);
+    public List<String> getPermissionValueByUserId(String id) {
+        List<String> permissionValueList;
+        if (isSysAdmin(id)) {
+            permissionValueList = this.baseMapper.getUserAllPermissionValue();
+        } else {
+            permissionValueList = this.baseMapper.getUserPermissionValueByUserId(id);
+        }
+        return permissionValueList;
+
     }
 
     @Override
     public List<TreeNodePermissionDto> getRolePermission(String roleId) {
         List<AclPermission> permissionList = this.baseMapper.getRolePermissionByRoleId(roleId);
         return PermissionUtils.buildPermissionTree(permissionList);
+    }
+
+    @Override
+    public List<JSONObject> getPermissionByUserId(String id) {
+        List<AclPermission> permissionValueList;
+        if (isSysAdmin(id)) {
+            permissionValueList = this.list();
+        } else {
+            permissionValueList = this.baseMapper.getUserPermissionByUserId(id);
+        }
+        List<TreeNodePermissionDto> treeNodePermissionDtos = PermissionUtils.buildPermissionTree(permissionValueList);
+        return MenuUtils.bulid(treeNodePermissionDtos);
     }
 
     /**

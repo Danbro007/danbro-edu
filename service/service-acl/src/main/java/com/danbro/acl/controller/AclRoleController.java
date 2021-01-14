@@ -1,5 +1,8 @@
 package com.danbro.acl.controller;
 
+import java.util.List;
+import javax.annotation.Resource;
+import javax.validation.Valid;
 import com.danbro.acl.dto.AclRoleDto;
 import com.danbro.acl.dto.TreeNodePermissionDto;
 import com.danbro.acl.service.AclRoleService;
@@ -11,10 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.util.List;
-
 /**
  * (AclRole)表控制层
  *
@@ -22,7 +21,7 @@ import java.util.List;
  * @since 2021-01-13 14:18:15
  */
 @RestController
-@RequestMapping("acl/role")
+@RequestMapping("admin/acl/role")
 public class AclRoleController {
     /**
      * 服务对象

@@ -1,5 +1,7 @@
 package com.danbro.acl.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -17,9 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 用户表(AclUser)表服务实现类
@@ -101,6 +100,13 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
                         .userId(userId)
                         .build()
         );
+    }
+
+    @Override
+    public AclUser getUserInfoByUsername(String username) {
+        QueryWrapper<AclUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        return this.getOne(queryWrapper);
     }
 
 }

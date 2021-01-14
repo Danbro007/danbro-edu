@@ -1,9 +1,10 @@
 package com.danbro.acl.controller;
 
+import java.util.List;
+import javax.annotation.Resource;
+import javax.validation.Valid;
 import com.danbro.acl.dto.AclRoleDto;
 import com.danbro.acl.dto.AclUserDto;
-import com.danbro.acl.dto.AclUserDto;
-import com.danbro.acl.entity.AclUser;
 import com.danbro.acl.service.AclUserService;
 import com.danbro.enity.OutPutPagingDto;
 import com.danbro.enums.Result;
@@ -13,10 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.util.List;
-
 /**
  * 用户表(AclUser)表控制层
  *
@@ -24,7 +21,7 @@ import java.util.List;
  * @since 2021-01-13 14:18:15
  */
 @RestController
-@RequestMapping("acl/user")
+@RequestMapping("admin/acl/user")
 public class AclUserController {
     /**
      * 服务对象

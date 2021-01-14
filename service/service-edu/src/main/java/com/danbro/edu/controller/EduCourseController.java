@@ -6,12 +6,12 @@ import javax.validation.Valid;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.danbro.dto.EduCourseBasicInfoDto;
 import com.danbro.edu.dto.InPutEduCourseInsertDto;
-import com.danbro.edu.dto.OutPutEduCoursePublishDto;
 import com.danbro.edu.dto.InPutEduCourseUpdatePublishStatusDto;
-import com.danbro.enity.OutPutPagingDto;
+import com.danbro.edu.dto.OutPutEduCoursePublishDto;
 import com.danbro.edu.dto.SearchCourseConditionDto;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.service.EduCourseService;
+import com.danbro.enity.OutPutPagingDto;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
@@ -36,6 +36,7 @@ public class EduCourseController {
      */
     @Resource
     private EduCourseService eduCourseService;
+
 
     @ApiOperation("添加课程信息")
     @PostMapping("info")
@@ -121,6 +122,8 @@ public class EduCourseController {
         }
         return Result.ofFail(ResultCode.DELETE_COURSE_FAILURE);
     }
+
+
 
 
 }

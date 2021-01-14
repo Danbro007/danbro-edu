@@ -1,15 +1,15 @@
 package com.danbro.security.security;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.utils.ResponseUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.stereotype.Component;
 
 /**
  * @Classname UnauthorizedEntryPoint
@@ -17,6 +17,7 @@ import java.io.IOException;
  * @Date 2021/1/14 11:00
  * @Author Danrbo
  */
+@Component
 public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
     /**
      * 未授权的统一返回错误响应
@@ -31,6 +32,6 @@ public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
 
-        ResponseUtil.out(response, Result.ofFail(ResultCode.FAILURE));
+        ResponseUtil.out(response, Result.ofFail(ResultCode.NO_PERMISSION));
     }
 }

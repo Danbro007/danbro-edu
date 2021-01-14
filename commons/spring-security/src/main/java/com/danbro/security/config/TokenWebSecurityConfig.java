@@ -27,7 +27,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     private UserDetailsService userDetailsService;
     private TokenManager tokenManager;
     private DefaultPasswordEncoder defaultPasswordEncoder;

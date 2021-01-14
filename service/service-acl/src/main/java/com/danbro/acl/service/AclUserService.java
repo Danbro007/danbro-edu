@@ -1,12 +1,11 @@
 package com.danbro.acl.service;
 
+import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.acl.dto.AclRoleDto;
 import com.danbro.acl.dto.AclUserDto;
 import com.danbro.acl.entity.AclUser;
 import com.danbro.enity.OutPutPagingDto;
-
-import java.util.List;
 
 /**
  * 用户表(AclUser)表服务接口
@@ -70,4 +69,13 @@ public interface AclUserService extends IService<AclUser> {
      * @param roleId 角色ID
      */
     void inertUserRole(String userId, String roleId);
+
+    /**
+     * 通过用户名获取用户信息
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    AclUser getUserInfoByUsername(String username);
+
 }

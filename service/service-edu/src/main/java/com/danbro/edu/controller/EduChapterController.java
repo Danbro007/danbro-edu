@@ -35,7 +35,7 @@ public class EduChapterController {
      * @param courseId 课程Id
      * @return 章节列表
      */
-    @ApiOperation("返回章节列表")
+    @ApiOperation("查找课程里所有的章节")
     @GetMapping("chapter/{courseId}")
     public Result<List<OutPutEduChapterDto>> getChapter(@PathVariable String courseId) {
         List<OutPutEduChapterDto> chapterOutPut = eduChapterService.findAllByCourseId(courseId);

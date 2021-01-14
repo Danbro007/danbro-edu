@@ -1,14 +1,13 @@
 package com.danbro.security.security;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import com.danbro.enums.Result;
 import com.danbro.utils.ResponseUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -18,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author qy
  * @since 2019-11-08
  */
+@Component
 public class TokenLogoutHandler implements LogoutHandler {
 
     private TokenManager tokenManager;

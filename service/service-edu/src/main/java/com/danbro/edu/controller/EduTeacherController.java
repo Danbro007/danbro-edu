@@ -4,12 +4,12 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.danbro.edu.dto.FrontTeacherQueryDto;
 import com.danbro.edu.dto.InPutEduTeacherInsertDto;
 import com.danbro.edu.dto.InPutEduTeacherUpdateDto;
-import com.danbro.edu.dto.FrontTeacherQueryDto;
-import com.danbro.enity.OutPutPagingDto;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.service.EduTeacherService;
+import com.danbro.enity.OutPutPagingDto;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
@@ -18,7 +18,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -65,7 +64,7 @@ public class EduTeacherController {
 
 
     @ApiOperation("带条件的分页查询教师")
-    @PostMapping("teacher/{current}/{limit}")
+    @PostMapping("teacher/list/{current}/{limit}")
     public Result<OutPutPagingDto<EduTeacher>> pagingFindByCondition(@ApiParam(name = "current", value = "当前页数", example = "1") @PathVariable Integer current,
                                                                      @ApiParam(name = "limit", value = "当前页显示记录数", example = "10") @PathVariable Integer limit,
                                                                      @RequestBody(required = false) FrontTeacherQueryDto frontTeacherQueryDto) {
@@ -80,8 +79,7 @@ public class EduTeacherController {
     @PostMapping("teacher")
     public Result insert(@Valid @RequestBody(required = true) InPutEduTeacherInsertDto inPutEduTeacherInsertDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw new MyCustomException(ResultCode.FAILURE, errors);
+            throw new MyCustomException(ResultCode.FAILURE, bindingResult.getAllErrors());
         }
         EduTeacher eduTeacher = inPutEduTeacherInsertDto.convertTo();
         try {
@@ -100,8 +98,7 @@ public class EduTeacherController {
     @PutMapping("teacher")
     public Result update(@Valid @RequestBody InPutEduTeacherUpdateDto inPutEduTeacherUpdateDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw new MyCustomException(ResultCode.FAILURE, errors);
+            throw new MyCustomException(ResultCode.FAILURE, bindingResult.getAllErrors());
         }
         EduTeacher eduTeacher = inPutEduTeacherUpdateDto.convertTo();
         if (eduTeacherService.updateById(eduTeacher)) {
