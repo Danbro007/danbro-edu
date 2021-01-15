@@ -67,9 +67,9 @@ public interface AclUserService extends IService<AclUser> {
      * 给用户添加角色
      *
      * @param userId 用户ID
-     * @param roleId 角色ID
+     * @param roleIds 角色ID
      */
-    void inertUserRole(String userId, String roleId);
+    void inertUserRole(String userId, String roleIds);
 
     /**
      * 通过用户名获取用户信息

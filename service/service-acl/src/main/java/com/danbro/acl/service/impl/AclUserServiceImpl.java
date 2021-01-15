@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -96,17 +96,16 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
     }
 
     @Override
-    public void inertUserRole(String userId, String roleId) {
+    public void inertUserRole(String userId, String roleIds) {
         QueryWrapper<AclUserRole> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("role_id",roleId).eq("user_id",userId);
+        queryWrapper.eq("role_id", roleIds).eq("user_id", userId);
         userRoleService.remove(queryWrapper);
-        userRoleService.save(
-                AclUserRole
-                        .builder()
-                        .roleId(roleId)
-                        .userId(userId)
-                        .build()
-        );
+        String[] ids = StrUtil.split(roleIds, ",");
+        List<AclUserRole> aclUserRoles = new ArrayList<>();
+        for (String id : ids) {
+            aclUserRoles.add(AclUserRole.builder().roleId(id).userId(userId).build());
+        }
+        userRoleService.saveBatch(aclUserRoles);
     }
 
     @Override
