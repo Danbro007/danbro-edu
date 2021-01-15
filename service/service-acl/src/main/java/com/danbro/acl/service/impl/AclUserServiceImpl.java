@@ -2,6 +2,7 @@ package com.danbro.acl.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -69,10 +70,7 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
     public OutPutPagingDto<AclUserDto> pagingGetUserListByCondition(Integer page, Integer limit, AclUserDto queryCondition) {
         Page<AclUser> userPage = new Page<>(page, limit);
         QueryWrapper<AclUser> queryWrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(queryCondition.getNickName())) {
-            queryWrapper.like("nick_name", queryCondition.getNickName());
-        }
-        if (!StringUtils.isEmpty(queryCondition.getNickName())) {
+        if (queryCondition != null && !StringUtils.isEmpty(queryCondition.getUsername())) {
             queryWrapper.like("username", queryCondition.getUsername());
         }
         this.page(userPage, queryWrapper);

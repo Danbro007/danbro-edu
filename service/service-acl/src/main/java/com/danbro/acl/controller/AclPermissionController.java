@@ -2,8 +2,10 @@ package com.danbro.acl.controller;
 
 import java.util.List;
 import javax.annotation.Resource;
+
 import com.danbro.acl.dto.TreeNodePermissionDto;
 import com.danbro.acl.service.AclPermissionService;
+import com.danbro.acl.service.AclRoleService;
 import com.danbro.enums.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +29,9 @@ public class AclPermissionController {
      */
     @Resource
     private AclPermissionService aclPermissionService;
+
+    @Resource
+    private AclRoleService aclRoleService;
 
     @ApiOperation("查询所有的菜单(树形结构)，一般是admin用户。")
     @GetMapping("all")
@@ -55,6 +60,13 @@ public class AclPermissionController {
 //        //Todo
 //        return Result.ofSuccess();
 //    }
+
+    @ApiOperation("查询角色的权限")
+    @GetMapping("role/{roleId}")
+    public Result<List<TreeNodePermissionDto>> getRolePermission(String roleId) {
+        List<TreeNodePermissionDto> permissionList = aclRoleService.getRolePermission(roleId);
+        return Result.ofSuccess(permissionList);
+    }
 
 
 }

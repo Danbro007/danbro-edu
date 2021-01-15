@@ -73,11 +73,8 @@ public class AclRoleServiceImpl extends ServiceImpl<AclRoleMapper, AclRole> impl
     public OutPutPagingDto<AclRoleDto> pagingGetRoleListByCondition(Integer page, Integer limit, AclRoleDto queryCondition) {
         Page<AclRole> rolePage = new Page<>(page, limit);
         QueryWrapper<AclRole> queryWrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(queryCondition.getRoleName())) {
+        if (queryCondition != null && !StringUtils.isEmpty(queryCondition.getRoleName())) {
             queryWrapper.like("role_name", queryCondition.getRoleName());
-        }
-        if (!StringUtils.isEmpty(queryCondition.getRoleCode())) {
-            queryWrapper.like("role_code", queryCondition.getRoleCode());
         }
         queryWrapper.orderByDesc("gmt_create");
         this.page(rolePage, queryWrapper);

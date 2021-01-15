@@ -104,7 +104,6 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
      */
     private boolean isSysAdmin(String userId) {
         AclUser user = userService.getById(userId);
-
         if (null != user && "admin".equals(user.getUsername())) {
             return true;
         }

@@ -1,9 +1,5 @@
 package com.danbro.acl.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import com.alibaba.fastjson.JSONObject;
 import com.danbro.acl.entity.AclRole;
 import com.danbro.acl.entity.AclUser;
@@ -14,6 +10,11 @@ import com.danbro.acl.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class IndexServiceImpl implements IndexService {
@@ -32,19 +33,20 @@ public class IndexServiceImpl implements IndexService {
 
     /**
      * 根据用户名获取用户登录信息
+     * 1、先通过用户名判断是不是 admin 用户
      *
      * @param username
      * @return
      */
+    @Override
     public Map<String, Object> getUserInfo(String username) {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(16);
+
         AclUser user = userService.getUserInfoByUsername(username);
-
-
         //根据用户id获取角色
         List<AclRole> roleList = roleService.getRoleListByUserId(user.getId());
-        List<String> roleNameList = roleList.stream().map(item -> item.getRoleName()).collect(Collectors.toList());
-        if(roleNameList.size() == 0) {
+        List<String> roleNameList = roleList.stream().map(AclRole::getRoleName).collect(Collectors.toList());
+        if (roleNameList.size() == 0) {
             //前端框架必须返回一个角色，否则报错，如果没有角色，返回一个空角色
             roleNameList.add("");
         }
@@ -61,15 +63,16 @@ public class IndexServiceImpl implements IndexService {
 
     /**
      * 根据用户名获取动态菜单
-     * @param username
-     * @return
+     *
+     * @param username 用户名
+     * @return 菜单
      */
+    @Override
     public List<JSONObject> getMenu(String username) {
         AclUser user = userService.getUserInfoByUsername(username);
 
         //根据用户id获取用户菜单权限
-        List<JSONObject> permissionList = permissionService.getPermissionByUserId(user.getId());
-        return permissionList;
+        return permissionService.getPermissionByUserId(user.getId());
     }
 
 

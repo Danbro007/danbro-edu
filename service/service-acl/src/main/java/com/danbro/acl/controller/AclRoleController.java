@@ -72,12 +72,5 @@ public class AclRoleController {
         return Result.ofSuccess(aclRoleService.pagingGetRoleListByCondition(page, limit, queryCondition));
     }
 
-    @ApiOperation("通过角色ID查询角色能显示的菜单")
-    @GetMapping("permission/{roleId}")
-    public Result<List<TreeNodePermissionDto>> getRolePermission(@PathVariable String roleId) {
-        List<TreeNodePermissionDto> permissionList = aclRoleService.getRolePermission(roleId);
-        return Result.ofSuccess(permissionList);
-    }
-
 
 }

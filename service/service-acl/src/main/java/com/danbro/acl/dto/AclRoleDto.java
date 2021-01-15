@@ -31,7 +31,6 @@ public class AclRoleDto implements DtoConvert<AclRoleDto, AclRole> {
     /**
      * 角色id
      */
-    @NotEmpty
     private String id;
     /**
      * 角色名称

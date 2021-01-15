@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-01-13 14:18:15
  */
 @RestController
-@RequestMapping("admin/acl/rolepermission")
+@RequestMapping("admin/acl/role/permission")
 public class AclRolePermissionController {
     /**
      * 服务对象
