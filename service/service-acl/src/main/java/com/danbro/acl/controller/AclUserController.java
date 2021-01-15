@@ -1,6 +1,7 @@
 package com.danbro.acl.controller;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import com.danbro.acl.dto.AclRoleDto;
@@ -74,14 +75,14 @@ public class AclUserController {
 
     @ApiOperation("查找用户的角色")
     @GetMapping("role/{userId}")
-    public Result<List<AclRoleDto>> getUserRoleListByUserId(@PathVariable String userId) {
+    public Result<Map<String,List<AclRoleDto>>> getUserRoleListByUserId(@PathVariable String userId) {
         return Result.ofSuccess(aclUserService.getUserRoleListByUserId(userId));
     }
 
     @ApiOperation("添加用户的角色")
-    @GetMapping("role")
+    @PostMapping("role")
     public Result insertUserRole(@RequestParam String userId,
-                                 @RequestBody String roleId) {
+                                 @RequestParam String roleId) {
         aclUserService.inertUserRole(userId, roleId);
         return Result.ofSuccess();
     }

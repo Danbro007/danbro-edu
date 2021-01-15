@@ -1,11 +1,13 @@
 package com.danbro.acl.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.Data;
-
-import java.util.Date;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import lombok.Data;
 
 /**
  * 权限(AclPermission)实体类
@@ -68,5 +70,9 @@ public class AclPermission implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
+
+
+    @TableField(exist = false)
+    private Boolean isSelected;
 
 }

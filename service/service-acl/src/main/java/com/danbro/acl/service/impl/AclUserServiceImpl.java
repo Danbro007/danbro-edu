@@ -1,7 +1,9 @@
 package com.danbro.acl.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -82,15 +84,22 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
     }
 
     @Override
-    public List<AclRoleDto> getUserRoleListByUserId(String userId) {
-        ArrayList<AclRoleDto> list = new ArrayList<>();
-        aclRoleService.getRoleListByUserId(userId).forEach(e -> list.add(new AclRoleDto().convertFrom(e)));
-        return list;
+    public Map<String, List<AclRoleDto>> getUserRoleListByUserId(String userId) {
+        List<AclRoleDto> assignRoles = new ArrayList<>();
+        List<AclRoleDto> allRolesList = new ArrayList<>();
+        HashMap<String, List<AclRoleDto>> map = new HashMap<>();
+        aclRoleService.getRoleListByUserId(userId).forEach(e -> assignRoles.add(new AclRoleDto().convertFrom(e)));
+        aclRoleService.list().forEach(e -> allRolesList.add(new AclRoleDto().convertFrom(e)));
+        map.put("assignRoles", assignRoles);
+        map.put("allRolesList", allRolesList);
+        return map;
     }
 
     @Override
     public void inertUserRole(String userId, String roleId) {
-
+        QueryWrapper<AclUserRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_id",roleId).eq("user_id",userId);
+        userRoleService.remove(queryWrapper);
         userRoleService.save(
                 AclUserRole
                         .builder()

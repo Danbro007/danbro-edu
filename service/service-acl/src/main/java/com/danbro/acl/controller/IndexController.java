@@ -2,10 +2,10 @@ package com.danbro.acl.controller;
 
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Resource;
 import com.alibaba.fastjson.JSONObject;
 import com.danbro.acl.service.IndexService;
 import com.danbro.enums.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin/acl/index")
 public class IndexController {
 
-    @Autowired
+    @Resource
     private IndexService indexService;
 
     /**

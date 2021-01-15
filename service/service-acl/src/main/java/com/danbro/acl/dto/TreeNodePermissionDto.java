@@ -1,8 +1,7 @@
 package com.danbro.acl.dto;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 /**
  * @Classname TreePermissionDto
@@ -22,5 +21,6 @@ public class TreeNodePermissionDto {
     private String icon;
     private Boolean status;
     private Integer level;
+    private Boolean isSelected;
     private List<TreeNodePermissionDto> children;
 }

@@ -1,11 +1,13 @@
 package com.danbro.acl.service.impl;
 
-import cn.hutool.core.util.ReflectUtil;
+import java.util.ArrayList;
+import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.acl.dto.AclRoleDto;
 import com.danbro.acl.dto.TreeNodePermissionDto;
+import com.danbro.acl.entity.AclPermission;
 import com.danbro.acl.entity.AclRole;
 import com.danbro.acl.entity.AclRolePermission;
 import com.danbro.acl.entity.AclUserRole;
@@ -14,15 +16,12 @@ import com.danbro.acl.service.AclPermissionService;
 import com.danbro.acl.service.AclRolePermissionService;
 import com.danbro.acl.service.AclRoleService;
 import com.danbro.acl.service.AclUserRoleService;
+import com.danbro.acl.utils.PermissionUtils;
 import com.danbro.enity.OutPutPagingDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * (AclRole)表服务实现类
@@ -103,6 +102,15 @@ public class AclRoleServiceImpl extends ServiceImpl<AclRoleMapper, AclRole> impl
 
     @Override
     public List<TreeNodePermissionDto> getRolePermission(String roleId) {
-        return permissionService.getRolePermission(roleId);
+        List<AclPermission> allPermission = permissionService.list();
+        List<AclPermission> rolePermission = permissionService.getRolePermission(roleId);
+        allPermission.forEach(m -> {
+            rolePermission.forEach(n -> {
+                if (m.getPid().equals(n.getId())) {
+                    m.setIsSelected(true);
+                }
+            });
+        });
+        return PermissionUtils.buildPermissionTree(allPermission);
     }
 }

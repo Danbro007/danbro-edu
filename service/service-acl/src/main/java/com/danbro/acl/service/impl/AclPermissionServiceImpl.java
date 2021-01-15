@@ -79,7 +79,7 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
     }
 
     @Override
-    public List<TreeNodePermissionDto> getRolePermission(String roleId) {
+    public List<TreeNodePermissionDto> getTreeNodeRolePermission(String roleId) {
         List<AclPermission> permissionList = this.baseMapper.getRolePermissionByRoleId(roleId);
         return PermissionUtils.buildPermissionTree(permissionList);
     }
@@ -94,6 +94,11 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
         }
         List<TreeNodePermissionDto> treeNodePermissionDtos = PermissionUtils.buildPermissionTree(permissionValueList);
         return MenuUtils.bulid(treeNodePermissionDtos);
+    }
+
+    @Override
+    public List<AclPermission> getRolePermission(String roleId) {
+        return this.baseMapper.getRolePermissionByRoleId(roleId);
     }
 
     /**

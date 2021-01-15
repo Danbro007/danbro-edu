@@ -1,6 +1,7 @@
 package com.danbro.acl.service;
 
 import java.util.List;
+import java.util.Map;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.acl.dto.AclRoleDto;
 import com.danbro.acl.dto.AclUserDto;
@@ -60,7 +61,7 @@ public interface AclUserService extends IService<AclUser> {
      * @param userId 用户ID
      * @return 角色列表
      */
-    List<AclRoleDto> getUserRoleListByUserId(String userId);
+    Map<String,List<AclRoleDto>> getUserRoleListByUserId(String userId);
 
     /**
      * 给用户添加角色

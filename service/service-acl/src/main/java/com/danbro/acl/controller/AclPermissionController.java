@@ -63,10 +63,8 @@ public class AclPermissionController {
 
     @ApiOperation("查询角色的权限")
     @GetMapping("role/{roleId}")
-    public Result<List<TreeNodePermissionDto>> getRolePermission(String roleId) {
+    public Result<List<TreeNodePermissionDto>> getRolePermission(@PathVariable String roleId) {
         List<TreeNodePermissionDto> permissionList = aclRoleService.getRolePermission(roleId);
         return Result.ofSuccess(permissionList);
     }
-
-
 }
