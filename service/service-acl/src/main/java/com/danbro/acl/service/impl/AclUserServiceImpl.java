@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -54,7 +55,8 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
     @Override
     public AclUserDto insertOrUpdate(AclUserDto aclUserDto) {
         AclUser aclUser = aclUserDto.convertTo();
-        aclUser.setPassword(SecureUtil.md5(aclUser.getPassword()));
+        String encodePassword = SecureUtil.md5(aclUser.getPassword());
+        aclUser.setPassword(encodePassword);
         this.saveOrUpdate(aclUser);
         return aclUserDto.convertFrom(aclUser);
     }

@@ -22,13 +22,14 @@ public class PermissionUtils {
     public static List<TreeNodePermissionDto> buildPermissionTree(List<AclPermission> list) {
         List<TreeNodePermissionDto> rootNodeList = new ArrayList<>();
         for (AclPermission aclPermission : list) {
+            TreeNodePermissionDto permissionDto = new TreeNodePermissionDto();
+            BeanUtils.copyProperties(aclPermission, permissionDto);
             // 第一级
             if ("0".equals(aclPermission.getPid())) {
-                TreeNodePermissionDto permissionDto = new TreeNodePermissionDto();
-                BeanUtils.copyProperties(aclPermission, permissionDto);
                 permissionDto.setLevel(1);
                 rootNodeList.add(setChildren(permissionDto, list));
             }
+
         }
         return rootNodeList;
     }

@@ -48,7 +48,7 @@ public class AclPermissionController {
     }
 
     @ApiOperation("给角色分配权限")
-    @PostMapping("")
+    @PostMapping("role")
     public Result insertRolePermission(String roleId, String[] permissions) {
         aclPermissionService.insertRolePermission(roleId, permissions);
         return Result.ofSuccess();

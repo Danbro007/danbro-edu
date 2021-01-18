@@ -38,24 +38,24 @@
     </select>
 
     <select id="getUserPermissionByUserId" resultType="com.danbro.acl.entity.AclPermission">
-SELECT ap.id               AS id,
-       ap.pid              AS pid,
-       ap.name             AS name,
-       ap.type             AS type,
-       ap.permission_value AS permissionValue,
-       ap.path             AS path,
-       ap.component        AS component,
-       ap.icon             AS icon,
-       ap.`status`         AS `status`
-FROM acl_permission ap
-         LEFT JOIN acl_role_permission arp ON arp.permission_id = ap.id
-WHERE arp.role_id = (select aur.role_id
-                     from acl_user_role aur
-                              left join acl_user au on au.id = aur.user_id
-                     where au.id = #{id}
-                       and au.is_deleted = 0
-                       and aur.is_deleted = 0)
-  and ap.is_deleted = 0
-  and arp.is_deleted = 0
+        SELECT ap.id               AS id,
+               ap.pid              AS pid,
+               ap.name             AS name,
+               ap.type             AS type,
+               ap.permission_value AS permissionValue,
+               ap.path             AS path,
+               ap.component        AS component,
+               ap.icon             AS icon,
+               ap.`status`         AS `status`
+        FROM acl_permission ap
+                 LEFT JOIN acl_role_permission arp ON arp.permission_id = ap.id
+        WHERE arp.role_id = (select aur.role_id
+                             from acl_user_role aur
+                                      left join acl_user au on au.id = aur.user_id
+                             where au.id = #{id}
+                               and au.is_deleted = 0
+                               and aur.is_deleted = 0)
+          and ap.is_deleted = 0
+          and arp.is_deleted = 0
     </select>
 </mapper>

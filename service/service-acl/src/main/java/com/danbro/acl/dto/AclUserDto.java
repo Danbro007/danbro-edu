@@ -40,6 +40,8 @@ public class AclUserDto implements Serializable, DtoConvert<AclUserDto, AclUser>
      * 昵称
      */
     private String nickName;
+
+    private String password;
     /**
      * 用户头像
      */
