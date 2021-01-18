@@ -3,7 +3,7 @@
 <mapper namespace="com.danbro.user.center.mapper.UcenterMemberMapper">
 
     <select id="getRegisterUserNumByDate" resultType="java.lang.Integer">
-        SELECT count(*)
+        SELECT count(1)
         FROM ucenter_member uc
         WHERE DATE(uc.gmt_create) = #{date}
     </select>

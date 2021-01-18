@@ -58,13 +58,13 @@ public class UcenterMember implements Serializable {
     /**
      * 是否禁用 1（true）已禁用，  0（false）未禁用
      */
-    @TableLogic
     private Boolean isDisabled;
     /**
      * 逻辑删除 1（true）已删除， 0（false）未删除
      */
     @TableLogic
     private Boolean isDeleted;
+
     @TableField(fill = FieldFill.INSERT)
     private Date gmtCreate;
     /**
