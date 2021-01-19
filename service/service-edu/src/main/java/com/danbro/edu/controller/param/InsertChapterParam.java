@@ -2,6 +2,7 @@ package com.danbro.edu.controller.param;
 
 import com.danbro.edu.entity.EduChapter;
 import com.danbro.impl.ParamConvert;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
  * @Date 2021/1/19 15:25
  * @Author Danrbo
  */
+@ApiModel("添加章节的参数")
 @Data
 public class InsertChapterParam implements ParamConvert<EduChapter> {
     @NotBlank(message = "课程ID不能为空！")

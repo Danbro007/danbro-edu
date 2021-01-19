@@ -1,14 +1,12 @@
 package com.danbro.edu.controller;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.danbro.dto.EduCourseBasicInfoDto;
-import com.danbro.edu.controller.dto.InPutEduCourseInsertDto;
+import com.danbro.edu.controller.param.InsertCourseParam;
 import com.danbro.edu.controller.dto.InPutEduCourseUpdatePublishStatusDto;
 import com.danbro.edu.controller.dto.OutPutEduCoursePublishDto;
 import com.danbro.edu.controller.dto.SearchCourseConditionDto;
+import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.enity.OutPutPagingDto;
@@ -18,7 +16,11 @@ import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * 课程(EduCourse)表控制层
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
  * @author makejava
  * @since 2020-12-20 19:55:16
  */
+@Validated
 @RestController
 @RequestMapping("edu/course")
 
@@ -37,32 +40,24 @@ public class EduCourseController {
     private EduCourseService eduCourseService;
 
 
-    @ApiOperation("添加课程信息")
+    @ApiOperation("添加课程基本信息")
     @PostMapping("info")
-    public Result<String> insert(@Valid @RequestBody InPutEduCourseInsertDto inPutEduCourseInsertDto, BindingResult result) {
-        EduCourse course = eduCourseService.insert(inPutEduCourseInsertDto);
-        if (course != null) {
-            return Result.ofSuccess(course.getId());
-        }
-        return Result.ofFail(ResultCode.INSERT_COURSE_FAILURE);
+    public Result<CourseVo> insertCourseBasicInfo(@Validated @RequestBody InsertCourseParam courseParam) {
+        return Result.ofSuccess(new CourseVo().convertFrom(eduCourseService.insertOrUpdateCourse(courseParam.convertTo())));
     }
 
 
-    @ApiOperation("查看课程基本详细")
+    @ApiOperation("查看课程基本信息")
     @GetMapping("info/{courseId}")
-    public Result<EduCourseBasicInfoDto> findCourseInfo(@PathVariable String courseId) {
-        EduCourseBasicInfoDto courseInfo = eduCourseService.getCourseBasicInfo(courseId);
-        if (courseInfo == null) {
-            throw new MyCustomException(ResultCode.COURSE_IS_NOT_EXIST);
-        }
-        return Result.ofSuccess(courseInfo);
+    public Result<CourseVo> findCourseInfo(@PathVariable String courseId) {
+        return Result.ofSuccess(eduCourseService.getCourseBasicInfo(courseId));
     }
 
 
     @ApiOperation("修改课程基本信息")
     @PutMapping("info")
-    public Result updateCourseInfo(@Valid @RequestBody InPutEduCourseInsertDto inPutEduCourseInsertDto, BindingResult result) {
-        Boolean flag = eduCourseService.updateCourseInfo(inPutEduCourseInsertDto);
+    public Result updateCourseInfo(@Valid @RequestBody InsertCourseParam insertCourseParam, BindingResult result) {
+        Boolean flag = eduCourseService.updateCourseInfo(insertCourseParam);
         if (flag) {
             return Result.ofSuccess();
         }
@@ -109,8 +104,6 @@ public class EduCourseController {
         }
         return Result.ofFail(ResultCode.DELETE_COURSE_FAILURE);
     }
-
-
 
 
 }

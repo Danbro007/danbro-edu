@@ -1,20 +1,19 @@
 package com.danbro.edu.controller;
 
-import java.util.List;
-import javax.annotation.Resource;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-
 import com.danbro.edu.controller.param.InsertChapterParam;
 import com.danbro.edu.controller.param.UpdateChapterParam;
 import com.danbro.edu.controller.vo.ChapterVo;
 import com.danbro.edu.service.EduChapterService;
 import com.danbro.enums.Result;
-import com.danbro.enums.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 课程(EduChapter)表控制层

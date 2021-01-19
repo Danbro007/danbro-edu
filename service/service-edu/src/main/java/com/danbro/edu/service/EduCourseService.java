@@ -6,12 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.dto.CourseTopDto;
 import com.danbro.dto.EduCourseBasicInfoDto;
-import com.danbro.edu.controller.dto.InPutEduCourseInsertDto;
+import com.danbro.edu.controller.param.InsertCourseParam;
 import com.danbro.edu.controller.dto.OutPutEduCoursePublishDto;
 import com.danbro.edu.controller.dto.FrontCourseConditionPagingDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
 import com.danbro.edu.controller.dto.FrontPagingDto;
 import com.danbro.edu.controller.dto.SearchCourseConditionDto;
+import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
 
 /**
@@ -24,10 +25,10 @@ public interface EduCourseService extends IService<EduCourse> {
     /**
      * 添加课程
      *
-     * @param inPutEduCourseInsertDto 课程参数
+     * @param insertCourseParam 课程参数
      * @return
      */
-    EduCourse insert(InPutEduCourseInsertDto inPutEduCourseInsertDto);
+    EduCourse insert(InsertCourseParam insertCourseParam);
 
     /**
      * 根据 courseId 获取课程基本信息（不包括课程里的章节和小节）
@@ -35,15 +36,15 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param courseId 课程Id
      * @return 课程信息
      */
-    EduCourseBasicInfoDto getCourseBasicInfo(String courseId);
+    CourseVo getCourseBasicInfo(String courseId);
 
     /**
      * 更新课程
      *
-     * @param inPutEduCourseInsertDto 课程信息
+     * @param insertCourseParam 课程信息
      * @return 更新结果
      */
-    Boolean updateCourseInfo(InPutEduCourseInsertDto inPutEduCourseInsertDto);
+    Boolean updateCourseInfo(InsertCourseParam insertCourseParam);
 
     /**
      * 根据课程Id获取要发布的课程信息
@@ -94,4 +95,12 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return 课程详细信息
      */
     FrontCourseDetailInfoDto getCourseDetailInfo(String courseId);
+
+    /**
+     * 更新或者更新课程
+     *
+     * @param eduCourse 要添加或者更新的课程
+     * @return 添加或者更新完毕的课程对象
+     */
+    EduCourse insertOrUpdateCourse(EduCourse eduCourse);
 }

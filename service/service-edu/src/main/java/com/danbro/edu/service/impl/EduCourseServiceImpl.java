@@ -2,6 +2,7 @@ package com.danbro.edu.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,6 +10,8 @@ import com.danbro.dto.CourseTopDto;
 import com.danbro.dto.EduCourseBasicInfoDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
 import com.danbro.edu.controller.dto.*;
+import com.danbro.edu.controller.param.InsertCourseParam;
+import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduCourseDescription;
 import com.danbro.edu.entity.EduTeacher;
@@ -48,16 +51,16 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     EduTeacherService eduTeacherService;
 
     @Override
-    public EduCourse insert(InPutEduCourseInsertDto inPutEduCourseInsertDto) {
+    public EduCourse insert(InsertCourseParam insertCourseParam) {
         EduCourse eduCourse = new EduCourse();
         EduCourseDescription eduCourseDescription = new EduCourseDescription();
-        BeanUtils.copyProperties(inPutEduCourseInsertDto, eduCourse);
+        BeanUtils.copyProperties(insertCourseParam, eduCourse);
         boolean f = this.save(eduCourse);
         if (!f) {
             throw new MyCustomException(ResultCode.INSERT_COURSE_FAILURE);
         }
         eduCourseDescription.
-                setDescription(inPutEduCourseInsertDto.getDescription()).
+                setDescription(insertCourseParam.getDescription()).
                 setId(eduCourse.getId());
         boolean b = eduCourseDescriptionService.save(eduCourseDescription);
         if (!b) {
@@ -67,28 +70,18 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
     @Override
-    public EduCourseBasicInfoDto getCourseBasicInfo(String courseId) {
-        EduCourseBasicInfoDto eduCourseBasicInfoDto = new EduCourseBasicInfoDto();
-        EduCourse course = this.getById(courseId);
-        BeanUtils.copyProperties(course, eduCourseBasicInfoDto);
-        EduCourseDescription courseDescription = eduCourseDescriptionService.getById(courseId);
-        BeanUtils.copyProperties(courseDescription, eduCourseBasicInfoDto);
-        EduTeacher teacher = eduTeacherService.getById(eduCourseBasicInfoDto.getTeacherId());
-        if (teacher == null) {
-            throw new MyCustomException(ResultCode.TEACHER_NOT_FOUND);
-        }
-        eduCourseBasicInfoDto.setTeacherName(teacher.getName());
-        return eduCourseBasicInfoDto;
+    public CourseVo getCourseBasicInfo(String courseId) {
+        return this.baseMapper.getCourseBasicInfoByCourseId(courseId);
     }
 
     @Override
-    public Boolean updateCourseInfo(InPutEduCourseInsertDto inPutEduCourseInsertDto) {
+    public Boolean updateCourseInfo(InsertCourseParam insertCourseParam) {
         try {
             EduCourse eduCourse = new EduCourse();
-            BeanUtils.copyProperties(inPutEduCourseInsertDto, eduCourse);
+            BeanUtils.copyProperties(insertCourseParam, eduCourse);
             this.updateById(eduCourse);
             EduCourseDescription courseDescription = new EduCourseDescription();
-            BeanUtils.copyProperties(inPutEduCourseInsertDto, courseDescription);
+            BeanUtils.copyProperties(insertCourseParam, courseDescription);
             eduCourseDescriptionService.updateById(courseDescription);
         } catch (BeansException e) {
             return false;
@@ -121,14 +114,15 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean removeCourse(String id) {
-        if (eduChapterService.removeChapterAndVideoByCourseId(id) &&
-                eduVideoService.removeByCourseId(id) &&
-                eduCourseDescriptionService.removeById(id) &&
-                this.removeById(id)) {
-            return true;
-        } else {
-            throw new MyCustomException(ResultCode.DELETE_COURSE_FAILURE);
-        }
+        return false;
+//        if (eduChapterService.removeChapterAndVideoByCourseId(id) &&
+//                eduVideoService.removeByCourseId(id) &&
+//                eduCourseDescriptionService.removeById(id) &&
+//                this.removeById(id)) {
+//            return true;
+//        } else {
+//            throw new MyCustomException(ResultCode.DELETE_COURSE_FAILURE);
+//        }
     }
 
     @Cacheable(value = "course", key = "'top-course-list'")
@@ -177,5 +171,11 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Override
     public FrontCourseDetailInfoDto getCourseDetailInfo(String courseId) {
         return this.baseMapper.getCourseDetailInfo(courseId);
+    }
+
+    @Override
+    public EduCourse insertOrUpdateCourse(EduCourse eduCourse) {
+        this.saveOrUpdate(eduCourse);
+        return eduCourse;
     }
 }

@@ -7,6 +7,7 @@ import com.danbro.edu.entity.EduTeacher;
 import com.danbro.impl.DtoConvert;
 import com.danbro.impl.ParamConvert;
 import com.google.common.base.Converter;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +19,7 @@ import org.springframework.beans.BeanUtils;
  * @Author Danrbo
  */
 @Data
+@ApiModel("添加老师的参数")
 public class InsertTeacherParam implements ParamConvert<EduTeacher> {
     /**
      * 讲师姓名

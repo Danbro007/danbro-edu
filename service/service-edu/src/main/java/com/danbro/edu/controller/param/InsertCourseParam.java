@@ -1,13 +1,17 @@
-package com.danbro.edu.controller.dto;
+package com.danbro.edu.controller.param;
 
 import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.danbro.edu.entity.EduCourse;
+import com.danbro.impl.ParamConvert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 /**
  * @Classname CourseInputDto
@@ -16,14 +20,16 @@ import lombok.Data;
  * @Author Danrbo
  */
 @Data
-@ApiModel("课程提交参数")
-public class InPutEduCourseInsertDto {
+@ApiModel("添加课程的参数")
+public class InsertCourseParam implements ParamConvert<EduCourse> {
     @NotBlank(message = "讲师ID不能为空！")
+    @Min(value = 1, message = "讲师ID不能小于0！")
     @ApiModelProperty("课程讲师ID")
     private String teacherId;
 
     @NotBlank(message = "课程ID不能为空！")
-    @ApiModelProperty("课程专业ID")
+    @Min(value = 1, message = "课程分类ID不能小于0！")
+    @ApiModelProperty("课程分类ID")
     private String subjectId;
 
     @NotBlank(message = "课程标题不能为空！")
@@ -49,7 +55,15 @@ public class InPutEduCourseInsertDto {
     @ApiModelProperty("课程简介")
     private String description;
 
+    @Min(value = 1, message = "父类分类ID不能小于等于0！")
     @NotBlank(message = "请选择父类分类！")
     @ApiModelProperty("父类分类ID")
     private String subjectParentId;
+
+    @Override
+    public EduCourse convertTo() {
+        EduCourse eduCourse = new EduCourse();
+        BeanUtils.copyProperties(this, eduCourse);
+        return eduCourse;
+    }
 }

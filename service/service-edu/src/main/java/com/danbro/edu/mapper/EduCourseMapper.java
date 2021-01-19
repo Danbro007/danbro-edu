@@ -3,6 +3,8 @@ package com.danbro.edu.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.danbro.edu.controller.dto.OutPutEduCoursePublishDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
+import com.danbro.edu.controller.vo.ChapterVo;
+import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
 
 /**
@@ -13,7 +15,16 @@ import com.danbro.edu.entity.EduCourse;
  */
 public interface EduCourseMapper extends BaseMapper<EduCourse> {
 
+
     OutPutEduCoursePublishDto getCourseInfoForPublish(String courseId);
+
     FrontCourseDetailInfoDto getCourseDetailInfo(String courseId);
 
+    /**
+     * 通过课程ID获取课程基本信息（课程讲师）
+     *
+     * @param courseId 课程ID
+     * @return 课程基本信息
+     */
+    CourseVo getCourseBasicInfoByCourseId(String courseId);
 }

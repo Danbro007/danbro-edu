@@ -77,4 +77,48 @@
                  LEFT JOIN edu_subject es2 ON ec.subject_parent_id = es2.id
         WHERE ec.id = #{id}
     </select>
+
+    <resultMap id="courseBasicInfoResultMap" type="com.danbro.edu.controller.vo.CourseVo">
+        <id property="id" column="courseId"/>
+        <result property="lessonNum" column="lessonNum"/>
+        <result property="buyCount" column="buyCount"/>
+        <result property="cover" column="cover"/>
+        <result property="gmtCreate" column="gmtCreate"/>
+        <result property="gmtModified" column="gmtModified"/>
+        <result property="price" column="price"/>
+        <result property="status" column="status"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <association property="teacher" javaType="com.danbro.edu.controller.vo.TeacherVo">
+            <id property="id" column="teacherId"/>
+            <result property="name" column="teacherName"/>
+            <result property="level" column="teacherLevel"/>
+            <result property="intro" column="teacherIntro"/>
+            <result property="career" column="teacherCareer"/>
+            <result property="avatar" column="teacherAvatar"/>
+        </association>
+    </resultMap>
+
+    <select id="getCourseBasicInfoByCourseId" resultMap="courseBasicInfoResultMap">
+        SELECT ec.id           AS courseId,
+               ec.lesson_num   AS lessonNum,
+               ec.buy_count    AS buyCount,
+               ec.cover        AS cover,
+               ec.gmt_create   AS gmtCreate,
+               ec.gmt_modified AS gmtModified,
+               ec.price        AS price,
+               ec.`status`     AS status,
+               ec.title        AS title,
+               ecd.description AS description,
+               et.`name`       AS teachetName,
+               et.avatar       as teacherAvatar,
+               et.career       as teacherCareer,
+               et.id           as teacherId,
+               et.intro        as teacherIntro,
+               et.`level`      as teacherLevel
+        FROM edu_course ec
+                 LEFT JOIN edu_course_description ecd ON ec.id = ecd.id
+                 LEFT JOIN edu_teacher et ON et.id = ec.teacher_id
+        WHERE ec.id = #{id}
+    </select>
 </mapper>
