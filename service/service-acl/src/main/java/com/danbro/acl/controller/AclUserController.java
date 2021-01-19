@@ -59,9 +59,6 @@ public class AclUserController {
     @ApiOperation("添加用户")
     @PostMapping()
     public Result<AclUserDto> insertUser(@Valid @RequestBody AclUserDto aclUserDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new MyCustomException(ResultCode.PARAMS_ERROR, bindingResult.getAllErrors());
-        }
         return Result.ofSuccess(aclUserService.insertOrUpdate(aclUserDto));
     }
 

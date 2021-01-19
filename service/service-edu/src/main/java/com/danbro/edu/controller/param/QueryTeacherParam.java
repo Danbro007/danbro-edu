@@ -1,4 +1,4 @@
-package com.danbro.edu.dto;
+package com.danbro.edu.controller.param;
 
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.impl.DtoConvert;
@@ -11,16 +11,16 @@ import java.util.Date;
 
 /**
  * @Classname TeacherQueryVo
- * @Description TODO 接收前端传来的分页查询参数
+ * @Description TODO 查询讲师的参数
  * @Date 2020/12/15 11:35
  * @Author Danrbo
  */
 @Data
-public class FrontTeacherQueryDto implements DtoConvert<FrontTeacherQueryDto, EduTeacher> {
-    @ApiModelProperty("教师名")
+public class QueryTeacherParam implements DtoConvert<QueryTeacherParam, EduTeacher> {
+    @ApiModelProperty("讲师名")
     private String name;
 
-    @ApiModelProperty(value = "讲师等级",example = "1")
+    @ApiModelProperty(value = "讲师等级", example = "1")
     private Integer level;
 
     @ApiModelProperty("创建时间")
@@ -30,7 +30,7 @@ public class FrontTeacherQueryDto implements DtoConvert<FrontTeacherQueryDto, Ed
     private Date end;
 
     @Override
-    public FrontTeacherQueryDto convertFrom(EduTeacher eduTeacher) {
+    public QueryTeacherParam convertFrom(EduTeacher eduTeacher) {
         EduTeacherDtoConvertor eduTeacherDtoConvertor = new EduTeacherDtoConvertor();
         return eduTeacherDtoConvertor.doBackward(eduTeacher);
     }
@@ -42,19 +42,19 @@ public class FrontTeacherQueryDto implements DtoConvert<FrontTeacherQueryDto, Ed
     }
 
 
-    private static class EduTeacherDtoConvertor extends Converter<FrontTeacherQueryDto, EduTeacher> {
+    private static class EduTeacherDtoConvertor extends Converter<QueryTeacherParam, EduTeacher> {
         @Override
-        protected EduTeacher doForward(FrontTeacherQueryDto frontTeacherQueryDto) {
+        protected EduTeacher doForward(QueryTeacherParam queryTeacherParam) {
             EduTeacher eduTeacher = new EduTeacher();
-            BeanUtils.copyProperties(frontTeacherQueryDto, eduTeacher);
+            BeanUtils.copyProperties(queryTeacherParam, eduTeacher);
             return eduTeacher;
         }
 
         @Override
-        protected FrontTeacherQueryDto doBackward(EduTeacher eduTeacher) {
-            FrontTeacherQueryDto frontTeacherQueryDto = new FrontTeacherQueryDto();
-            BeanUtils.copyProperties(eduTeacher, frontTeacherQueryDto);
-            return frontTeacherQueryDto;
+        protected QueryTeacherParam doBackward(EduTeacher eduTeacher) {
+            QueryTeacherParam queryTeacherParam = new QueryTeacherParam();
+            BeanUtils.copyProperties(eduTeacher, queryTeacherParam);
+            return queryTeacherParam;
         }
     }
 }

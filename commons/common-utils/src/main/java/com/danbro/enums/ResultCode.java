@@ -13,8 +13,8 @@ public enum ResultCode {
      */
     SUCCESS(20000, "成功"),
     FAILURE(20001, "失败"),
-    PARAMS_ERROR(20002, "参数不正确！"),
-    NO_PERMISSION(20003,"你没有权限！"),
+    PARAMS_ERROR(20002, "参数校验失败！"),
+    NO_PERMISSION(20003, "你没有权限！"),
 
     /**
      * 讲师管理代码

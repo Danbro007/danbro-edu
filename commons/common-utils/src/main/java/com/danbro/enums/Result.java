@@ -26,12 +26,16 @@ public class Result<R> implements Serializable {
     private static final long serialVersionUID = 5676862892560293265L;
     @ApiModelProperty("状态码")
     private Integer code;
+
     @ApiModelProperty("响应消息")
     private String message;
+
     @ApiModelProperty("响应的数据")
     private R data;
+
     @ApiModelProperty("校验数据错误列表")
-    private List<ObjectError> errors;
+    private List<String> errors;
+
     @ApiModelProperty("请求是否成功")
     private Boolean isSuccess = false;
 
@@ -52,6 +56,11 @@ public class Result<R> implements Serializable {
         this.code = customException.getCode();
         this.message = customException.getMessage();
         this.errors = customException.getErrors();
+    }
+
+    private Result(ResultCode resultCode, List<String> errors) {
+        this.code = resultCode.getCode();
+        this.errors = errors;
     }
 
     /**
@@ -89,11 +98,17 @@ public class Result<R> implements Serializable {
         return new Result<>(resultCode, data);
     }
 
+
+    public static <R> Result<R> ofFail(ResultCode resultCode, List<String> errors) {
+        return new Result<>(resultCode, errors);
+    }
+
+
     public static <R> Result<R> ofFail(MyCustomException exception) {
         return new Result<>(exception);
     }
 
-    public static <R> Result<R> ofFail(MyCustomException exception, List<ObjectError> errors) {
+    public static <R> Result<R> ofFail(MyCustomException exception, List<String> errors) {
         Result<R> result = new Result<>(exception);
         result.setErrors(errors);
         return result;

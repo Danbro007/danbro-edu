@@ -1,12 +1,8 @@
 package com.danbro.edu.controller;
 
-import java.util.List;
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.danbro.edu.dto.FrontTeacherQueryDto;
-import com.danbro.edu.dto.InPutEduTeacherInsertDto;
-import com.danbro.edu.dto.InPutEduTeacherUpdateDto;
+import com.danbro.edu.controller.param.QueryTeacherParam;
+import com.danbro.edu.controller.param.InsertTeacherParam;
+import com.danbro.edu.controller.param.UpdateTeacherParam;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.service.EduTeacherService;
 import com.danbro.enity.OutPutPagingDto;
@@ -16,9 +12,15 @@ import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 讲师(EduTeacher)表控制层
@@ -26,9 +28,9 @@ import org.springframework.web.bind.annotation.*;
  * @author makejava
  * @since 2020-12-14 15:11:47
  */
-@Api("教师资源")
-
+@Api(tags = "讲师接口")
 @RestController
+@Validated
 @RequestMapping("edu")
 public class EduTeacherController {
     /**
@@ -38,74 +40,57 @@ public class EduTeacherController {
     private EduTeacherService eduTeacherService;
 
     @ApiOperation("查找所有的教师")
-    @GetMapping("teacher")
+    @GetMapping("teachers")
     public Result<List<EduTeacher>> findAll() {
-        List<EduTeacher> teacherList = eduTeacherService.list();
-        return Result.ofSuccess(teacherList);
+        return Result.ofSuccess(eduTeacherService.list());
     }
 
     @ApiOperation("通过教师id删除指定的教师")
     @DeleteMapping("teacher/{id}")
-    public Result deleteTeacherById(@ApiParam(name = "id", value = "教师id", required = true, example = "1189389726308478977") @PathVariable String id) {
-        if (id != null && !StringUtils.isEmpty(id)) {
-            if (eduTeacherService.removeById(id)) {
-                return Result.ofSuccess();
-            }
+    public Result deleteTeacherById(@NotBlank(message = "讲师ID不为能空！") @Min(value = 1, message = "讲师ID不能小于0！") @ApiParam(name = "id", value = "讲师ID", required = true, example = "1189389726308478977")
+                                    @PathVariable String id) {
+        if (eduTeacherService.removeById(id)) {
+            return Result.ofSuccess();
         }
         throw new MyCustomException(ResultCode.DELETE_TEACHER_NOT_FOUND);
     }
 
-    @ApiOperation("通过教师id查找指定的教师")
+    @ApiOperation("通过讲师ID查找指定的讲师")
     @GetMapping("teacher/{id}")
-    public Result<EduTeacher> findOne(@ApiParam(name = "id", value = "教师id", required = true, example = "1189389726308478977") @PathVariable String id) {
-        EduTeacher teacherInfo = eduTeacherService.getById(id);
-        return Result.ofSuccess(teacherInfo);
+    public Result<EduTeacher> findOne(@NotBlank(message = "讲师ID不为能空！") @Min(value = 1, message = "讲师ID不能小于0！") @ApiParam(name = "id", value = "讲师ID", required = true, example = "1189389726308478977")
+                                      @PathVariable String id) {
+        return Result.ofSuccess(eduTeacherService.getById(id));
     }
 
 
     @ApiOperation("带条件的分页查询教师")
     @PostMapping("teacher/list/{current}/{limit}")
-    public Result<OutPutPagingDto<EduTeacher>> pagingFindByCondition(@ApiParam(name = "current", value = "当前页数", example = "1") @PathVariable Integer current,
-                                                                     @ApiParam(name = "limit", value = "当前页显示记录数", example = "10") @PathVariable Integer limit,
-                                                                     @RequestBody(required = false) FrontTeacherQueryDto frontTeacherQueryDto) {
-        Page<EduTeacher> page = eduTeacherService.pagingFindTeacherByCondition(current, limit, frontTeacherQueryDto);
-        OutPutPagingDto<EduTeacher> outPutPagingDto = new OutPutPagingDto<EduTeacher>().setRows(page.getRecords()).setTotal(page.getTotal());
-        return Result.ofSuccess(outPutPagingDto);
-
-
+    public Result<OutPutPagingDto<EduTeacher>> pagingFindByCondition(@NotNull(message = "查询的页数不能为空!") @Min(value = 1, message = "查询的页数必须大于0！") @ApiParam(name = "current", value = "当前页数") @PathVariable Integer current,
+                                                                     @NotNull(message = "每页的显示数不能为空!") @Min(value = 1, message = "每页的显示数必须大于0！") @ApiParam(name = "limit", value = "当前页显示记录数") @PathVariable Integer limit,
+                                                                     @RequestBody(required = false) @ApiParam(name = "queryTeacherParam", value = "查询讲师的参数") QueryTeacherParam queryTeacherParam) {
+        return Result.ofSuccess(eduTeacherService.pagingFindTeacherByCondition(current, limit, queryTeacherParam));
     }
 
     @ApiOperation("添加教师")
     @PostMapping("teacher")
-    public Result insert(@Valid @RequestBody(required = true) InPutEduTeacherInsertDto inPutEduTeacherInsertDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new MyCustomException(ResultCode.FAILURE, bindingResult.getAllErrors());
-        }
-        EduTeacher eduTeacher = inPutEduTeacherInsertDto.convertTo();
+    public Result<EduTeacher> insert(@Validated @RequestBody InsertTeacherParam insertTeacherParam) {
         try {
-            if (eduTeacherService.save(eduTeacher)) {
-                return Result.ofSuccess();
-            }
+            return Result.ofSuccess(eduTeacherService.insertOrUpdateTeacher(insertTeacherParam.convertTo()));
         } catch (Exception e) {
             e.printStackTrace();
             throw new MyCustomException(ResultCode.INSERT_TEACHER_FAILURE);
         }
-        throw new MyCustomException(ResultCode.INSERT_TEACHER_FAILURE);
     }
 
 
     @ApiOperation("修改教师信息")
     @PutMapping("teacher")
-    public Result update(@Valid @RequestBody InPutEduTeacherUpdateDto inPutEduTeacherUpdateDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new MyCustomException(ResultCode.FAILURE, bindingResult.getAllErrors());
+    public Result update(@Validated @RequestBody UpdateTeacherParam updateTeacherParam) {
+        try {
+            return Result.ofSuccess(eduTeacherService.insertOrUpdateTeacher(updateTeacherParam.convertTo()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new MyCustomException(ResultCode.INSERT_TEACHER_FAILURE);
         }
-        EduTeacher eduTeacher = inPutEduTeacherUpdateDto.convertTo();
-        if (eduTeacherService.updateById(eduTeacher)) {
-            return Result.ofSuccess();
-        }
-        throw new MyCustomException(ResultCode.UPDATE_TEACHER_FAILURE);
     }
-
-
 }

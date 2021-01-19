@@ -1,6 +1,7 @@
 package com.danbro.exception;
 
 import java.util.List;
+
 import com.danbro.enums.ResultCode;
 import lombok.Data;
 import org.springframework.validation.ObjectError;
@@ -16,14 +17,14 @@ public class MyCustomException extends RuntimeException {
 
     private String message;
     private Integer code;
-    private List<ObjectError> errors;
+    private List<String> errors;
 
     public MyCustomException(ResultCode resultCode) {
         this.code = resultCode.getCode();
         this.message = resultCode.getMessage();
     }
 
-    public MyCustomException(ResultCode resultCode, List<ObjectError> errors) {
+    public MyCustomException(ResultCode resultCode, List<String> errors) {
         this.code = resultCode.getCode();
         this.message = resultCode.getMessage();
         this.errors = errors;

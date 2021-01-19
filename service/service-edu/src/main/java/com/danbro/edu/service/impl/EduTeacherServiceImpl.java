@@ -3,17 +3,19 @@ package com.danbro.edu.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.dto.TeacherTopDto;
 import com.danbro.edu.dto.FrontPagingDto;
 import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
-import com.danbro.edu.dto.FrontTeacherQueryDto;
+import com.danbro.edu.controller.param.QueryTeacherParam;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.mapper.EduTeacherMapper;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.edu.service.EduTeacherService;
+import com.danbro.enity.OutPutPagingDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,12 +34,12 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     EduCourseService eduCourseService;
 
     @Override
-    public Page<EduTeacher> pagingFindTeacherByCondition(Integer current, Integer limit, FrontTeacherQueryDto frontTeacherQueryDto) {
+    public OutPutPagingDto<EduTeacher> pagingFindTeacherByCondition(Integer current, Integer limit, QueryTeacherParam queryTeacherParam) {
         Page<EduTeacher> page = new Page<>(current, limit);
-        Date end = frontTeacherQueryDto.getEnd();
-        Date start = frontTeacherQueryDto.getStart();
-        Integer level = frontTeacherQueryDto.getLevel();
-        String name = frontTeacherQueryDto.getName();
+        Date end = queryTeacherParam.getEnd();
+        Date start = queryTeacherParam.getStart();
+        Integer level = queryTeacherParam.getLevel();
+        String name = queryTeacherParam.getName();
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(name)) {
             queryWrapper.like("name", name);
@@ -54,7 +56,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         // 按照 gmt_create 排序
         queryWrapper.orderByDesc("gmt_create");
         this.page(page, queryWrapper);
-        return page;
+        return new OutPutPagingDto<EduTeacher>().setRows(page.getRecords()).setTotal(page.getTotal());
     }
 
     @Cacheable(value = "teacher", key = "'top-teacher-list'")
@@ -93,4 +95,11 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     public FrontTeacherInfoQueryDto getTeacherInfoById(String id) {
         return this.baseMapper.getTeacherInfoById(id);
     }
+
+    @Override
+    public EduTeacher insertOrUpdateTeacher(EduTeacher teacher) {
+        this.saveOrUpdate(teacher);
+        return teacher;
+    }
+
 }

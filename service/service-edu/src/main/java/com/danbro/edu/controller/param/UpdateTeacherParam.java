@@ -1,7 +1,8 @@
-package com.danbro.edu.dto;
+package com.danbro.edu.controller.param;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.impl.DtoConvert;
 import com.google.common.base.Converter;
@@ -11,12 +12,17 @@ import org.springframework.beans.BeanUtils;
 
 /**
  * @Classname EduTeacherInsertDto
- * @Description TODO 后台用户添加讲师的参数
+ * @Description TODO 后台用户修改讲师信息的参数
  * @Date 2020/12/15 13:53
  * @Author Danrbo
  */
 @Data
-public class InPutEduTeacherInsertDto implements DtoConvert<InPutEduTeacherInsertDto, EduTeacher> {
+public class UpdateTeacherParam implements DtoConvert<UpdateTeacherParam, EduTeacher> {
+    /**
+     * 教师id
+     */
+    @NotEmpty(message = "讲师ID不能为空！")
+    private String id;
     /**
      * 讲师姓名
      */
@@ -57,24 +63,24 @@ public class InPutEduTeacherInsertDto implements DtoConvert<InPutEduTeacherInser
     }
 
     @Override
-    public InPutEduTeacherInsertDto convertFrom(EduTeacher eduTeacher) {
+    public UpdateTeacherParam convertFrom(EduTeacher eduTeacher) {
         EduTeacherDtoConvertor convertor = new EduTeacherDtoConvertor();
         return convertor.doBackward(eduTeacher);
     }
 
-    private static class EduTeacherDtoConvertor extends Converter<InPutEduTeacherInsertDto, EduTeacher> {
+    private static class EduTeacherDtoConvertor extends Converter<UpdateTeacherParam, EduTeacher> {
         @Override
-        protected EduTeacher doForward(InPutEduTeacherInsertDto inPutEduTeacherInsertDto) {
+        protected EduTeacher doForward(UpdateTeacherParam eduTeacherInsertDto) {
             EduTeacher eduTeacher = new EduTeacher();
-            BeanUtils.copyProperties(inPutEduTeacherInsertDto, eduTeacher);
+            BeanUtils.copyProperties(eduTeacherInsertDto, eduTeacher);
             return eduTeacher;
         }
 
         @Override
-        protected InPutEduTeacherInsertDto doBackward(EduTeacher eduTeacher) {
-            InPutEduTeacherInsertDto inPutEduTeacherInsertDto = new InPutEduTeacherInsertDto();
-            BeanUtils.copyProperties(eduTeacher, inPutEduTeacherInsertDto);
-            return inPutEduTeacherInsertDto;
+        protected UpdateTeacherParam doBackward(EduTeacher eduTeacher) {
+            UpdateTeacherParam eduTeacherInsertDto = new UpdateTeacherParam();
+            BeanUtils.copyProperties(eduTeacher, eduTeacherInsertDto);
+            return eduTeacherInsertDto;
         }
     }
 }

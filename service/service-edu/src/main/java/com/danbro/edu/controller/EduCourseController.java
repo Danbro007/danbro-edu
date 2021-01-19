@@ -41,10 +41,6 @@ public class EduCourseController {
     @ApiOperation("添加课程信息")
     @PostMapping("info")
     public Result<String> insert(@Valid @RequestBody InPutEduCourseInsertDto inPutEduCourseInsertDto, BindingResult result) {
-        if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            throw new MyCustomException(ResultCode.FAILURE, errors);
-        }
         EduCourse course = eduCourseService.insert(inPutEduCourseInsertDto);
         if (course != null) {
             return Result.ofSuccess(course.getId());
@@ -67,10 +63,6 @@ public class EduCourseController {
     @ApiOperation("修改课程基本信息")
     @PutMapping("info")
     public Result updateCourseInfo(@Valid @RequestBody InPutEduCourseInsertDto inPutEduCourseInsertDto, BindingResult result) {
-        if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            throw new MyCustomException(ResultCode.FAILURE, errors);
-        }
         Boolean flag = eduCourseService.updateCourseInfo(inPutEduCourseInsertDto);
         if (flag) {
             return Result.ofSuccess();
@@ -88,10 +80,6 @@ public class EduCourseController {
     @ApiOperation("修改课程发布状态")
     @PutMapping("publish/status")
     public Result updatePublishStatus(@Valid @RequestBody InPutEduCourseUpdatePublishStatusDto statusDto, BindingResult result) {
-        if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            throw new MyCustomException(ResultCode.FAILURE, errors);
-        }
         EduCourse eduCourse = new EduCourse();
         BeanUtils.copyProperties(statusDto, eduCourse);
         boolean b = eduCourseService.updateById(eduCourse);
