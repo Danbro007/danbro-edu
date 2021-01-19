@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @Author Danrbo
  */
 @MapperScan(basePackages = "com.danbro.statistic.mapper")
-@SpringBootApplication
+@SpringBootApplication()
 @EnableFeignClients
 @ComponentScan(basePackages = "com.danbro")
 @EnableDiscoveryClient
