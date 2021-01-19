@@ -1,9 +1,9 @@
 package com.danbro.edu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.edu.dto.FrontCourseCommentDto;
-import com.danbro.edu.dto.FrontInPutCommentInsertDto;
-import com.danbro.edu.dto.FrontPagingDto;
+import com.danbro.edu.controller.dto.FrontCourseCommentDto;
+import com.danbro.edu.controller.dto.FrontInPutCommentInsertDto;
+import com.danbro.edu.controller.dto.FrontPagingDto;
 import com.danbro.edu.entity.EduComment;
 
 /**

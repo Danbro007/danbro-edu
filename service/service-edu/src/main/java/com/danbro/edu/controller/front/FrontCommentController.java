@@ -2,10 +2,11 @@ package com.danbro.edu.controller.front;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import com.danbro.dto.UserInfoDto;
-import com.danbro.edu.dto.FrontCourseCommentDto;
-import com.danbro.edu.dto.FrontInPutCommentInsertDto;
-import com.danbro.edu.dto.FrontPagingDto;
+import com.danbro.edu.controller.dto.FrontCourseCommentDto;
+import com.danbro.edu.controller.dto.FrontInPutCommentInsertDto;
+import com.danbro.edu.controller.dto.FrontPagingDto;
 import com.danbro.edu.service.EduCommentService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;

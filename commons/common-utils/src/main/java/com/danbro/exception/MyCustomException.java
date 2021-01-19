@@ -15,6 +15,7 @@ import org.springframework.validation.ObjectError;
 @Data
 public class MyCustomException extends RuntimeException {
 
+    private static final long serialVersionUID = 8901488341753242348L;
     private String message;
     private Integer code;
     private List<String> errors;

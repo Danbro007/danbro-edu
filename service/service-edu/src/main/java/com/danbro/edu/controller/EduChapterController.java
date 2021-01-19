@@ -2,15 +2,18 @@ package com.danbro.edu.controller;
 
 import java.util.List;
 import javax.annotation.Resource;
-import com.danbro.edu.dto.InPutEduChapterInsertDto;
-import com.danbro.edu.dto.OutPutEduChapterDto;
-import com.danbro.edu.dto.InPutEduChapterUpdateDto;
-import com.danbro.edu.entity.EduChapter;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
+import com.danbro.edu.controller.param.InsertChapterParam;
+import com.danbro.edu.controller.param.UpdateChapterParam;
+import com.danbro.edu.controller.vo.ChapterVo;
 import com.danbro.edu.service.EduChapterService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -19,9 +22,10 @@ import org.springframework.web.bind.annotation.*;
  * @author makejava
  * @since 2020-12-20 19:55:16
  */
-
+@Api(tags = "课程章节接口")
 @RestController
-@RequestMapping("edu")
+@Validated
+@RequestMapping("edu/chapter")
 public class EduChapterController {
     /**
      * 服务对象
@@ -36,26 +40,23 @@ public class EduChapterController {
      * @return 章节列表
      */
     @ApiOperation("查找课程里所有的章节")
-    @GetMapping("chapter/{courseId}")
-    public Result<List<OutPutEduChapterDto>> getChapter(@PathVariable String courseId) {
-        List<OutPutEduChapterDto> chapterOutPut = eduChapterService.findAllByCourseId(courseId);
-        return Result.ofSuccess(chapterOutPut);
+    @GetMapping("{courseId}")
+    public Result<List<ChapterVo>> getChapter(@NotBlank(message = "课程ID不能为空！")
+                                              @Min(value = 1, message = "课程ID不能小于0！")
+                                              @PathVariable String courseId) {
+        return Result.ofSuccess(eduChapterService.findAllByCourseId(courseId));
     }
 
     /**
      * 添加章节
      *
-     * @param inPutEduChapterInsertDto 要添加的章节参数
+     * @param chapterParam 要添加的章节参数
      * @return 添加结果
      */
     @ApiOperation("添加章节")
-    @PostMapping("chapter")
-    public Result insertChapter(@RequestBody InPutEduChapterInsertDto inPutEduChapterInsertDto) {
-        Boolean flag = eduChapterService.insert(inPutEduChapterInsertDto);
-        if (flag) {
-            return Result.ofSuccess();
-        }
-        return Result.ofFail(ResultCode.FAILURE);
+    @PostMapping("")
+    public Result<ChapterVo> insertChapter(@Validated @RequestBody InsertChapterParam chapterParam) {
+        return Result.ofSuccess(new ChapterVo().convertFrom(eduChapterService.insertOrUpdateChapter(chapterParam.convertTo())));
     }
 
     /**
@@ -65,29 +66,21 @@ public class EduChapterController {
      * @return 删除结果
      */
     @ApiOperation("删除章节")
-    @DeleteMapping("chapter/{chapterId}")
-    public Result deleteChapter(@PathVariable String chapterId) {
-        boolean b = eduChapterService.removeChapterAndVideo(chapterId);
-        if (b) {
-            return Result.ofSuccess();
-        }
-        return Result.ofFail(ResultCode.DELETE_CHAPTER_FAILURE);
+    @DeleteMapping("{chapterId}")
+    public Result deleteChapter(@NotBlank(message = "章节ID不能为空！") @Min(value = 1, message = "章节ID不能小于0！") @PathVariable String chapterId) {
+        eduChapterService.removeChapterAndVideoByChapterId(chapterId);
+        return Result.ofSuccess();
     }
 
     /**
      * 通过 eduChapter 更新章节
      *
-     * @param inPutEduChapterUpdateDto 要更新chapter参数
+     * @param chapterParam 要更新chapter参数
      * @return 更新结果
      */
     @ApiOperation("修改章节")
     @PutMapping("chapter")
-    public Result updateChapter(@RequestBody InPutEduChapterUpdateDto inPutEduChapterUpdateDto) {
-        EduChapter eduChapter = new EduChapter();
-        BeanUtils.copyProperties(inPutEduChapterUpdateDto, eduChapter);
-        boolean b = eduChapterService.updateById(eduChapter);
-        if (b) return Result.ofSuccess();
-        return Result.ofFail(ResultCode.UPDATE_CHAPTER_FAILURE);
+    public Result<ChapterVo> updateChapter(@RequestBody UpdateChapterParam chapterParam) {
+        return Result.ofSuccess(new ChapterVo().convertFrom(eduChapterService.insertOrUpdateChapter(chapterParam.convertTo())));
     }
-
 }

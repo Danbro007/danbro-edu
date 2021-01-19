@@ -1,23 +1,17 @@
 package com.danbro.edu.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.edu.dto.InPutEduChapterInsertDto;
-import com.danbro.edu.dto.OutPutEduChapterDto;
-import com.danbro.edu.dto.OutPutEduVideoDto;
+import com.danbro.edu.controller.vo.ChapterVo;
 import com.danbro.edu.entity.EduChapter;
-import com.danbro.edu.entity.EduVideo;
 import com.danbro.edu.mapper.EduChapterMapper;
 import com.danbro.edu.service.EduChapterService;
 import com.danbro.edu.service.EduVideoService;
-import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 课程(EduChapter)表服务实现类
@@ -31,52 +25,33 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
     private EduVideoService eduVideoService;
 
     @Override
-    public List<OutPutEduChapterDto> findAllByCourseId(String courseId) {
-        QueryWrapper<EduChapter> chapterQueryWrapper = new QueryWrapper<>();
-        chapterQueryWrapper.eq("course_id", courseId);
-        List<EduChapter> chapterList = this.list(chapterQueryWrapper);
-        QueryWrapper<EduVideo> videoQueryWrapper = new QueryWrapper<>();
-        videoQueryWrapper.eq("course_id", courseId);
-        List<EduVideo> eduVideoList = eduVideoService.list(videoQueryWrapper);
-        ArrayList<OutPutEduChapterDto> outPutEduChapterDtoList = new ArrayList<>();
-        chapterList.forEach(m -> {
-            OutPutEduChapterDto outPutDto = new OutPutEduChapterDto()
-                    .setLabel(m.getTitle())
-                    .setId(m.getId())
-                    .setSort(m.getSort());
-            eduVideoList.forEach(n -> {
-                if (n.getChapterId().equals(m.getId())) {
-                    OutPutEduVideoDto videoOutPutDto = new OutPutEduVideoDto();
-                    BeanUtils.copyProperties(n, videoOutPutDto);
-                    videoOutPutDto.setLabel(n.getTitle());
-                    outPutDto.getChildren().add(videoOutPutDto);
-                }
-            });
-            outPutEduChapterDtoList.add(outPutDto);
-        });
-        return outPutEduChapterDtoList;
+    public List<ChapterVo> findAllByCourseId(String courseId) {
+        return this.baseMapper.findChapterByCourseId(courseId);
     }
 
     @Override
-    public Boolean insert(InPutEduChapterInsertDto inPutEduChapterInsertDto) {
-        EduChapter eduChapter = new EduChapter();
-        BeanUtils.copyProperties(inPutEduChapterInsertDto, eduChapter);
-        return this.save(eduChapter);
+    public EduChapter insert(EduChapter eduChapter) {
+        this.save(eduChapter);
+        return eduChapter;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean removeChapterAndVideo(String chapterId) {
-        if (eduVideoService.removeByChapterId(chapterId) && this.removeById(chapterId)) {
-            return true;
-        }
-        throw new MyCustomException(ResultCode.DELETE_CHAPTER_FAILURE);
+    public void removeChapterAndVideoByChapterId(String chapterId) {
+        eduVideoService.removeByChapterId(chapterId);
+        this.removeById(chapterId);
     }
 
     @Override
-    public boolean removeByCourseId(String courseId) {
+    public void removeChapterAndVideoByCourseId(String courseId) {
         QueryWrapper<EduChapter> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id", courseId);
-        return this.remove(queryWrapper);
+        this.remove(queryWrapper);
+    }
+
+    @Override
+    public EduChapter insertOrUpdateChapter(EduChapter eduChapter) {
+        this.saveOrUpdate(eduChapter);
+        return eduChapter;
     }
 }

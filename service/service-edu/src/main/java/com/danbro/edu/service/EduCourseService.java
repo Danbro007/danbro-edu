@@ -1,16 +1,17 @@
 package com.danbro.edu.service;
 
 import java.util.List;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.dto.CourseTopDto;
 import com.danbro.dto.EduCourseBasicInfoDto;
-import com.danbro.edu.dto.InPutEduCourseInsertDto;
-import com.danbro.edu.dto.OutPutEduCoursePublishDto;
-import com.danbro.edu.dto.FrontCourseConditionPagingDto;
+import com.danbro.edu.controller.dto.InPutEduCourseInsertDto;
+import com.danbro.edu.controller.dto.OutPutEduCoursePublishDto;
+import com.danbro.edu.controller.dto.FrontCourseConditionPagingDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
-import com.danbro.edu.dto.FrontPagingDto;
-import com.danbro.edu.dto.SearchCourseConditionDto;
+import com.danbro.edu.controller.dto.FrontPagingDto;
+import com.danbro.edu.controller.dto.SearchCourseConditionDto;
 import com.danbro.edu.entity.EduCourse;
 
 /**

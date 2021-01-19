@@ -1,4 +1,4 @@
-package com.danbro.edu.dto;
+package com.danbro.edu.controller.dto;
 
 import java.math.BigDecimal;
 import javax.validation.constraints.Min;

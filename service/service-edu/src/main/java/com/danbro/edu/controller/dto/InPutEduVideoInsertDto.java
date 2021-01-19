@@ -1,16 +1,23 @@
-package com.danbro.edu.dto;
+package com.danbro.edu.controller.dto;
 
 import lombok.Data;
 
 /**
  * @Classname EduVideoInsertInPutDto
- * @Description TODO 更新视频的参数实体类
+ * @Description TODO 添加视频的参数实体类
  * @Date 2020/12/29 12:17
  * @Author Danrbo
  */
 @Data
-public class InPutEduVideoUpdateDto {
-    private String id;
+public class InPutEduVideoInsertDto {
+    /**
+     * 课程ID
+     */
+    private String courseId;
+    /**
+     * 章节ID
+     */
+    private String chapterId;
     /**
      * 节点名称
      */
@@ -20,9 +27,8 @@ public class InPutEduVideoUpdateDto {
      */
     private Integer sort;
 
-
     private Boolean isFree;
 
-    private String videoSourceId;
     private String videoOriginalName;
+    private String videoSourceId;
 }

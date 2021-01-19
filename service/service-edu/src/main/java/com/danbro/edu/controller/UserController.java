@@ -1,6 +1,6 @@
 package com.danbro.edu.controller;
 
-import com.danbro.edu.dto.AdminUserLoginInfoDto;
+import com.danbro.edu.controller.dto.AdminUserLoginInfoDto;
 import com.danbro.enums.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

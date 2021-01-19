@@ -1,4 +1,4 @@
-package com.danbro.edu.dto;
+package com.danbro.edu.controller.dto;
 
 import java.util.Date;
 import lombok.Data;

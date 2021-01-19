@@ -1,7 +1,7 @@
 package com.danbro.edu.controller;
 
-import com.danbro.edu.dto.InPutEduVideoInsertDto;
-import com.danbro.edu.dto.InPutEduVideoUpdateDto;
+import com.danbro.edu.controller.dto.InPutEduVideoInsertDto;
+import com.danbro.edu.controller.dto.InPutEduVideoUpdateDto;
 import com.danbro.edu.entity.EduVideo;
 import com.danbro.edu.service.EduVideoService;
 import com.danbro.enums.Result;

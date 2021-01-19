@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.danbro.edu.mapper.EduChapterMapper">
-
+    <resultMap id="chapterInfoResultMap" type="com.danbro.edu.controller.vo.ChapterVo">
+        <id property="id" column="chapterId"/>
+        <result property="courseId" column="courseId"/>
+        <result property="title" column="chapterTitle"/>
+        <result property="sort" column="chapterSort"/>
+        <result property="gmtCreate" column="chapterGmtCreate"/>
+        <result property="gmtModified" column="chapterGmtModified"/>
+        <collection property="children" ofType="com.danbro.edu.controller.vo.VideoVo">
+            <id property="id" column="videoId"/>
+            <result property="duration" column="videoDuration"/>
+            <result property="gmtCreate" column="videoGmtCreate"/>
+            <result property="gmtModified" column="videoGmtModified"/>
+            <result property="isFree" column="videoIsFree"/>
+            <result property="playCount" column="videoPlayCount"/>
+            <result property="size" column="videoSize"/>
+            <result property="status" column="videoStatus"/>
+            <result property="sort" column="videoSort"/>
+            <result property="videoSourceId" column="videoSourceId"/>
+            <result property="videoOriginalName" column="videoOriginalName"/>
+        </collection>
+    </resultMap>
+    <select id="findChapterByCourseId" resultMap="chapterInfoResultMap">
+        SELECT ec.id                  AS chapterId,
+               ec.course_id           AS courseId,
+               ec.title               AS chapterTitle,
+               ec.sort                AS chapterSort,
+               ec.gmt_create          AS chapterGmtCreate,
+               ec.gmt_modified        AS chapterGmtCreate,
+               ev.id                  AS videoId,
+               ev.duration            AS videoDuration,
+               ev.gmt_create          AS videoGmtCreate,
+               ev.gmt_modified        AS videoGmtModified,
+               ev.is_free             AS videoIsFree,
+               ev.play_count          AS videoPlayCount,
+               ev.size                AS videoSize,
+               ev.sort                AS videoSort,
+               ev.`status`            AS videoStatus,
+               ev.video_original_name AS videoOriginalName,
+               ev.video_source_id     AS videoSourceId
+        FROM edu_chapter ec
+                 LEFT JOIN edu_video ev ON ec.id = ev.chapter_id
+        WHERE ec.course_id = #{id}
+    </select>
 </mapper>

@@ -2,12 +2,12 @@ package com.danbro.edu.service;
 
 import java.util.List;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.dto.TeacherTopDto;
-import com.danbro.edu.dto.FrontPagingDto;
-import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
+import com.danbro.edu.controller.dto.FrontPagingDto;
+import com.danbro.edu.controller.dto.FrontTeacherInfoQueryDto;
 import com.danbro.edu.controller.param.QueryTeacherParam;
+import com.danbro.edu.controller.vo.TeacherVo;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.enity.OutPutPagingDto;
 
@@ -26,7 +26,7 @@ public interface EduTeacherService extends IService<EduTeacher> {
      * @param queryTeacherParam 查询讲师的参数
      * @return 分页结果
      */
-    OutPutPagingDto<EduTeacher> pagingFindTeacherByCondition(Integer current, Integer limit, QueryTeacherParam queryTeacherParam);
+    OutPutPagingDto<TeacherVo> pagingFindTeacherByCondition(Integer current, Integer limit, QueryTeacherParam queryTeacherParam);
 
     /**
      * 查询排名前 limit 的讲师

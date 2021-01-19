@@ -1,8 +1,7 @@
-package com.danbro.edu.dto;
+package com.danbro.edu.controller.dto;
 
 import java.util.List;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 /**

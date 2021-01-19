@@ -2,7 +2,7 @@ package com.danbro.edu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.edu.entity.EduSubject;
-import com.danbro.edu.dto.OutPutFirstSubjectDto;
+import com.danbro.edu.controller.dto.OutPutFirstSubjectDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

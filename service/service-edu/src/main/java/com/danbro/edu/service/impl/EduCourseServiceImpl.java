@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.dto.CourseTopDto;
 import com.danbro.dto.EduCourseBasicInfoDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
-import com.danbro.edu.dto.*;
+import com.danbro.edu.controller.dto.*;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduCourseDescription;
 import com.danbro.edu.entity.EduTeacher;
@@ -121,7 +121,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean removeCourse(String id) {
-        if (eduChapterService.removeByCourseId(id) &&
+        if (eduChapterService.removeChapterAndVideoByCourseId(id) &&
                 eduVideoService.removeByCourseId(id) &&
                 eduCourseDescriptionService.removeById(id) &&
                 this.removeById(id)) {

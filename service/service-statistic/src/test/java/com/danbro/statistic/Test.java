@@ -4,9 +4,6 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.danbro.statistic.entity.StatisticsDaily;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 /**
  * @Classname Test
  * @Description TODO

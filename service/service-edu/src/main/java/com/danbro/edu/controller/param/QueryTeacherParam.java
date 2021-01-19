@@ -2,6 +2,7 @@ package com.danbro.edu.controller.param;
 
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.impl.DtoConvert;
+import com.danbro.impl.ParamConvert;
 import com.google.common.base.Converter;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +17,7 @@ import java.util.Date;
  * @Author Danrbo
  */
 @Data
-public class QueryTeacherParam implements DtoConvert<QueryTeacherParam, EduTeacher> {
+public class QueryTeacherParam implements ParamConvert<EduTeacher> {
     @ApiModelProperty("讲师名")
     private String name;
 
@@ -29,32 +30,11 @@ public class QueryTeacherParam implements DtoConvert<QueryTeacherParam, EduTeach
     @ApiModelProperty("修改时间")
     private Date end;
 
-    @Override
-    public QueryTeacherParam convertFrom(EduTeacher eduTeacher) {
-        EduTeacherDtoConvertor eduTeacherDtoConvertor = new EduTeacherDtoConvertor();
-        return eduTeacherDtoConvertor.doBackward(eduTeacher);
-    }
 
     @Override
     public EduTeacher convertTo() {
-        EduTeacherDtoConvertor eduTeacherDtoConvertor = new EduTeacherDtoConvertor();
-        return eduTeacherDtoConvertor.doForward(this);
-    }
-
-
-    private static class EduTeacherDtoConvertor extends Converter<QueryTeacherParam, EduTeacher> {
-        @Override
-        protected EduTeacher doForward(QueryTeacherParam queryTeacherParam) {
-            EduTeacher eduTeacher = new EduTeacher();
-            BeanUtils.copyProperties(queryTeacherParam, eduTeacher);
-            return eduTeacher;
-        }
-
-        @Override
-        protected QueryTeacherParam doBackward(EduTeacher eduTeacher) {
-            QueryTeacherParam queryTeacherParam = new QueryTeacherParam();
-            BeanUtils.copyProperties(eduTeacher, queryTeacherParam);
-            return queryTeacherParam;
-        }
+        EduTeacher eduTeacher = new EduTeacher();
+        BeanUtils.copyProperties(this, eduTeacher);
+        return eduTeacher;
     }
 }

@@ -2,13 +2,13 @@ package com.danbro.edu.controller;
 
 import java.util.List;
 import javax.annotation.Resource;
-import com.danbro.edu.dto.OutPutFirstSubjectDto;
+
+import com.danbro.edu.controller.dto.OutPutFirstSubjectDto;
 import com.danbro.edu.service.EduSubjectService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

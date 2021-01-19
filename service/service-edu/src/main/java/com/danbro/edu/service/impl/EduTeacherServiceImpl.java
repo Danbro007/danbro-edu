@@ -8,9 +8,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.dto.TeacherTopDto;
-import com.danbro.edu.dto.FrontPagingDto;
-import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
+import com.danbro.edu.controller.dto.FrontPagingDto;
+import com.danbro.edu.controller.dto.FrontTeacherInfoQueryDto;
 import com.danbro.edu.controller.param.QueryTeacherParam;
+import com.danbro.edu.controller.vo.TeacherVo;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.mapper.EduTeacherMapper;
 import com.danbro.edu.service.EduCourseService;
@@ -34,7 +35,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     EduCourseService eduCourseService;
 
     @Override
-    public OutPutPagingDto<EduTeacher> pagingFindTeacherByCondition(Integer current, Integer limit, QueryTeacherParam queryTeacherParam) {
+    public OutPutPagingDto<TeacherVo> pagingFindTeacherByCondition(Integer current, Integer limit, QueryTeacherParam queryTeacherParam) {
         Page<EduTeacher> page = new Page<>(current, limit);
         Date end = queryTeacherParam.getEnd();
         Date start = queryTeacherParam.getStart();
@@ -56,7 +57,9 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         // 按照 gmt_create 排序
         queryWrapper.orderByDesc("gmt_create");
         this.page(page, queryWrapper);
-        return new OutPutPagingDto<EduTeacher>().setRows(page.getRecords()).setTotal(page.getTotal());
+        ArrayList<TeacherVo> teacherVoArrayList = new ArrayList<>();
+        page.getRecords().forEach(e -> teacherVoArrayList.add(new TeacherVo().convertFrom(e)));
+        return new OutPutPagingDto<TeacherVo>().setRows(teacherVoArrayList).setTotal(page.getTotal());
     }
 
     @Cacheable(value = "teacher", key = "'top-teacher-list'")

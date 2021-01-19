@@ -2,15 +2,15 @@ package com.danbro.edu.controller.front;
 
 import java.util.List;
 import javax.annotation.Resource;
+
 import com.danbro.dto.TeacherTopDto;
-import com.danbro.edu.dto.FrontPagingDto;
-import com.danbro.edu.dto.FrontTeacherInfoQueryDto;
+import com.danbro.edu.controller.dto.FrontPagingDto;
+import com.danbro.edu.controller.dto.FrontTeacherInfoQueryDto;
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.service.EduTeacherService;
 import com.danbro.enums.Result;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

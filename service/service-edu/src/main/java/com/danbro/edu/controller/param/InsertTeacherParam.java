@@ -2,8 +2,10 @@ package com.danbro.edu.controller.param;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
 import com.danbro.edu.entity.EduTeacher;
 import com.danbro.impl.DtoConvert;
+import com.danbro.impl.ParamConvert;
 import com.google.common.base.Converter;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +18,7 @@ import org.springframework.beans.BeanUtils;
  * @Author Danrbo
  */
 @Data
-public class InsertTeacherParam implements DtoConvert<InsertTeacherParam, EduTeacher> {
+public class InsertTeacherParam implements ParamConvert<EduTeacher> {
     /**
      * 讲师姓名
      */
@@ -52,29 +54,8 @@ public class InsertTeacherParam implements DtoConvert<InsertTeacherParam, EduTea
 
     @Override
     public EduTeacher convertTo() {
-        EduTeacherDtoConvertor convertor = new EduTeacherDtoConvertor();
-        return convertor.doForward(this);
-    }
-
-    @Override
-    public InsertTeacherParam convertFrom(EduTeacher eduTeacher) {
-        EduTeacherDtoConvertor convertor = new EduTeacherDtoConvertor();
-        return convertor.doBackward(eduTeacher);
-    }
-
-    private static class EduTeacherDtoConvertor extends Converter<InsertTeacherParam, EduTeacher> {
-        @Override
-        protected EduTeacher doForward(InsertTeacherParam insertTeacherParam) {
-            EduTeacher eduTeacher = new EduTeacher();
-            BeanUtils.copyProperties(insertTeacherParam, eduTeacher);
-            return eduTeacher;
-        }
-
-        @Override
-        protected InsertTeacherParam doBackward(EduTeacher eduTeacher) {
-            InsertTeacherParam insertTeacherParam = new InsertTeacherParam();
-            BeanUtils.copyProperties(eduTeacher, insertTeacherParam);
-            return insertTeacherParam;
-        }
+        EduTeacher eduTeacher = new EduTeacher();
+        BeanUtils.copyProperties(this, eduTeacher);
+        return eduTeacher;
     }
 }

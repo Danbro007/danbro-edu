@@ -1,12 +1,13 @@
 package com.danbro.edu.service.impl;
 
 import java.util.ArrayList;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.edu.dto.FrontCourseCommentDto;
-import com.danbro.edu.dto.FrontInPutCommentInsertDto;
-import com.danbro.edu.dto.FrontPagingDto;
+import com.danbro.edu.controller.dto.FrontCourseCommentDto;
+import com.danbro.edu.controller.dto.FrontInPutCommentInsertDto;
+import com.danbro.edu.controller.dto.FrontPagingDto;
 import com.danbro.edu.entity.EduComment;
 import com.danbro.edu.mapper.EduCommentMapper;
 import com.danbro.edu.service.EduCommentService;

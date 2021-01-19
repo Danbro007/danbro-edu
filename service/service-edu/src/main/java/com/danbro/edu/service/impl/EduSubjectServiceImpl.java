@@ -3,11 +3,12 @@ package com.danbro.edu.service.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.edu.dto.OutPutFirstSubjectDto;
-import com.danbro.edu.dto.OutPutSecondSubjectDto;
+import com.danbro.edu.controller.dto.OutPutFirstSubjectDto;
+import com.danbro.edu.controller.dto.OutPutSecondSubjectDto;
 import com.danbro.edu.entity.EduSubject;
 import com.danbro.edu.excel.SubjectData;
 import com.danbro.edu.excel.SubjectExcelListener;
