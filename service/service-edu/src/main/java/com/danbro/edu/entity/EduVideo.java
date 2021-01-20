@@ -1,13 +1,12 @@
 package com.danbro.edu.entity;
 
+import java.io.Serializable;
+import java.util.Date;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
-
-import java.util.Date;
-import java.io.Serializable;
 
 /**
  * 课程视频(EduVideo)实体类

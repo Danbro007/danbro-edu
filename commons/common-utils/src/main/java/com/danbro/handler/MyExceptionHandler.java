@@ -1,5 +1,9 @@
 package com.danbro.handler;
 
+import java.util.ArrayList;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
@@ -7,11 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * @Classname MyExceptionHandler
@@ -22,7 +21,6 @@ import java.util.Set;
 @Slf4j
 @ControllerAdvice
 public class MyExceptionHandler {
-
 
     @ResponseBody
     @ExceptionHandler(MyCustomException.class)

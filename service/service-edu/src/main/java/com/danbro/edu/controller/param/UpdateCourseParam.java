@@ -1,12 +1,18 @@
 package com.danbro.edu.controller.param;
 
+/**
+ * @Classname UpdateCourseParam
+ * @Description TODO
+ * @Date 2021/1/19 19:25
+ * @Created by Administrator
+ */
+
 import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import com.danbro.anotation.IsId;
-import com.danbro.anotation.IsTitle;
+import javax.validation.constraints.Size;
+import com.danbro.anotation.IsPositiveNum;
+import com.danbro.anotation.IsPrice;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.impl.Insert;
 import com.danbro.impl.ParamConvert;
@@ -18,39 +24,39 @@ import org.springframework.beans.BeanUtils;
 
 /**
  * @Classname CourseInputDto
- * @Description TODO 后台用户添加或修改课程的参数
+ * @Description TODO 后台用户添加课程的参数
  * @Date 2020/12/20 19:48
  * @Author Danrbo
  */
 @Data
-@ApiModel("添加或修改课程的参数")
-public class InsertCourseParam implements ParamConvert<EduCourse> {
+@ApiModel("更新课程的参数")
+public class UpdateCourseParam implements ParamConvert<EduCourse> {
 
-
-    @IsId(message = "修改课程时ID必须存在并且符合格式！", groups = {Update.class})
-    @Null(message = "创建课程时ID不能存在！", groups = {Insert.class})
+    @NotBlank(message = "课程ID不能为空！")
+    @Min(value = 1, message = "课程ID不能小于0！")
     @ApiModelProperty("课程ID")
     private String id;
 
-    @IsId(message = "讲师ID不合法！", groups = {Insert.class, Update.class})
+    @NotBlank(message = "讲师ID不能为空！")
+    @Min(value = 1, message = "讲师ID不能小于0！")
     @ApiModelProperty("课程讲师ID")
     private String teacherId;
 
-    @IsId(message = "课程分类ID不合法！", groups = {Insert.class, Update.class})
+    @NotBlank(message = "课程ID不能为空！")
+    @Min(value = 1, message = "课程分类ID不能小于0！")
     @ApiModelProperty("课程分类ID")
     private String subjectId;
 
-    @IsTitle
+    @NotBlank(message = "课程标题不能为空！")
+    @Size(max = 20, message = "课程标题不能超过 20 个字！")
     @ApiModelProperty("课程标题")
     private String title;
 
-    @NotNull(message = "课程价格不能为空！")
-    @Min(value = 0, message = "课程价格不能小于 0 元！")
+    @IsPrice
     @ApiModelProperty("课程价格，设置0表示免费。")
     private BigDecimal price;
 
-    @NotNull(message = "课程总课时不能为空！")
-    @Min(value = 1, message = "课程总课时要大于 0 ！")
+    @IsPositiveNum(message = "课程总课时必须大于0！", groups = {Insert.class, Update.class})
     @ApiModelProperty("课程总课时")
     private Integer lessonNum;
 

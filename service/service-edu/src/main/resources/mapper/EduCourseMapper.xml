@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.danbro.edu.mapper.EduCourseMapper">
-    <select id="getCourseInfoForPublish" resultType="com.danbro.edu.controller.dto.OutPutEduCoursePublishDto">
+    <select id="getCourseInfoForPublish" resultType="com.danbro.edu.controller.vo.CoursePublishVo">
         SELECT ec.id           AS id,
                ec.title        AS title,
                ec.price        AS price,

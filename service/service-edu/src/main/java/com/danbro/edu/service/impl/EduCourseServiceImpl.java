@@ -2,19 +2,19 @@ package com.danbro.edu.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.dto.CourseTopDto;
-import com.danbro.dto.EduCourseBasicInfoDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
-import com.danbro.edu.controller.dto.*;
+import com.danbro.edu.controller.dto.FrontCourseConditionPagingDto;
+import com.danbro.edu.controller.dto.FrontPagingDto;
+import com.danbro.edu.controller.vo.CoursePublishVo;
+import com.danbro.edu.controller.dto.SearchCourseConditionDto;
 import com.danbro.edu.controller.param.InsertCourseParam;
 import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduCourseDescription;
-import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.mapper.EduCourseMapper;
 import com.danbro.edu.service.EduChapterService;
 import com.danbro.edu.service.EduCourseDescriptionService;
@@ -25,7 +25,6 @@ import com.danbro.edu.utils.SortType;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -74,24 +73,10 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         return this.baseMapper.getCourseBasicInfoByCourseId(courseId);
     }
 
-    @Override
-    public Boolean updateCourseInfo(InsertCourseParam insertCourseParam) {
-        try {
-            EduCourse eduCourse = new EduCourse();
-            BeanUtils.copyProperties(insertCourseParam, eduCourse);
-            this.updateById(eduCourse);
-            EduCourseDescription courseDescription = new EduCourseDescription();
-            BeanUtils.copyProperties(insertCourseParam, courseDescription);
-            eduCourseDescriptionService.updateById(courseDescription);
-        } catch (BeansException e) {
-            return false;
-        }
-        return true;
-    }
 
 
     @Override
-    public OutPutEduCoursePublishDto getCourseInfoForPublish(String courseId) {
+    public CoursePublishVo getCourseInfoForPublish(String courseId) {
         return baseMapper.getCourseInfoForPublish(courseId);
     }
 

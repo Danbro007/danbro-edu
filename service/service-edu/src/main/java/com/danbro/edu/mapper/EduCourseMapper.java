@@ -1,9 +1,8 @@
 package com.danbro.edu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.danbro.edu.controller.dto.OutPutEduCoursePublishDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
-import com.danbro.edu.controller.vo.ChapterVo;
+import com.danbro.edu.controller.vo.CoursePublishVo;
 import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
 
@@ -16,7 +15,7 @@ import com.danbro.edu.entity.EduCourse;
 public interface EduCourseMapper extends BaseMapper<EduCourse> {
 
 
-    OutPutEduCoursePublishDto getCourseInfoForPublish(String courseId);
+    CoursePublishVo getCourseInfoForPublish(String courseId);
 
     FrontCourseDetailInfoDto getCourseDetailInfo(String courseId);
 

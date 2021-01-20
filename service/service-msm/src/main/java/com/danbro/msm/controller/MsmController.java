@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,9 +41,6 @@ public class MsmController {
     @ApiOperation("请求发送短信验证码")
     @PostMapping("captcha")
     public Result sendMessage(@Valid @RequestBody PhoneNumDto phoneNumDto, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new MyCustomException(ResultCode.PARAMS_ERROR, result.getAllErrors());
-        }
         if (!StringUtils.isEmpty(redisTemplate.opsForValue().get(phoneNumDto.getMobile()))) {
             return Result.ofSuccess();
         }

@@ -1,17 +1,15 @@
 package com.danbro.edu.service;
 
 import java.util.List;
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.dto.CourseTopDto;
-import com.danbro.dto.EduCourseBasicInfoDto;
-import com.danbro.edu.controller.param.InsertCourseParam;
-import com.danbro.edu.controller.dto.OutPutEduCoursePublishDto;
-import com.danbro.edu.controller.dto.FrontCourseConditionPagingDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
+import com.danbro.edu.controller.dto.FrontCourseConditionPagingDto;
 import com.danbro.edu.controller.dto.FrontPagingDto;
+import com.danbro.edu.controller.vo.CoursePublishVo;
 import com.danbro.edu.controller.dto.SearchCourseConditionDto;
+import com.danbro.edu.controller.param.InsertCourseParam;
 import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
 
@@ -39,20 +37,12 @@ public interface EduCourseService extends IService<EduCourse> {
     CourseVo getCourseBasicInfo(String courseId);
 
     /**
-     * 更新课程
-     *
-     * @param insertCourseParam 课程信息
-     * @return 更新结果
-     */
-    Boolean updateCourseInfo(InsertCourseParam insertCourseParam);
-
-    /**
      * 根据课程Id获取要发布的课程信息
      *
      * @param courseId 课程Id
      * @return 要发布的课程信息
      */
-    OutPutEduCoursePublishDto getCourseInfoForPublish(String courseId);
+    CoursePublishVo getCourseInfoForPublish(String courseId);
 
     /**
      * 分页查询课程带有查询条件

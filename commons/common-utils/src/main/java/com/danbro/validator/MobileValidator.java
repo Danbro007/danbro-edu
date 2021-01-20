@@ -1,10 +1,9 @@
 package com.danbro.validator;
 
-import cn.hutool.core.lang.Validator;
-import com.danbro.anotation.IsMobile;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import com.danbro.anotation.IsMobile;
+import com.danbro.utils.ValidatorUtils;
 
 /**
  * @Classname MobileValidator
@@ -32,7 +31,7 @@ public class MobileValidator implements ConstraintValidator<IsMobile, String> {
     public boolean isValid(String value, ConstraintValidatorContext context) {
         // value就是要校验的数据了
         if (value != null && required) {
-            return Validator.isMobile(value);
+            return ValidatorUtils.isMobile(value);
         }
         return false;
     }

@@ -13,6 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @Date 2020/12/14 14:45
  * @Author Danrbo
  */
+
 @EnableFeignClients
 @EnableDiscoveryClient
 @EnableSwagger2

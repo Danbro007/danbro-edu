@@ -1,26 +1,24 @@
 package com.danbro.edu.controller;
 
+import javax.annotation.Resource;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.danbro.dto.EduCourseBasicInfoDto;
-import com.danbro.edu.controller.param.InsertCourseParam;
-import com.danbro.edu.controller.dto.InPutEduCourseUpdatePublishStatusDto;
-import com.danbro.edu.controller.dto.OutPutEduCoursePublishDto;
 import com.danbro.edu.controller.dto.SearchCourseConditionDto;
+import com.danbro.edu.controller.param.InsertCourseParam;
+import com.danbro.edu.controller.param.UpdateCourseParam;
+import com.danbro.edu.controller.param.UpdateCourseStatusParam;
+import com.danbro.edu.controller.vo.CoursePublishVo;
 import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.enity.OutPutPagingDto;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
 
 /**
  * 课程(EduCourse)表控制层
@@ -30,6 +28,7 @@ import javax.validation.Valid;
  */
 @Validated
 @RestController
+@Api(tags = "课程接口")
 @RequestMapping("edu/course")
 
 public class EduCourseController {
@@ -38,7 +37,6 @@ public class EduCourseController {
      */
     @Resource
     private EduCourseService eduCourseService;
-
 
     @ApiOperation("添加课程基本信息")
     @PostMapping("info")
@@ -49,38 +47,26 @@ public class EduCourseController {
 
     @ApiOperation("查看课程基本信息")
     @GetMapping("info/{courseId}")
-    public Result<CourseVo> findCourseInfo(@PathVariable String courseId) {
+    public Result<CourseVo> findCourseInfo(@NotBlank(message = "课程ID不能为空！") @Min(value = 1, message = "课程ID不能小于0！") @PathVariable String courseId) {
         return Result.ofSuccess(eduCourseService.getCourseBasicInfo(courseId));
     }
 
-
     @ApiOperation("修改课程基本信息")
     @PutMapping("info")
-    public Result updateCourseInfo(@Valid @RequestBody InsertCourseParam insertCourseParam, BindingResult result) {
-        Boolean flag = eduCourseService.updateCourseInfo(insertCourseParam);
-        if (flag) {
-            return Result.ofSuccess();
-        }
-        return Result.ofFail(ResultCode.UPDATE_COURSE_INFO_FAILURE);
+    public Result<CourseVo> updateCourseInfo(@Validated @RequestBody UpdateCourseParam courseParam) {
+        return Result.ofSuccess(new CourseVo().convertFrom(eduCourseService.insertOrUpdateCourse(courseParam.convertTo())));
     }
 
     @ApiOperation("查询要发布的课程信息")
     @GetMapping("publish/{courseId}")
-    public Result<OutPutEduCoursePublishDto> updateCourseInfo(@PathVariable String courseId) {
-        OutPutEduCoursePublishDto courseInfoForPublish = eduCourseService.getCourseInfoForPublish(courseId);
-        return Result.ofSuccess(courseInfoForPublish);
+    public Result<CoursePublishVo> updateCourseInfo(@NotBlank(message = "课程ID不能为空！") @Min(value = 1, message = "课程ID不能小于0！") @PathVariable String courseId) {
+        return Result.ofSuccess(eduCourseService.getCourseInfoForPublish(courseId));
     }
 
     @ApiOperation("修改课程发布状态")
-    @PutMapping("publish/status")
-    public Result updatePublishStatus(@Valid @RequestBody InPutEduCourseUpdatePublishStatusDto statusDto, BindingResult result) {
-        EduCourse eduCourse = new EduCourse();
-        BeanUtils.copyProperties(statusDto, eduCourse);
-        boolean b = eduCourseService.updateById(eduCourse);
-        if (b) {
-            return Result.ofSuccess();
-        }
-        return Result.ofFail(ResultCode.UPDATE_COURSE_PUBLISH_STATUS_FAILURE);
+    @PutMapping("publish")
+    public Result<CourseVo> updatePublishStatus(@Validated @RequestBody UpdateCourseStatusParam courseStatusParam) {
+        return Result.ofSuccess(new CourseVo().convertFrom(eduCourseService.insertOrUpdateCourse(courseStatusParam.convertTo())));
     }
 
     @ApiOperation("分页查询课程列表")

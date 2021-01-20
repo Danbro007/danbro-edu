@@ -35,9 +35,6 @@ public class UserCenterController {
     @ApiOperation("用户登录")
     @PostMapping("login")
     public Result<String> login(@RequestBody UserLoginDto user, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new MyCustomException(ResultCode.PARAMS_ERROR, result.getAllErrors());
-        }
         String token = ucenterMemberService.login(user);
         return Result.ofSuccess(token);
     }
@@ -45,9 +42,6 @@ public class UserCenterController {
     @ApiOperation("用户注册")
     @PostMapping("register")
     public Result register(@RequestBody UserRegisterDto user, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new MyCustomException(ResultCode.PARAMS_ERROR, result.getAllErrors());
-        }
         if (ucenterMemberService.register(user)) {
             return Result.ofSuccess();
         } else {
