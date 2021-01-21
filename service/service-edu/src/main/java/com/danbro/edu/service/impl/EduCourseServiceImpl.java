@@ -9,9 +9,9 @@ import com.danbro.dto.CourseTopDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
 import com.danbro.edu.controller.dto.FrontCourseConditionPagingDto;
 import com.danbro.edu.controller.dto.FrontPagingDto;
+import com.danbro.edu.controller.param.QueryCourseParam;
+import com.danbro.edu.controller.param.CourseParam;
 import com.danbro.edu.controller.vo.CoursePublishVo;
-import com.danbro.edu.controller.dto.SearchCourseConditionDto;
-import com.danbro.edu.controller.param.InsertCourseParam;
 import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
 import com.danbro.edu.entity.EduCourseDescription;
@@ -22,6 +22,7 @@ import com.danbro.edu.service.EduCourseService;
 import com.danbro.edu.service.EduTeacherService;
 import com.danbro.edu.service.EduVideoService;
 import com.danbro.edu.utils.SortType;
+import com.danbro.enity.OutPutPagingDto;
 import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
 import org.springframework.beans.BeanUtils;
@@ -50,16 +51,16 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     EduTeacherService eduTeacherService;
 
     @Override
-    public EduCourse insert(InsertCourseParam insertCourseParam) {
+    public EduCourse insert(CourseParam courseParam) {
         EduCourse eduCourse = new EduCourse();
         EduCourseDescription eduCourseDescription = new EduCourseDescription();
-        BeanUtils.copyProperties(insertCourseParam, eduCourse);
+        BeanUtils.copyProperties(courseParam, eduCourse);
         boolean f = this.save(eduCourse);
         if (!f) {
             throw new MyCustomException(ResultCode.INSERT_COURSE_FAILURE);
         }
         eduCourseDescription.
-                setDescription(insertCourseParam.getDescription()).
+                setDescription(courseParam.getDescription()).
                 setId(eduCourse.getId());
         boolean b = eduCourseDescriptionService.save(eduCourseDescription);
         if (!b) {
@@ -74,15 +75,14 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
 
-
     @Override
     public CoursePublishVo getCourseInfoForPublish(String courseId) {
         return baseMapper.getCourseInfoForPublish(courseId);
     }
 
     @Override
-    public Page<EduCourse> pagingFindByCondition(Integer current, Integer limit, SearchCourseConditionDto conditionDto) {
-        Page<EduCourse> coursePage = new Page<>(current, limit);
+    public OutPutPagingDto<EduCourse> pagingFindByCondition(Integer current, Integer limit, QueryCourseParam conditionDto) {
+        Page<EduCourse> page = new Page<>(current, limit);
         QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
         if (conditionDto != null) {
             if (!StringUtils.isEmpty(conditionDto.getStatus())) {
@@ -93,7 +93,9 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             }
         }
         queryWrapper.orderByDesc("gmt_create");
-        return this.page(coursePage, queryWrapper);
+        return new OutPutPagingDto<EduCourse>()
+                .setTotal(page.getTotal())
+                .setRows(page.getRecords());
     }
 
     @Transactional(rollbackFor = Exception.class)

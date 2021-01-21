@@ -1,10 +1,9 @@
 package com.danbro.edu.controller.param;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Null;
+import com.danbro.anotation.IsAssignID;
 import com.danbro.anotation.IsPositiveNum;
-import com.danbro.anotation.IsId;
 import com.danbro.edu.entity.EduChapter;
 import com.danbro.impl.Insert;
 import com.danbro.impl.ParamConvert;
@@ -23,12 +22,12 @@ import org.springframework.beans.BeanUtils;
 @ApiModel("添加或更新章节的参数")
 @Data
 public class ChapterParam implements ParamConvert<EduChapter> {
-    @IsId(message = "更新时章节ID必须存在并且大于0！", groups = {Update.class})
+    @IsAssignID(message = "更新时章节ID必须存在并且大于0！", groups = {Update.class})
     @Null(message = "创建时章节ID不能存在！", groups = {Insert.class})
     private String id;
 
     @ApiModelProperty("课程ID")
-    @IsId(message = "更新时课程ID必须存在并且大于0！", groups = {Insert.class, Update.class})
+    @IsAssignID(message = "更新时课程ID必须存在并且大于0！", groups = {Insert.class, Update.class})
     private String courseId;
 
     @NotBlank(message = "章节名不能为空！", groups = {Insert.class, Update.class})
@@ -36,14 +35,14 @@ public class ChapterParam implements ParamConvert<EduChapter> {
     private String title;
 
     @IsPositiveNum(message = "章节排序必须大于0！", groups = {Insert.class, Update.class})
-    @NotEmpty(message = "章节排序不能为空！", groups = {Insert.class, Update.class})
     @ApiModelProperty("章节排序")
-    private Integer sort;
+    private String sort;
 
     @Override
     public EduChapter convertTo() {
         EduChapter eduChapter = new EduChapter();
         BeanUtils.copyProperties(this, eduChapter);
+        eduChapter.setSort(Integer.parseInt(this.getSort()));
         return eduChapter;
     }
 }

@@ -11,7 +11,7 @@ import com.danbro.utils.ValidatorUtils;
  * @Date 2021/1/20 20:11
  * @Created by Administrator
  */
-public class PositiveNumValidator implements ConstraintValidator<IsPositiveNum, Integer> {
+public class PositiveNumValidator implements ConstraintValidator<IsPositiveNum, String> {
     private Boolean require = false;
 
     @Override
@@ -20,7 +20,7 @@ public class PositiveNumValidator implements ConstraintValidator<IsPositiveNum, 
     }
 
     @Override
-    public boolean isValid(Integer value, ConstraintValidatorContext context) {
+    public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value != null && require) {
             return ValidatorUtils.isPositiveNumber(value);
         }

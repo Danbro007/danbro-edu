@@ -3,7 +3,7 @@ package com.danbro.edu.controller;
 import java.util.List;
 import javax.annotation.Resource;
 
-import com.danbro.edu.controller.dto.OutPutFirstSubjectDto;
+import com.danbro.edu.controller.vo.FirstSubjectVo;
 import com.danbro.edu.service.EduSubjectService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
@@ -45,8 +45,7 @@ public class EduSubjectController {
 
     @ApiOperation("获取课程列表并且按照级别分类")
     @GetMapping("subject")
-    public Result<List<OutPutFirstSubjectDto>> getAllSubject() {
-        List<OutPutFirstSubjectDto> subjectList = eduSubjectService.getAllSubject();
-        return Result.ofSuccess(subjectList);
+    public Result<List<FirstSubjectVo>> getAllSubject() {
+        return Result.ofSuccess(eduSubjectService.getAllSubject());
     }
 }

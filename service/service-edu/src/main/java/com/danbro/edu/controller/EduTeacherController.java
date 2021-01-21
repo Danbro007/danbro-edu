@@ -2,8 +2,8 @@ package com.danbro.edu.controller;
 
 import java.util.List;
 import javax.annotation.Resource;
+import com.danbro.anotation.IsAssignID;
 import com.danbro.anotation.IsPositiveNum;
-import com.danbro.anotation.IsId;
 import com.danbro.anotation.ValidParam;
 import com.danbro.edu.controller.param.QueryTeacherParam;
 import com.danbro.edu.controller.param.TeacherParam;
@@ -12,8 +12,6 @@ import com.danbro.edu.entity.EduTeacher;
 import com.danbro.edu.service.EduTeacherService;
 import com.danbro.enity.OutPutPagingDto;
 import com.danbro.enums.Result;
-import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
 import com.danbro.impl.Insert;
 import com.danbro.impl.Update;
 import io.swagger.annotations.Api;
@@ -46,19 +44,16 @@ public class EduTeacherController {
         return Result.ofSuccess(eduTeacherService.list());
     }
 
-    @ApiOperation("通过教师id删除指定的教师")
+    @ApiOperation("通过教师ID删除指定的教师")
     @DeleteMapping("teacher/{id}")
-    public Result deleteTeacherById(@IsId @ApiParam(name = "id", value = "讲师ID", required = true)
+    public Result deleteTeacherById(@IsAssignID @ApiParam(name = "id", value = "讲师ID", required = true)
                                     @PathVariable String id) {
-        if (eduTeacherService.removeById(id)) {
-            return Result.ofSuccess();
-        }
-        throw new MyCustomException(ResultCode.DELETE_TEACHER_NOT_FOUND);
+        return Result.ofSuccess(eduTeacherService.removeById(id));
     }
 
     @ApiOperation("通过讲师ID查找指定的讲师")
     @GetMapping("teacher/{id}")
-    public Result<TeacherVo> findOne(@IsId @ApiParam(name = "id", value = "讲师ID", required = true)
+    public Result<TeacherVo> findOne(@IsAssignID @ApiParam(name = "id", value = "讲师ID", required = true)
                                      @PathVariable String id) {
         return Result.ofSuccess(new TeacherVo().convertFrom(eduTeacherService.getById(id)));
     }
@@ -75,7 +70,7 @@ public class EduTeacherController {
     @ValidParam
     @ApiOperation("添加教师信息")
     @PostMapping("teacher")
-    public Result<TeacherVo> insert(@Validated(Insert.class) @RequestBody TeacherParam teacherParam, BindingResult bindingResult) {
+    public Result<TeacherVo> insertTeacher(@Validated(Insert.class) @RequestBody TeacherParam teacherParam, BindingResult bindingResult) {
 
         return Result.ofSuccess(new TeacherVo().convertFrom(eduTeacherService.insertOrUpdateTeacher(teacherParam.convertTo())));
     }
@@ -83,7 +78,7 @@ public class EduTeacherController {
     @ValidParam
     @ApiOperation("修改教师信息")
     @PutMapping("teacher")
-    public Result<TeacherVo> update(@Validated(Update.class) @RequestBody TeacherParam teacherParam, BindingResult bindingResult) {
+    public Result<TeacherVo> updateTeacher(@Validated(Update.class) @RequestBody TeacherParam teacherParam, BindingResult bindingResult) {
         return Result.ofSuccess(new TeacherVo().convertFrom(eduTeacherService.insertOrUpdateTeacher(teacherParam.convertTo())));
     }
 }

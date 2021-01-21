@@ -9,16 +9,22 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import com.danbro.impl.Insert;
 import com.danbro.impl.Update;
-import com.danbro.validator.PriceValidator;
+import com.danbro.validator.UUIDValidator;
 
+/**
+ * @Classname IsVideoId
+ * @Description TODO 判断是不是UUID
+ * @Date 2021/1/21 19:37
+ * @Created by Administrator
+ */
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {PriceValidator.class})
-public @interface IsPrice {
+@Constraint(validatedBy = {UUIDValidator.class})
+public @interface IsUUID {
     boolean required() default true;
 
-    String message() default "价格非法！";
+    String message() default "UUID非法！";
 
     Class<?>[] groups() default {Insert.class, Update.class};
 

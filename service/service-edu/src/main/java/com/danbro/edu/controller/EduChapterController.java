@@ -2,7 +2,8 @@ package com.danbro.edu.controller;
 
 import java.util.List;
 import javax.annotation.Resource;
-import com.danbro.anotation.IsId;
+import com.danbro.anotation.IsAssignID;
+import com.danbro.anotation.ValidParam;
 import com.danbro.edu.controller.param.ChapterParam;
 import com.danbro.edu.controller.vo.ChapterVo;
 import com.danbro.edu.service.EduChapterService;
@@ -41,7 +42,7 @@ public class EduChapterController {
      */
     @ApiOperation("查找课程里所有的章节")
     @GetMapping("{courseId}")
-    public Result<List<ChapterVo>> getChapter(@IsId @ApiParam(name = "courseId", value = "课程ID", required = true) @PathVariable String courseId) {
+    public Result<List<ChapterVo>> getChapter(@IsAssignID @ApiParam(name = "courseId", value = "课程ID", required = true) @PathVariable String courseId) {
         return Result.ofSuccess(eduChapterService.findAllByCourseId(courseId));
     }
 
@@ -51,6 +52,7 @@ public class EduChapterController {
      * @param chapterParam 要添加的章节参数
      * @return 添加结果
      */
+    @ValidParam
     @ApiOperation("添加章节")
     @PostMapping("")
     public Result<ChapterVo> insertChapter(@Validated(Insert.class) @RequestBody ChapterParam chapterParam, BindingResult bindingResult) {
@@ -58,15 +60,15 @@ public class EduChapterController {
     }
 
     /**
-     * 通过 chapterId 删除章节及对应的小节（视频信息）
+     * 通过 chapterId 删除章节及对应的小节（包括存储在阿里云的视频）
      *
      * @param chapterId 章节ID
      * @return 删除结果
      */
     @ApiOperation("删除章节")
     @DeleteMapping("{chapterId}")
-    public Result deleteChapter(@IsId @PathVariable String chapterId) {
-        eduChapterService.removeChapterAndVideoByChapterId(chapterId);
+    public Result deleteChapter(@IsAssignID @PathVariable String chapterId) {
+        eduChapterService.removeChapterByChapterId(chapterId);
         return Result.ofSuccess();
     }
 
@@ -76,6 +78,7 @@ public class EduChapterController {
      * @param chapterParam 要更新chapter参数
      * @return 更新结果
      */
+    @ValidParam
     @ApiOperation("修改章节")
     @PutMapping("chapter")
     public Result<ChapterVo> updateChapter(@Validated(Update.class) @RequestBody ChapterParam chapterParam, BindingResult bindingResult) {

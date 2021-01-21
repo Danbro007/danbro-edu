@@ -2,6 +2,7 @@ package com.danbro.utils;
 
 import java.util.regex.Pattern;
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.NumberUtil;
 
 /**
  * @Classname Validator
@@ -10,7 +11,7 @@ import cn.hutool.core.lang.Validator;
  * @Created by Administrator
  */
 public class ValidatorUtils {
-    public final static Pattern ID_SIMPLE = Pattern.compile("^[0-9]{19}$", Pattern.CASE_INSENSITIVE);
+    public final static Pattern ID_SIMPLE = Pattern.compile("^[0-9a-z]{19}$", Pattern.CASE_INSENSITIVE);
 
     public static Boolean isMobile(String mobile) {
         return Validator.isMobile(mobile);
@@ -22,15 +23,24 @@ public class ValidatorUtils {
      * @param id
      * @return
      */
-    public static Boolean isId(String id) {
+    public static Boolean isAssignID(String id) {
         return Validator.isMatchRegex(ID_SIMPLE, id);
     }
 
-    public static Boolean isPositiveNumber(Integer number) {
-        return Validator.isNumber(number.toString()) && (number > 0);
+    public static Boolean isPositiveNumber(String number) {
+        return NumberUtil.isInteger(number) && (Integer.parseInt(number) > 0);
     }
 
     public static Boolean isMoney(String value) {
         return Validator.isMoney(value);
     }
+
+    public static Boolean isBool(String value) {
+        return "true".equals(value) || "false".equals(value);
+    }
+
+    public static Boolean isUUID(String value) {
+        return Validator.isUUID(value);
+    }
+
 }

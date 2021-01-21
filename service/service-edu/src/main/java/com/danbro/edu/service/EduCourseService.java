@@ -1,17 +1,17 @@
 package com.danbro.edu.service;
 
 import java.util.List;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.dto.CourseTopDto;
 import com.danbro.dto.FrontCourseDetailInfoDto;
 import com.danbro.edu.controller.dto.FrontCourseConditionPagingDto;
 import com.danbro.edu.controller.dto.FrontPagingDto;
+import com.danbro.edu.controller.param.QueryCourseParam;
+import com.danbro.edu.controller.param.CourseParam;
 import com.danbro.edu.controller.vo.CoursePublishVo;
-import com.danbro.edu.controller.dto.SearchCourseConditionDto;
-import com.danbro.edu.controller.param.InsertCourseParam;
 import com.danbro.edu.controller.vo.CourseVo;
 import com.danbro.edu.entity.EduCourse;
+import com.danbro.enity.OutPutPagingDto;
 
 /**
  * 课程(EduCourse)表服务接口
@@ -23,10 +23,10 @@ public interface EduCourseService extends IService<EduCourse> {
     /**
      * 添加课程
      *
-     * @param insertCourseParam 课程参数
+     * @param courseParam 课程参数
      * @return
      */
-    EduCourse insert(InsertCourseParam insertCourseParam);
+    EduCourse insert(CourseParam courseParam);
 
     /**
      * 根据 courseId 获取课程基本信息（不包括课程里的章节和小节）
@@ -49,10 +49,10 @@ public interface EduCourseService extends IService<EduCourse> {
      *
      * @param current      当前页
      * @param limit        每页显示的个数
-     * @param conditionDto 查询条件
+     * @param courseParam 查询课程的条件
      * @return 符合条件的课程
      */
-    Page<EduCourse> pagingFindByCondition(Integer current, Integer limit, SearchCourseConditionDto conditionDto);
+    OutPutPagingDto<EduCourse> pagingFindByCondition(Integer current, Integer limit, QueryCourseParam courseParam);
 
     /**
      * 通过课程ID删除课程

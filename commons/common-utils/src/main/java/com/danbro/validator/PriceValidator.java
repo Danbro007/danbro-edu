@@ -21,7 +21,7 @@ public class PriceValidator implements ConstraintValidator<IsPrice, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value!=null&&require){
+        if (value != null && require) {
             return ValidatorUtils.isMoney(value);
         }
         return false;

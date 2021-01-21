@@ -1,5 +1,6 @@
-package com.danbro.edu.controller.dto;
+package com.danbro.edu.controller.param;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -9,13 +10,10 @@ import lombok.Data;
  * @Author Danrbo
  */
 @Data
-public class SearchCourseConditionDto {
-    /**
-     * 课程名
-     */
+public class QueryCourseParam {
+    @ApiModelProperty("课程标题")
     private String title;
-    /**
-     * 课程状态
-     */
+
+    @ApiModelProperty("课程发布状态")
     private String status;
 }
