@@ -1,12 +1,9 @@
 package com.danbro.statistic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.statistic.dto.QueryStatisticsDto;
+import com.danbro.statistic.dto.QueryStatisticsParam;
 import com.danbro.statistic.entity.StatisticsDaily;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import com.danbro.statistic.vo.StatisticsDailyListVo;
 
 /**
  * 网站统计日数据(StatisticsDaily)表服务接口
@@ -17,6 +14,11 @@ import java.util.Map;
 public interface StatisticsDailyService extends IService<StatisticsDaily> {
     StatisticsDaily getUserRegisterNumByDate(String date);
 
-    Map<String, List<String>> getStatistic(QueryStatisticsDto dto);
+    /**
+     * 查询统计的条件
+     * @param statisticsParam 查询条件
+     * @return
+     */
+    StatisticsDailyListVo getStatistic(QueryStatisticsParam statisticsParam);
 
 }

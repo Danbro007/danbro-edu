@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class QueryStatisticsDto {
+public class QueryStatisticsParam {
     /**
      * 查询数据类型
      */
