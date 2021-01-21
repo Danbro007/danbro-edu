@@ -1,20 +1,16 @@
-package com.danbro.edu.controller.vo;
+package com.danbro.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.danbro.edu.entity.EduCourse;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import com.danbro.enity.EduCourse;
 import com.danbro.impl.VoConvert;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * @Classname CourseVo

@@ -49,8 +49,7 @@ public class FirstSubjectVo implements Serializable, VoConvert<FirstSubjectVo, E
 
     @Override
     public FirstSubjectVo convertFrom(EduSubject eduSubject) {
-        FirstSubjectVo firstSubjectVo = new FirstSubjectVo();
-        BeanUtils.copyProperties(firstSubjectVo, eduSubject);
-        return firstSubjectVo;
+        BeanUtils.copyProperties(this, eduSubject);
+        return this;
     }
 }

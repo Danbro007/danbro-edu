@@ -1,11 +1,7 @@
 package com.danbro.statistic.dto;
 
-import com.danbro.statistic.typeEnum.QueryStatisticsEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * @Classname QueryStatisticsDto

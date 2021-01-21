@@ -2,7 +2,7 @@ package com.danbro.edu.controller.param;
 
 import javax.validation.constraints.NotBlank;
 import com.danbro.anotation.IsAssignID;
-import com.danbro.edu.entity.EduCourse;
+import com.danbro.enity.EduCourse;
 import com.danbro.impl.ParamConvert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

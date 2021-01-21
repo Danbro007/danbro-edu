@@ -1,7 +1,7 @@
 package com.danbro.edu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.danbro.edu.entity.EduCourseDescription;
+import com.danbro.enity.EduCourseDescription;
 
 /**
  * 课程简介(EduCourseDescription)表数据库访问层

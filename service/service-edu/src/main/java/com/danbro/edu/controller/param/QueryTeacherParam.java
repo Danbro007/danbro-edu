@@ -1,7 +1,7 @@
 package com.danbro.edu.controller.param;
 
 import java.util.Date;
-import com.danbro.edu.entity.EduTeacher;
+import com.danbro.enity.EduTeacher;
 import com.danbro.impl.ParamConvert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

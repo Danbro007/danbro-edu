@@ -1,11 +1,13 @@
 package com.danbro.anotation;
 
-import com.danbro.validator.MobileValidator;
-
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import java.lang.annotation.*;
-import java.lang.reflect.Method;
+import com.danbro.validator.MobileValidator;
 
 /**
  * @Classname IsMobile
@@ -21,7 +23,7 @@ import java.lang.reflect.Method;
 public @interface IsMobile {
     boolean required() default true;
 
-    String message() default "手机号码格式错误";
+    String message() default "手机号码格式错误！";
 
     Class<?>[] groups() default {};
 

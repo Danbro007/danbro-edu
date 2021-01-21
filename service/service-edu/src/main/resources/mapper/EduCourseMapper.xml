@@ -19,7 +19,7 @@
         WHERE ec.id = #{id}
     </select>
 
-    <resultMap id="courseDetailInfoMap" type="com.danbro.dto.FrontCourseDetailInfoDto">
+    <resultMap id="courseDetailInfoMap" type="com.danbro.vo.FrontCourseDetailInfoVo">
         <id property="courseId" column="courseId"/>
         <result property="courseCover" column="courseCover"/>
         <result property="buyCount" column="buyCount"/>
@@ -78,7 +78,7 @@
         WHERE ec.id = #{id}
     </select>
 
-    <resultMap id="courseBasicInfoResultMap" type="com.danbro.edu.controller.vo.CourseVo">
+    <resultMap id="courseBasicInfoResultMap" type="com.danbro.vo.CourseVo">
         <id property="id" column="courseId"/>
         <result property="lessonNum" column="lessonNum"/>
         <result property="buyCount" column="buyCount"/>
@@ -89,7 +89,7 @@
         <result property="status" column="status"/>
         <result property="title" column="title"/>
         <result property="description" column="description"/>
-        <association property="teacher" javaType="com.danbro.edu.controller.vo.TeacherVo">
+        <association property="teacher" javaType="com.danbro.vo.TeacherVo">
             <id property="id" column="teacherId"/>
             <result property="name" column="teacherName"/>
             <result property="level" column="teacherLevel"/>

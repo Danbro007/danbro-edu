@@ -17,6 +17,7 @@ import com.danbro.utils.JwtUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,9 +35,8 @@ public class UserCenterController {
 
     @ApiOperation("用户登录")
     @PostMapping("login")
-    public Result<String> login(@RequestBody UserLoginDto user, BindingResult result) {
-        String token = ucenterMemberService.login(user);
-        return Result.ofSuccess(token);
+    public Result<String> login(@Validated @RequestBody UserLoginDto user, BindingResult result) {
+        return Result.ofSuccess(ucenterMemberService.login(user));
     }
 
     @ApiOperation("用户注册")

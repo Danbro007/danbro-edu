@@ -1,19 +1,15 @@
-package com.danbro.edu.controller.vo;
+package com.danbro.vo;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.danbro.edu.entity.EduTeacher;
-import com.danbro.impl.ParamConvert;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import com.danbro.enity.EduTeacher;
 import com.danbro.impl.VoConvert;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @Classname TeacherVo
@@ -52,6 +48,9 @@ public class TeacherVo implements Serializable, VoConvert<TeacherVo, EduTeacher>
 
     @ApiModelProperty(name = "修改讲师的时间")
     private Date gmtModified;
+
+    @ApiModelProperty(name = "讲师教授的课程")
+    private List<CourseVo> courseList;
 
     @Override
     public TeacherVo convertFrom(EduTeacher eduTeacher) {

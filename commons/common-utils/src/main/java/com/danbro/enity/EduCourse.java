@@ -1,4 +1,4 @@
-package com.danbro.edu.entity;
+package com.danbro.enity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

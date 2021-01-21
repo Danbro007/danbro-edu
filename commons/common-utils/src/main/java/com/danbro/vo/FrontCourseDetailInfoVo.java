@@ -1,7 +1,8 @@
-package com.danbro.dto;
+package com.danbro.vo;
 
 import java.math.BigDecimal;
 import java.util.List;
+import com.danbro.dto.FrontCourseDetailInfoChapterDto;
 import lombok.Data;
 
 /**
@@ -11,7 +12,7 @@ import lombok.Data;
  * @Author Danrbo
  */
 @Data
-public class FrontCourseDetailInfoDto {
+public class FrontCourseDetailInfoVo {
     private String courseId;
     private String courseCover;
     private Integer buyCount;

@@ -3,7 +3,7 @@ package com.danbro.edu.controller.param;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import com.danbro.edu.entity.EduTeacher;
+import com.danbro.enity.EduTeacher;
 import com.danbro.impl.Insert;
 import com.danbro.impl.ParamConvert;
 import com.danbro.impl.Update;

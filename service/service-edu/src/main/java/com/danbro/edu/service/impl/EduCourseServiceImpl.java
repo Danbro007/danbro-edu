@@ -5,16 +5,15 @@ import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.dto.CourseTopDto;
-import com.danbro.dto.FrontCourseDetailInfoDto;
-import com.danbro.edu.controller.dto.FrontCourseConditionPagingDto;
+import com.danbro.vo.FrontCourseDetailInfoVo;
+import com.danbro.edu.controller.param.FrontQueryCourseParam;
 import com.danbro.edu.controller.dto.FrontPagingDto;
-import com.danbro.edu.controller.param.QueryCourseParam;
 import com.danbro.edu.controller.param.CourseParam;
+import com.danbro.edu.controller.param.QueryCourseParam;
 import com.danbro.edu.controller.vo.CoursePublishVo;
-import com.danbro.edu.controller.vo.CourseVo;
-import com.danbro.edu.entity.EduCourse;
-import com.danbro.edu.entity.EduCourseDescription;
+import com.danbro.vo.CourseVo;
+import com.danbro.enity.EduCourse;
+import com.danbro.enity.EduCourseDescription;
 import com.danbro.edu.mapper.EduCourseMapper;
 import com.danbro.edu.service.EduChapterService;
 import com.danbro.edu.service.EduCourseDescriptionService;
@@ -114,49 +113,47 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Cacheable(value = "course", key = "'top-course-list'")
     @Override
-    public List<CourseTopDto> getTopCourseList(String limit) {
+    public List<CourseVo> getTopCourseList(String limit) {
         QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("view_count");
         queryWrapper.last(String.format("limit %s", limit));
-        List<CourseTopDto> topDtos = new ArrayList<>();
-        this.list(queryWrapper).forEach(e -> {
-            CourseTopDto topDto = new CourseTopDto();
-            BeanUtils.copyProperties(e, topDto);
-            topDtos.add(topDto);
-        });
-        return topDtos;
+        List<CourseVo> topList = new ArrayList<>();
+        this.list(queryWrapper).forEach(e -> topList.add(new CourseVo().convertFrom(e)));
+        return topList;
     }
 
     @Override
-    public FrontPagingDto<EduCourse> pagingFindCourseByCondition(Long current, Long limit, FrontCourseConditionPagingDto dto) {
+    public FrontPagingDto<CourseVo> pagingFindCourseByCondition(Long current, Long limit, FrontQueryCourseParam courseParam) {
         Page<EduCourse> page = new Page<>(current, limit);
         QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(dto.getSubjectParentId())) {
-            queryWrapper.eq("subject_parent_id", dto.getSubjectParentId());
+        if (!StringUtils.isEmpty(courseParam.getSubjectParentId())) {
+            queryWrapper.eq("subject_parent_id", courseParam.getSubjectParentId());
         }
-        if (!StringUtils.isEmpty(dto.getSubjectId())) {
-            queryWrapper.eq("subject_id", dto.getSubjectId());
+        if (!StringUtils.isEmpty(courseParam.getSubjectId())) {
+            queryWrapper.eq("subject_id", courseParam.getSubjectId());
         }
-        if (!StringUtils.isEmpty(dto.getSortType())) {
-            if ((dto.getSortType().equals(SortType.SALE_SORT.getType()) ||
-                    dto.getSortType().equals(SortType.PRICE_SORT.getType()) ||
-                    dto.getSortType().equals(SortType.CREATE_TIME_SORT.getType()))) {
-                queryWrapper.orderByDesc(dto.getSortType());
+        if (!StringUtils.isEmpty(courseParam.getSortType())) {
+            if ((courseParam.getSortType().equals(SortType.SALE_SORT.getType()) ||
+                    courseParam.getSortType().equals(SortType.PRICE_SORT.getType()) ||
+                    courseParam.getSortType().equals(SortType.CREATE_TIME_SORT.getType()))) {
+                queryWrapper.orderByDesc(courseParam.getSortType());
             }
         }
         this.page(page, queryWrapper);
-        return new FrontPagingDto<EduCourse>().
+        ArrayList<CourseVo> courseVos = new ArrayList<>();
+        page.getRecords().forEach(e -> courseVos.add(new CourseVo().convertFrom(e)));
+        return new FrontPagingDto<CourseVo>().
                 setPages(page.getPages()).
                 setCurrent(page.getCurrent()).
                 setSize(page.getSize()).
                 setHasPrevious(page.hasPrevious()).
                 setHasNext(page.hasNext()).
-                setItems(page.getRecords()).
+                setItems(courseVos).
                 setTotal(page.getTotal());
     }
 
     @Override
-    public FrontCourseDetailInfoDto getCourseDetailInfo(String courseId) {
+    public FrontCourseDetailInfoVo getCourseDetailInfo(String courseId) {
         return this.baseMapper.getCourseDetailInfo(courseId);
     }
 

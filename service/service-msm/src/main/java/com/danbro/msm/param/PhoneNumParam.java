@@ -1,4 +1,4 @@
-package com.danbro.msm.dto;
+package com.danbro.msm.param;
 
 import com.danbro.anotation.IsMobile;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.Data;
  * @Author Danrbo
  */
 @Data
-public class PhoneNumDto {
+public class PhoneNumParam {
 
     @IsMobile
     private String mobile;

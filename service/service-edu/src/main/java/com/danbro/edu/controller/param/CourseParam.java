@@ -7,7 +7,7 @@ import com.danbro.anotation.IsAssignID;
 import com.danbro.anotation.IsPositiveNum;
 import com.danbro.anotation.IsPrice;
 import com.danbro.anotation.IsTitle;
-import com.danbro.edu.entity.EduCourse;
+import com.danbro.enity.EduCourse;
 import com.danbro.impl.Insert;
 import com.danbro.impl.ParamConvert;
 import com.danbro.impl.Update;

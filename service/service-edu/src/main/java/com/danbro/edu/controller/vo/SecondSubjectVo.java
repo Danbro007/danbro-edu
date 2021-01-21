@@ -41,8 +41,7 @@ public class SecondSubjectVo implements Serializable, VoConvert<SecondSubjectVo,
 
     @Override
     public SecondSubjectVo convertFrom(EduSubject eduSubject) {
-        SecondSubjectVo secondSubjectVo = new SecondSubjectVo();
-        BeanUtils.copyProperties(secondSubjectVo, eduSubject);
-        return secondSubjectVo;
+        BeanUtils.copyProperties(eduSubject, this);
+        return this;
     }
 }
