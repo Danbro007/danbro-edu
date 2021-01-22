@@ -1,9 +1,9 @@
 package com.danbro.statistic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.statistic.dto.QueryStatisticsParam;
+import com.danbro.statistic.controller.param.QueryStatisticsParam;
 import com.danbro.statistic.entity.StatisticsDaily;
-import com.danbro.statistic.vo.StatisticsDailyListVo;
+import com.danbro.statistic.controller.vo.StatisticsDailyListVo;
 
 /**
  * 网站统计日数据(StatisticsDaily)表服务接口

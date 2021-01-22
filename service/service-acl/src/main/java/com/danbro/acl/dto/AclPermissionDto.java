@@ -1,7 +1,6 @@
 package com.danbro.acl.dto;
 
 import com.danbro.acl.entity.AclPermission;
-import com.danbro.impl.DtoConvert;
 import com.google.common.base.Converter;
 import lombok.Data;
 import lombok.experimental.Accessors;

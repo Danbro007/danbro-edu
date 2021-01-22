@@ -1,6 +1,8 @@
-package com.danbro.statistic.vo;
+package com.danbro.statistic.controller.vo;
 
+import java.io.Serializable;
 import java.util.List;
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -12,7 +14,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class StatisticsDailyListVo {
+public class StatisticsDailyListVo implements Serializable {
     private List<String> dateList;
     private List<String> numList;
 }

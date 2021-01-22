@@ -1,4 +1,4 @@
-package com.danbro.statistic.dto;
+package com.danbro.statistic.controller.param;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

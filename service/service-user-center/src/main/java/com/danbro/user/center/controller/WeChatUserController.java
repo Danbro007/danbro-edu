@@ -8,13 +8,12 @@ import com.danbro.enums.ResultCode;
 import com.danbro.exception.MyCustomException;
 import com.danbro.user.center.dto.WeChatReturnAccessTokenDto;
 import com.danbro.user.center.dto.WeChatUserInfoDto;
-import com.danbro.user.center.entity.UcenterMember;
+import com.danbro.enity.UcenterMember;
 import com.danbro.user.center.service.UcenterMemberService;
 import com.danbro.user.center.utils.WeChatUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("api/ucenter/wx/")
-
 public class WeChatUserController {
     @Resource
     UcenterMemberService ucenterMemberService;

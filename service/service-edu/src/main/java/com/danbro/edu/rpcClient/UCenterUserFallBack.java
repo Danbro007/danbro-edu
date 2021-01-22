@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UCenterUserFallBack implements UCenterUserClient {
     @Override
-    public Result getUserInfo(String userId) {
+    public Result getMemberInfoByMemberId(String memberId) {
         throw new MyCustomException(ResultCode.USER_SERVICE_TIME_OUT);
     }
 }

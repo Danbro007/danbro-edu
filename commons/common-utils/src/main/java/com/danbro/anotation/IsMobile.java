@@ -7,6 +7,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
+
+import com.danbro.impl.Insert;
+import com.danbro.impl.Select;
+import com.danbro.impl.Update;
 import com.danbro.validator.MobileValidator;
 
 /**
@@ -25,7 +29,7 @@ public @interface IsMobile {
 
     String message() default "手机号码格式错误！";
 
-    Class<?>[] groups() default {};
+    Class<?>[] groups() default {Insert.class, Update.class, Select.class};
 
     Class<? extends Payload>[] payload() default {};
 }

@@ -1,7 +1,7 @@
 package com.danbro.user.center.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.danbro.user.center.entity.UcenterMember;
+import com.danbro.enity.UcenterMember;
 
 /**
  * 会员表(UcenterMember)表数据库访问层

@@ -1,9 +1,11 @@
 package com.danbro.cms.rpcClient;
 
 import java.util.List;
+
 import com.danbro.cms.rpcClient.fallback.TeacherClientFallBack;
 import com.danbro.dto.TeacherTopDto;
 import com.danbro.enums.Result;
+import com.danbro.vo.TeacherVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "service-edu", fallback = TeacherClientFallBack.class)
 @Component
 public interface TeacherClient {
+    /**
+     * 获取热门讲师的列表
+     *
+     * @param limit 热门讲师的数量
+     * @return 热门讲师的列表
+     */
     @GetMapping("edu/teacher/top/{limit}")
-    Result<List<TeacherTopDto>> getTopTeacherList(@PathVariable String limit);
+    Result<List<TeacherVo>> getTopTeacherList(@PathVariable String limit);
 }

@@ -7,12 +7,12 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.statistic.dto.QueryStatisticsParam;
+import com.danbro.statistic.controller.param.QueryStatisticsParam;
 import com.danbro.statistic.entity.StatisticsDaily;
 import com.danbro.statistic.mapper.StatisticsDailyMapper;
 import com.danbro.statistic.rpcClient.UserClient;
 import com.danbro.statistic.service.StatisticsDailyService;
-import com.danbro.statistic.vo.StatisticsDailyListVo;
+import com.danbro.statistic.controller.vo.StatisticsDailyListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

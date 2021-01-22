@@ -1,19 +1,14 @@
 package com.danbro.acl.dto;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.danbro.acl.entity.AclRole;
-import com.danbro.impl.DtoConvert;
 import com.google.common.base.Converter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.BeanUtils;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 /**

@@ -1,10 +1,8 @@
 package com.danbro.user.center.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.user.center.dto.UserLoginDto;
-import com.danbro.user.center.dto.UserRegisterDto;
-import com.danbro.user.center.entity.UcenterMember;
-import java.util.List;
+import com.danbro.user.center.controller.param.MemberParam;
+import com.danbro.enity.UcenterMember;
 
 /**
  * 会员表(UcenterMember)表服务接口
@@ -14,18 +12,20 @@ import java.util.List;
  */
 public interface UcenterMemberService extends IService<UcenterMember> {
     /**
-     * 通过用户的 phone 和 密码登录
-     * @param user 用户信息
+     * 通过会员的 phone 和 密码登录
+     *
+     * @param memberParam 会员登录参数
      * @return 返回 token
      */
-    String login(UserLoginDto user);
+    String login(MemberParam memberParam);
 
     /**
-     * 通过用户手机号、密码、昵称和手机验证码来注册用户
-     * @param user 注册用户的信息
+     * 通过会员手机号、密码、昵称和手机验证码来注册用户
+     *
+     * @param memberParam 注册会员的信息
      * @return 注册结果
      */
-    Boolean register(UserRegisterDto user);
+    UcenterMember register(MemberParam memberParam);
 
     /**
      * 微信用户的登录
@@ -38,9 +38,19 @@ public interface UcenterMemberService extends IService<UcenterMember> {
     String wechatUserLogin(UcenterMember ucenterMember);
 
     /**
-     * @param date
-     * @return
+     * 统计日期当天的用户注册数
+     *
+     * @param date 要统计的日期
+     * @return 日期那天的用户注册数
      */
     Integer getRegisterStatisticByDate(String date);
+
+    /**
+     * 通过会员ID获取会员信息
+     *
+     * @param memberId 会员ID
+     * @return 会员信息
+     */
+    UcenterMember getMemberInfoByMemberId(String memberId);
 
 }

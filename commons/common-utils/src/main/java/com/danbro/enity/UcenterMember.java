@@ -1,4 +1,4 @@
-package com.danbro.user.center.entity;
+package com.danbro.enity;
 
 import java.util.Date;
 import java.io.Serializable;

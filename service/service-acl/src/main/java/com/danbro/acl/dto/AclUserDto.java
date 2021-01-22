@@ -1,11 +1,6 @@
 package com.danbro.acl.dto;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.danbro.acl.entity.AclUser;
-import com.danbro.acl.entity.AclUser;
-import com.danbro.impl.DtoConvert;
 import com.google.common.base.Converter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

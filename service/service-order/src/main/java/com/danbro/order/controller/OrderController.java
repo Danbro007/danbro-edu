@@ -13,6 +13,7 @@ import com.danbro.order.rpcClient.UserClient;
 import com.danbro.order.service.TOrderService;
 import com.danbro.utils.JwtUtils;
 import com.danbro.vo.CourseVo;
+import com.danbro.vo.MemberVo;
 import com.danbro.vo.OrderVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +53,9 @@ public class OrderController {
         if (userInfoDto == null) {
             throw new MyCustomException(ResultCode.USER_NO_LOGIN);
         }
-        Result<UcenterMemberInfoDto> userInfoDtoResult = userClient.getUserInfo(userInfoDto.getId());
-        Result<CourseVo> result = courseClient.getCourseBasicInfo(courseId);
-        return Result.ofSuccess(new OrderVo().convertFrom(tOrderService.insertOrder(userInfoDtoResult.getData(), result.getData())));
+        Result<MemberVo> memberResult = userClient.getMemberInfoByMemberId(userInfoDto.getId());
+        Result<CourseVo> courseResult = courseClient.getCourseBasicInfo(courseId);
+        return Result.ofSuccess(new OrderVo().convertFrom(tOrderService.insertOrder(memberResult.getData(), courseResult.getData())));
     }
 
     @ApiOperation("通过订单编号查询订单信息")
