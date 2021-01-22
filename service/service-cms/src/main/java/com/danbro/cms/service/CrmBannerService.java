@@ -1,10 +1,9 @@
 package com.danbro.cms.service;
 
+import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.danbro.cms.entity.CrmBanner;
-import com.danbro.enums.Result;
-
-import java.util.List;
+import com.danbro.cms.vo.CrmBannerVo;
 
 /**
  * 首页banner表(CrmBanner)表服务接口
@@ -14,9 +13,9 @@ import java.util.List;
  */
 public interface CrmBannerService extends IService<CrmBanner> {
 
-    List<CrmBanner> getAllBannerList();
+    List<CrmBannerVo> getAllBannerList();
 
-    Boolean insertBanner(CrmBanner crmBanner);
+    CrmBanner insertOrUpdate(CrmBanner crmBanner);
 
     Boolean deleteBanner(String crmBannerId);
 

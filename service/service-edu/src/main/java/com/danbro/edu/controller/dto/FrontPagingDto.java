@@ -1,7 +1,6 @@
 package com.danbro.edu.controller.dto;
 
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,6 @@ import lombok.experimental.Accessors;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class FrontPagingDto<R> {
     private List<R> items;
     private Long current;
@@ -26,7 +24,4 @@ public class FrontPagingDto<R> {
     private Long total;
     private Boolean hasNext;
     private Boolean hasPrevious;
-
-
-
 }

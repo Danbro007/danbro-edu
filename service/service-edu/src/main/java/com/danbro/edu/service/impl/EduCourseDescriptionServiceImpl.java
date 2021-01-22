@@ -1,7 +1,7 @@
 package com.danbro.edu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.edu.entity.EduCourseDescription;
+import com.danbro.enity.EduCourseDescription;
 import com.danbro.edu.mapper.EduCourseDescriptionMapper;
 import com.danbro.edu.service.EduCourseDescriptionService;
 import org.springframework.stereotype.Service;

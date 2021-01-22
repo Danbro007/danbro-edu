@@ -4,12 +4,9 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import com.danbro.acl.dto.AclRoleDto;
-import com.danbro.acl.dto.TreeNodePermissionDto;
 import com.danbro.acl.service.AclRoleService;
 import com.danbro.enity.OutPutPagingDto;
 import com.danbro.enums.Result;
-import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -58,9 +55,6 @@ public class AclRoleController {
     @ApiOperation("添加角色信息")
     @PostMapping()
     public Result<AclRoleDto> insertRole(@Valid @RequestBody AclRoleDto aclRoleDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new MyCustomException(ResultCode.PARAMS_ERROR, bindingResult.getAllErrors());
-        }
         return Result.ofSuccess(aclRoleService.insertOrUpdate(aclRoleDto));
     }
 

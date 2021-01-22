@@ -1,12 +1,9 @@
 package com.danbro.edu.service;
 
+import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.edu.controller.dto.InPutEduChapterInsertDto;
-import com.danbro.edu.controller.dto.OutPutEduChapterDto;
 import com.danbro.edu.controller.vo.ChapterVo;
 import com.danbro.edu.entity.EduChapter;
-
-import java.util.List;
 
 /**
  * 课程(EduChapter)表服务接口
@@ -36,7 +33,7 @@ public interface EduChapterService extends IService<EduChapter> {
      *
      * @param chapterId 章节ID
      */
-    void removeChapterAndVideoByChapterId(String chapterId);
+    void removeChapterByChapterId(String chapterId);
 
     /**
      * 通过课程ID 删除相关的章节和小节

@@ -17,6 +17,7 @@ import com.danbro.utils.JwtUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,20 +35,13 @@ public class UserCenterController {
 
     @ApiOperation("用户登录")
     @PostMapping("login")
-    public Result<String> login(@RequestBody UserLoginDto user, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new MyCustomException(ResultCode.PARAMS_ERROR, result.getAllErrors());
-        }
-        String token = ucenterMemberService.login(user);
-        return Result.ofSuccess(token);
+    public Result<String> login(@Validated @RequestBody UserLoginDto user, BindingResult result) {
+        return Result.ofSuccess(ucenterMemberService.login(user));
     }
 
     @ApiOperation("用户注册")
     @PostMapping("register")
     public Result register(@RequestBody UserRegisterDto user, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new MyCustomException(ResultCode.PARAMS_ERROR, result.getAllErrors());
-        }
         if (ucenterMemberService.register(user)) {
             return Result.ofSuccess();
         } else {

@@ -44,4 +44,11 @@ public interface EduVideoService extends IService<EduVideo> {
      * @return 删除结果
      */
     Boolean removeByVideoId(String videoId);
+
+    /**
+     * 添加或者修改的小节
+     * @param eduVideo 添加或者修改的小节参数
+     * @return 添加或者修改完毕的小节
+     */
+    EduVideo insertOrUpdateVideo(EduVideo eduVideo);
 }

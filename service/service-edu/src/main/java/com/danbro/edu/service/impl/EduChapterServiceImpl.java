@@ -37,7 +37,7 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void removeChapterAndVideoByChapterId(String chapterId) {
+    public void removeChapterByChapterId(String chapterId) {
         eduVideoService.removeByChapterId(chapterId);
         this.removeById(chapterId);
     }

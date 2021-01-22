@@ -3,21 +3,17 @@ package com.danbro.edu.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.dto.TeacherTopDto;
 import com.danbro.edu.controller.dto.FrontPagingDto;
-import com.danbro.edu.controller.dto.FrontTeacherInfoQueryDto;
 import com.danbro.edu.controller.param.QueryTeacherParam;
-import com.danbro.edu.controller.vo.TeacherVo;
-import com.danbro.edu.entity.EduTeacher;
+import com.danbro.vo.TeacherVo;
+import com.danbro.enity.EduTeacher;
 import com.danbro.edu.mapper.EduTeacherMapper;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.edu.service.EduTeacherService;
 import com.danbro.enity.OutPutPagingDto;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -64,38 +60,36 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
 
     @Cacheable(value = "teacher", key = "'top-teacher-list'")
     @Override
-    public List<TeacherTopDto> getTopTeacherList(String limit) {
+    public List<TeacherVo> getTopTeacherList(String limit) {
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("level");
         queryWrapper.last(String.format("limit %s", limit));
         List<EduTeacher> eduTeachers = this.list(queryWrapper);
-        ArrayList<TeacherTopDto> topDtos = new ArrayList<>();
-        eduTeachers.forEach(e -> {
-            TeacherTopDto topDto = new TeacherTopDto();
-            BeanUtils.copyProperties(e, topDto);
-            topDtos.add(topDto);
-        });
-        return topDtos;
+        ArrayList<TeacherVo> topList = new ArrayList<>();
+        eduTeachers.forEach(e -> topList.add(new TeacherVo().convertFrom(e)));
+        return topList;
     }
 
     @Override
-    public FrontPagingDto<EduTeacher> pagingFindTeacher(Integer current, Integer limit) {
+    public FrontPagingDto<TeacherVo> pagingFindTeacher(Integer current, Integer limit) {
         Page<EduTeacher> page = new Page<>(current, limit);
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
         this.page(page, queryWrapper);
-        return new FrontPagingDto<EduTeacher>().
+        ArrayList<TeacherVo> list = new ArrayList<>();
+        page.getRecords().forEach(e -> list.add(new TeacherVo().convertFrom(e)));
+        return new FrontPagingDto<TeacherVo>().
                 setCurrent(page.getCurrent()).
                 setTotal(page.getTotal()).
                 setSize(page.getSize()).
                 setHasPrevious(page.hasPrevious()).
                 setHasNext(page.hasNext()).
-                setItems(page.getRecords()).
+                setItems(list).
                 setPages(page.getPages());
     }
 
     @Override
-    public FrontTeacherInfoQueryDto getTeacherInfoById(String id) {
+    public TeacherVo getTeacherInfoById(String id) {
         return this.baseMapper.getTeacherInfoById(id);
     }
 

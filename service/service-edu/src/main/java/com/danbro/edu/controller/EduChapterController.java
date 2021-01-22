@@ -1,19 +1,21 @@
 package com.danbro.edu.controller;
 
-import com.danbro.edu.controller.param.InsertChapterParam;
-import com.danbro.edu.controller.param.UpdateChapterParam;
+import java.util.List;
+import javax.annotation.Resource;
+import com.danbro.anotation.IsAssignID;
+import com.danbro.anotation.ValidParam;
+import com.danbro.edu.controller.param.ChapterParam;
 import com.danbro.edu.controller.vo.ChapterVo;
 import com.danbro.edu.service.EduChapterService;
 import com.danbro.enums.Result;
+import com.danbro.impl.Insert;
+import com.danbro.impl.Update;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 /**
  * 课程(EduChapter)表控制层
@@ -40,9 +42,7 @@ public class EduChapterController {
      */
     @ApiOperation("查找课程里所有的章节")
     @GetMapping("{courseId}")
-    public Result<List<ChapterVo>> getChapter(@NotBlank(message = "课程ID不能为空！")
-                                              @Min(value = 1, message = "课程ID不能小于0！")
-                                              @PathVariable String courseId) {
+    public Result<List<ChapterVo>> getChapter(@IsAssignID @ApiParam(name = "courseId", value = "课程ID", required = true) @PathVariable String courseId) {
         return Result.ofSuccess(eduChapterService.findAllByCourseId(courseId));
     }
 
@@ -52,22 +52,23 @@ public class EduChapterController {
      * @param chapterParam 要添加的章节参数
      * @return 添加结果
      */
+    @ValidParam
     @ApiOperation("添加章节")
     @PostMapping("")
-    public Result<ChapterVo> insertChapter(@Validated @RequestBody InsertChapterParam chapterParam) {
+    public Result<ChapterVo> insertChapter(@Validated(Insert.class) @RequestBody ChapterParam chapterParam, BindingResult bindingResult) {
         return Result.ofSuccess(new ChapterVo().convertFrom(eduChapterService.insertOrUpdateChapter(chapterParam.convertTo())));
     }
 
     /**
-     * 通过 chapterId 删除章节及对应的小节（视频信息）
+     * 通过 chapterId 删除章节及对应的小节（包括存储在阿里云的视频）
      *
      * @param chapterId 章节ID
      * @return 删除结果
      */
     @ApiOperation("删除章节")
     @DeleteMapping("{chapterId}")
-    public Result deleteChapter(@NotBlank(message = "章节ID不能为空！") @Min(value = 1, message = "章节ID不能小于0！") @PathVariable String chapterId) {
-        eduChapterService.removeChapterAndVideoByChapterId(chapterId);
+    public Result deleteChapter(@IsAssignID @PathVariable String chapterId) {
+        eduChapterService.removeChapterByChapterId(chapterId);
         return Result.ofSuccess();
     }
 
@@ -77,9 +78,10 @@ public class EduChapterController {
      * @param chapterParam 要更新chapter参数
      * @return 更新结果
      */
+    @ValidParam
     @ApiOperation("修改章节")
     @PutMapping("chapter")
-    public Result<ChapterVo> updateChapter(@RequestBody UpdateChapterParam chapterParam) {
+    public Result<ChapterVo> updateChapter(@Validated(Update.class) @RequestBody ChapterParam chapterParam, BindingResult bindingResult) {
         return Result.ofSuccess(new ChapterVo().convertFrom(eduChapterService.insertOrUpdateChapter(chapterParam.convertTo())));
     }
 }

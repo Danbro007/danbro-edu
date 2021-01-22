@@ -1,5 +1,7 @@
 package com.danbro.edu.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.edu.entity.EduVideo;
@@ -11,9 +13,6 @@ import com.danbro.enums.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 课程视频(EduVideo)表服务实现类
@@ -80,5 +79,11 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
             return true;
         }
         return false;
+    }
+
+    @Override
+    public EduVideo insertOrUpdateVideo(EduVideo eduVideo) {
+        this.saveOrUpdate(eduVideo);
+        return eduVideo;
     }
 }

@@ -1,8 +1,8 @@
 package com.danbro.order.rpcClient;
 
-import com.danbro.dto.EduCourseBasicInfoDto;
 import com.danbro.enums.Result;
 import com.danbro.order.rpcClient.fallback.CourseFallback;
+import com.danbro.vo.CourseVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,5 +19,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CourseClient {
 
     @GetMapping("edu/course/info/{courseId}")
-    Result<EduCourseBasicInfoDto> getCourseBasicInfo(@PathVariable String courseId);
+    Result<CourseVo> getCourseBasicInfo(@PathVariable String courseId);
 }

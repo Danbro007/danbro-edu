@@ -1,26 +1,24 @@
 package com.danbro.edu.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.danbro.dto.EduCourseBasicInfoDto;
-import com.danbro.edu.controller.param.InsertCourseParam;
-import com.danbro.edu.controller.dto.InPutEduCourseUpdatePublishStatusDto;
-import com.danbro.edu.controller.dto.OutPutEduCoursePublishDto;
-import com.danbro.edu.controller.dto.SearchCourseConditionDto;
-import com.danbro.edu.controller.vo.CourseVo;
-import com.danbro.edu.entity.EduCourse;
+import javax.annotation.Resource;
+import com.danbro.anotation.IsAssignID;
+import com.danbro.anotation.ValidParam;
+import com.danbro.edu.controller.param.QueryCourseParam;
+import com.danbro.edu.controller.param.CourseParam;
+import com.danbro.edu.controller.param.CourseStatusParam;
+import com.danbro.edu.controller.vo.CoursePublishVo;
+import com.danbro.vo.CourseVo;
+import com.danbro.enity.EduCourse;
 import com.danbro.edu.service.EduCourseService;
 import com.danbro.enity.OutPutPagingDto;
 import com.danbro.enums.Result;
-import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.impl.Insert;
+import com.danbro.impl.Update;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
 
 /**
  * 课程(EduCourse)表控制层
@@ -30,8 +28,8 @@ import javax.validation.Valid;
  */
 @Validated
 @RestController
+@Api(tags = "课程接口")
 @RequestMapping("edu/course")
-
 public class EduCourseController {
     /**
      * 服务对象
@@ -39,70 +37,52 @@ public class EduCourseController {
     @Resource
     private EduCourseService eduCourseService;
 
-
+    @ValidParam
     @ApiOperation("添加课程基本信息")
     @PostMapping("info")
-    public Result<CourseVo> insertCourseBasicInfo(@Validated @RequestBody InsertCourseParam courseParam) {
+    public Result<CourseVo> insertCourseBasicInfo(@Validated(Insert.class) @RequestBody CourseParam courseParam, BindingResult result) {
         return Result.ofSuccess(new CourseVo().convertFrom(eduCourseService.insertOrUpdateCourse(courseParam.convertTo())));
     }
 
 
     @ApiOperation("查看课程基本信息")
     @GetMapping("info/{courseId}")
-    public Result<CourseVo> findCourseInfo(@PathVariable String courseId) {
+    public Result<CourseVo> findCourseInfo(@IsAssignID @PathVariable String courseId) {
         return Result.ofSuccess(eduCourseService.getCourseBasicInfo(courseId));
     }
 
-
+    @ValidParam
     @ApiOperation("修改课程基本信息")
     @PutMapping("info")
-    public Result updateCourseInfo(@Valid @RequestBody InsertCourseParam insertCourseParam, BindingResult result) {
-        Boolean flag = eduCourseService.updateCourseInfo(insertCourseParam);
-        if (flag) {
-            return Result.ofSuccess();
-        }
-        return Result.ofFail(ResultCode.UPDATE_COURSE_INFO_FAILURE);
+    public Result<CourseVo> updateCourseInfo(@Validated(Update.class) @RequestBody CourseParam courseParam, BindingResult result) {
+        return Result.ofSuccess(new CourseVo().convertFrom(eduCourseService.insertOrUpdateCourse(courseParam.convertTo())));
     }
 
     @ApiOperation("查询要发布的课程信息")
     @GetMapping("publish/{courseId}")
-    public Result<OutPutEduCoursePublishDto> updateCourseInfo(@PathVariable String courseId) {
-        OutPutEduCoursePublishDto courseInfoForPublish = eduCourseService.getCourseInfoForPublish(courseId);
-        return Result.ofSuccess(courseInfoForPublish);
+    public Result<CoursePublishVo> updateCourseInfo(@IsAssignID @PathVariable String courseId) {
+        return Result.ofSuccess(eduCourseService.getCourseInfoForPublish(courseId));
     }
 
+    @ValidParam
     @ApiOperation("修改课程发布状态")
-    @PutMapping("publish/status")
-    public Result updatePublishStatus(@Valid @RequestBody InPutEduCourseUpdatePublishStatusDto statusDto, BindingResult result) {
-        EduCourse eduCourse = new EduCourse();
-        BeanUtils.copyProperties(statusDto, eduCourse);
-        boolean b = eduCourseService.updateById(eduCourse);
-        if (b) {
-            return Result.ofSuccess();
-        }
-        return Result.ofFail(ResultCode.UPDATE_COURSE_PUBLISH_STATUS_FAILURE);
+    @PutMapping("publish")
+    public Result<CourseVo> updatePublishStatus(@Validated @RequestBody CourseStatusParam courseStatusParam, BindingResult result) {
+        return Result.ofSuccess(new CourseVo().convertFrom(eduCourseService.insertOrUpdateCourse(courseStatusParam.convertTo())));
     }
 
     @ApiOperation("分页查询课程列表")
     @PostMapping("list/{current}/{limit}")
     public Result<OutPutPagingDto<EduCourse>> pagingFindByCondition(@PathVariable Integer current,
                                                                     @PathVariable Integer limit,
-                                                                    @RequestBody(required = false) SearchCourseConditionDto conditionDto) {
-        Page<EduCourse> page = eduCourseService.pagingFindByCondition(current, limit, conditionDto);
-        OutPutPagingDto<EduCourse> outPutPagingDto = new OutPutPagingDto<EduCourse>()
-                .setTotal(page.getTotal())
-                .setRows(page.getRecords());
-        return Result.ofSuccess(outPutPagingDto);
+                                                                    @RequestBody(required = false) QueryCourseParam courseParam) {
+        return Result.ofSuccess(eduCourseService.pagingFindByCondition(current, limit, courseParam));
     }
 
     @ApiOperation("删除课程")
     @DeleteMapping("{id}")
-    public Result deleteCourseById(@PathVariable String id) {
-        Boolean b = eduCourseService.removeCourse(id);
-        if (b) {
-            return Result.ofSuccess();
-        }
-        return Result.ofFail(ResultCode.DELETE_COURSE_FAILURE);
+    public Result deleteCourseById(@IsAssignID @PathVariable String id) {
+        return Result.ofSuccess(eduCourseService.removeCourse(id));
     }
 
 

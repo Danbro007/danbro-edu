@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.edu.controller.dto.FrontCourseCommentDto;
-import com.danbro.edu.controller.dto.FrontInPutCommentInsertDto;
+import com.danbro.edu.controller.vo.CourseCommentVo;
+import com.danbro.edu.controller.param.CourseCommentParam;
 import com.danbro.edu.controller.dto.FrontPagingDto;
 import com.danbro.edu.entity.EduComment;
 import com.danbro.edu.mapper.EduCommentMapper;
@@ -24,19 +24,15 @@ import org.springframework.stereotype.Service;
 public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComment> implements EduCommentService {
 
     @Override
-    public FrontPagingDto<FrontCourseCommentDto> pagingGetCourseComment(String courseId, Long current, Long limit) {
+    public FrontPagingDto<CourseCommentVo> pagingGetCourseComment(String courseId, Long current, Long limit) {
         Page<EduComment> page = new Page<>(current, limit);
         QueryWrapper<EduComment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id", courseId);
         queryWrapper.orderByDesc("gmt_create");
         this.page(page, queryWrapper);
-        ArrayList<FrontCourseCommentDto> items = new ArrayList<>();
-        page.getRecords().forEach(e -> {
-            FrontCourseCommentDto commentDto = new FrontCourseCommentDto();
-            BeanUtils.copyProperties(e, commentDto);
-            items.add(commentDto);
-        });
-        return new FrontPagingDto<FrontCourseCommentDto>().
+        ArrayList<CourseCommentVo> items = new ArrayList<>();
+        page.getRecords().forEach(e -> items.add(new CourseCommentVo().convertFrom(e)));
+        return new FrontPagingDto<CourseCommentVo>().
                 setCurrent(page.getCurrent()).
                 setPages(page.getPages()).
                 setTotal(page.getTotal()).
@@ -47,7 +43,7 @@ public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComm
     }
 
     @Override
-    public Boolean insertCourseComment(FrontInPutCommentInsertDto courseCommentDto) {
+    public Boolean insertCourseComment(CourseCommentParam courseCommentDto) {
         EduComment eduComment = new EduComment();
         BeanUtils.copyProperties(courseCommentDto, eduComment);
         return this.save(eduComment);

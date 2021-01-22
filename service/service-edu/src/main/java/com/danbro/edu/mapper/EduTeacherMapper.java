@@ -1,8 +1,8 @@
 package com.danbro.edu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.danbro.edu.controller.dto.FrontTeacherInfoQueryDto;
-import com.danbro.edu.entity.EduTeacher;
+import com.danbro.vo.TeacherVo;
+import com.danbro.enity.EduTeacher;
 
 /**
  * 讲师(EduTeacher)表数据库访问层
@@ -12,6 +12,6 @@ import com.danbro.edu.entity.EduTeacher;
  */
 public interface EduTeacherMapper extends BaseMapper<EduTeacher> {
 
-    FrontTeacherInfoQueryDto getTeacherInfoById(String id);
+    TeacherVo getTeacherInfoById(String id);
 
 }

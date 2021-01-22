@@ -1,14 +1,11 @@
 package com.danbro.edu.service;
 
 import java.util.List;
-
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.dto.TeacherTopDto;
 import com.danbro.edu.controller.dto.FrontPagingDto;
-import com.danbro.edu.controller.dto.FrontTeacherInfoQueryDto;
 import com.danbro.edu.controller.param.QueryTeacherParam;
-import com.danbro.edu.controller.vo.TeacherVo;
-import com.danbro.edu.entity.EduTeacher;
+import com.danbro.vo.TeacherVo;
+import com.danbro.enity.EduTeacher;
 import com.danbro.enity.OutPutPagingDto;
 
 /**
@@ -34,7 +31,7 @@ public interface EduTeacherService extends IService<EduTeacher> {
      * @param limit 依照讲师 level 排名
      * @return 排名前 limit 的讲师列表
      */
-    List<TeacherTopDto> getTopTeacherList(String limit);
+    List<TeacherVo> getTopTeacherList(String limit);
 
     /**
      * 分页查询讲师
@@ -43,7 +40,7 @@ public interface EduTeacherService extends IService<EduTeacher> {
      * @param limit   每页显示的数量
      * @return 分页结果
      */
-    FrontPagingDto<EduTeacher> pagingFindTeacher(Integer current, Integer limit);
+    FrontPagingDto<TeacherVo> pagingFindTeacher(Integer current, Integer limit);
 
     /**
      * 通过讲师ID查询讲师信息（讲师教的所有课程）
@@ -51,7 +48,7 @@ public interface EduTeacherService extends IService<EduTeacher> {
      * @param id 讲师ID
      * @return 讲师信息
      */
-    FrontTeacherInfoQueryDto getTeacherInfoById(String id);
+    TeacherVo getTeacherInfoById(String id);
 
     /**
      * 更新讲师信息
