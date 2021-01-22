@@ -2,11 +2,13 @@ package com.danbro.acl.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.acl.dto.AclRoleDto;
-import com.danbro.acl.dto.TreeNodePermissionDto;
+import com.danbro.acl.controller.param.QueryRoleParam;
+import com.danbro.acl.controller.vo.RoleVo;
+import com.danbro.acl.controller.vo.TreeNodePermissionVo;
 import com.danbro.acl.entity.AclPermission;
 import com.danbro.acl.entity.AclRole;
 import com.danbro.acl.entity.AclRolePermission;
@@ -42,9 +44,8 @@ public class AclRoleServiceImpl extends ServiceImpl<AclRoleMapper, AclRole> impl
 
 
     @Override
-    public AclRoleDto getRoleInfoById(String id) {
-        AclRole aclRole = this.getById(id);
-        return AclRoleDto.builder().build().convertFrom(aclRole);
+    public AclRole getRoleInfoById(String roleId) {
+        return this.getById(roleId);
 
     }
 
@@ -61,25 +62,24 @@ public class AclRoleServiceImpl extends ServiceImpl<AclRoleMapper, AclRole> impl
     }
 
     @Override
-    public AclRoleDto insertOrUpdate(AclRoleDto aclRoleDto) {
-        AclRole aclRole = aclRoleDto.convertTo();
-        this.saveOrUpdate(aclRole);
-        aclRoleDto.convertFrom(aclRole);
-        return aclRoleDto;
+    public AclRole insertOrUpdate(AclRole role) {
+        this.saveOrUpdate(role);
+        return role;
     }
 
     @Override
-    public OutPutPagingDto<AclRoleDto> pagingGetRoleListByCondition(Integer page, Integer limit, AclRoleDto queryCondition) {
+    public OutPutPagingDto<RoleVo> pagingGetRoleListByCondition(Integer page, Integer limit, QueryRoleParam roleParam) {
         Page<AclRole> rolePage = new Page<>(page, limit);
         QueryWrapper<AclRole> queryWrapper = new QueryWrapper<>();
-        if (queryCondition != null && !StringUtils.isEmpty(queryCondition.getRoleName())) {
-            queryWrapper.like("role_name", queryCondition.getRoleName());
+        // 查询条件是角色名
+        if (roleParam != null && !StringUtils.isEmpty(roleParam.getRoleName())) {
+            queryWrapper.like("role_name", roleParam.getRoleName());
         }
         queryWrapper.orderByDesc("gmt_create");
         this.page(rolePage, queryWrapper);
-        ArrayList<AclRoleDto> list = new ArrayList<>();
-        rolePage.getRecords().forEach(e -> list.add(new AclRoleDto().convertFrom(e)));
-        return new OutPutPagingDto<AclRoleDto>()
+        ArrayList<RoleVo> list = new ArrayList<>();
+        rolePage.getRecords().forEach(e -> list.add(new RoleVo().convertFrom(e)));
+        return new OutPutPagingDto<RoleVo>()
                 .setRows(list)
                 .setTotal(rolePage.getTotal());
     }
@@ -101,7 +101,7 @@ public class AclRoleServiceImpl extends ServiceImpl<AclRoleMapper, AclRole> impl
     }
 
     @Override
-    public List<TreeNodePermissionDto> getRolePermission(String roleId) {
+    public List<TreeNodePermissionVo> getRolePermission(String roleId) {
         List<AclPermission> allPermission = permissionService.list();
         List<AclPermission> rolePermission = permissionService.getRolePermission(roleId);
         allPermission.forEach(m -> {

@@ -1,8 +1,7 @@
 package com.danbro.acl.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.danbro.acl.dto.TreeNodePermissionDto;
-import com.danbro.acl.entity.AclPermission;
+import com.danbro.acl.controller.vo.TreeNodePermissionVo;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -22,13 +21,13 @@ public class MenuUtils {
      * @param treeNodes
      * @return
      */
-    public static List<JSONObject> bulid(List<TreeNodePermissionDto> treeNodes) {
+    public static List<JSONObject> bulid(List<TreeNodePermissionVo> treeNodes) {
         List<JSONObject> menuList = new ArrayList<>();
         if (treeNodes.size() == 1) {
-            TreeNodePermissionDto topNode = treeNodes.get(0);
+            TreeNodePermissionVo topNode = treeNodes.get(0);
             //左侧一级菜单
-            List<TreeNodePermissionDto> oneMenuList = topNode.getChildren();
-            for (TreeNodePermissionDto one : oneMenuList) {
+            List<TreeNodePermissionVo> oneMenuList = topNode.getChildren();
+            for (TreeNodePermissionVo one : oneMenuList) {
                 JSONObject oneMenu = new JSONObject();
                 oneMenu.put("path", one.getPath());
                 oneMenu.put("component", one.getComponent());
@@ -42,8 +41,8 @@ public class MenuUtils {
                 oneMenu.put("meta", oneMeta);
 
                 List<JSONObject> children = new ArrayList<>();
-                List<TreeNodePermissionDto> twoMenuList = one.getChildren();
-                for (TreeNodePermissionDto two : twoMenuList) {
+                List<TreeNodePermissionVo> twoMenuList = one.getChildren();
+                for (TreeNodePermissionVo two : twoMenuList) {
                     JSONObject twoMenu = new JSONObject();
                     twoMenu.put("path", two.getPath());
                     twoMenu.put("component", two.getComponent());
@@ -56,8 +55,8 @@ public class MenuUtils {
 
                     children.add(twoMenu);
 
-                    List<TreeNodePermissionDto> threeMenuList = two.getChildren();
-                    for (TreeNodePermissionDto three : threeMenuList) {
+                    List<TreeNodePermissionVo> threeMenuList = two.getChildren();
+                    for (TreeNodePermissionVo three : threeMenuList) {
                         if (StringUtils.isEmpty(three.getPath())) continue;
 
                         JSONObject threeMenu = new JSONObject();

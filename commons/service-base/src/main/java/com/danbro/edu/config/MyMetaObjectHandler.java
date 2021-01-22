@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * @Classname MetaObjectHandler
- * @Description TODO
+ * @Description TODO mybatis-plus 属性自动注入
  * @Date 2020/12/15 12:27
  * @Author Danrbo
  */

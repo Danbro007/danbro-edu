@@ -3,7 +3,7 @@ package com.danbro.acl.service;
 import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.acl.dto.TreeNodePermissionDto;
+import com.danbro.acl.controller.vo.TreeNodePermissionVo;
 import com.danbro.acl.entity.AclPermission;
 
 /**
@@ -18,7 +18,7 @@ public interface AclPermissionService extends IService<AclPermission> {
      *
      * @return 所有权限
      */
-    List<TreeNodePermissionDto> getAllPermission();
+    List<TreeNodePermissionVo> getAllPermission();
 
     /**
      * 递归删除菜单
@@ -49,7 +49,7 @@ public interface AclPermissionService extends IService<AclPermission> {
      * @param roleId 角色ID
      * @return 角色所拥有的权限
      */
-    List<TreeNodePermissionDto> getTreeNodeRolePermission(String roleId);
+    List<TreeNodePermissionVo> getTreeNodeRolePermission(String roleId);
 
     List<JSONObject> getPermissionByUserId(String id);
 

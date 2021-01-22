@@ -36,9 +36,9 @@ public class FrontTeacherController {
 
     @ApiOperation("分页查询讲师")
     @GetMapping("teacher/{current}/{limit}")
-    public Result<FrontPagingDto<TeacherVo>> pagingFind(@IsPositiveNum(message = "当前页数非法！") @PathVariable Integer current,
-                                                        @IsPositiveNum(message = "每页显示数非法！")  @PathVariable Integer limit) {
-        return Result.ofSuccess(eduTeacherService.pagingFindTeacher(current, limit));
+    public Result<FrontPagingDto<TeacherVo>> pagingFind(@IsPositiveNum(message = "当前页数非法！") @PathVariable String current,
+                                                        @IsPositiveNum(message = "每页显示数非法！") @PathVariable String limit) {
+        return Result.ofSuccess(eduTeacherService.pagingFindTeacher(Integer.parseInt(current), Integer.parseInt(limit)));
     }
 
     @ApiOperation("获取讲师信息")

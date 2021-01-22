@@ -58,6 +58,6 @@ public class FrontCommentController {
                 setNickname(userInfo.getNickname()).
                 setAvatar(userInfo.getAvatar()).
                 setMemberId(userInfo.getId());
-        return Result.ofSuccess(eduCommentService.insertOrUpdateCourseComment(commentParam.convertTo()));
+        return Result.ofSuccess(new CourseCommentVo().convertFrom(eduCommentService.insertOrUpdateCourseComment(commentParam.convertTo())));
     }
 }

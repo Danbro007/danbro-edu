@@ -3,6 +3,7 @@ package com.danbro.acl.controller;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+
 import com.alibaba.fastjson.JSONObject;
 import com.danbro.acl.service.IndexService;
 import com.danbro.enums.Result;
@@ -29,21 +30,19 @@ public class IndexController {
     public Result<Map<String, Object>> info() {
         //获取当前登录用户用户名
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Map<String, Object> userInfo = indexService.getUserInfo(username);
-        return Result.ofSuccess(userInfo);
+        return Result.ofSuccess(indexService.getUserInfo(username));
     }
 
     /**
      * 获取菜单
      *
-     * @return
+     * @return 用户能使用的菜单
      */
     @GetMapping("menu")
     public Result<List<JSONObject>> getMenu() {
         //获取当前登录用户用户名
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<JSONObject> permissionList = indexService.getMenu(username);
-        return Result.ofSuccess(permissionList);
+        return Result.ofSuccess(indexService.getMenu(username));
     }
 
     @PostMapping("logout")

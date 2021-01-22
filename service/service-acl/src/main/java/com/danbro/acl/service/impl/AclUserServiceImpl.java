@@ -10,8 +10,9 @@ import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.acl.dto.AclRoleDto;
-import com.danbro.acl.dto.AclUserDto;
+import com.danbro.acl.controller.param.UserParam;
+import com.danbro.acl.controller.vo.RoleVo;
+import com.danbro.acl.controller.vo.UserVo;
 import com.danbro.acl.entity.AclUser;
 import com.danbro.acl.entity.AclUserRole;
 import com.danbro.acl.mapper.AclUserMapper;
@@ -38,9 +39,9 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
     AclUserRoleService userRoleService;
 
     @Override
-    public AclUserDto getUserInfoById(String userId) {
+    public UserVo getUserInfoById(String userId) {
         AclUser aclUser = this.getById(userId);
-        return new AclUserDto().convertFrom(aclUser);
+        return new UserVo().convertFrom(aclUser);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -53,12 +54,9 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
     }
 
     @Override
-    public AclUserDto insertOrUpdate(AclUserDto aclUserDto) {
-        AclUser aclUser = aclUserDto.convertTo();
-        String encodePassword = SecureUtil.md5(aclUser.getPassword());
-        aclUser.setPassword(encodePassword);
+    public AclUser insertOrUpdateUser(AclUser aclUser) {
         this.saveOrUpdate(aclUser);
-        return aclUserDto.convertFrom(aclUser);
+        return aclUser;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -71,27 +69,27 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
     }
 
     @Override
-    public OutPutPagingDto<AclUserDto> pagingGetUserListByCondition(Integer page, Integer limit, AclUserDto queryCondition) {
+    public OutPutPagingDto<UserVo> pagingGetUserListByCondition(Integer page, Integer limit, UserParam userParam) {
         Page<AclUser> userPage = new Page<>(page, limit);
         QueryWrapper<AclUser> queryWrapper = new QueryWrapper<>();
-        if (queryCondition != null && !StringUtils.isEmpty(queryCondition.getUsername())) {
-            queryWrapper.like("username", queryCondition.getUsername());
+        if (userParam != null && !StringUtils.isEmpty(userParam.getUsername())) {
+            queryWrapper.like("username", userParam.getUsername());
         }
         this.page(userPage, queryWrapper);
-        ArrayList<AclUserDto> list = new ArrayList<>();
-        userPage.getRecords().forEach(e -> list.add(new AclUserDto().convertFrom(e)));
-        return new OutPutPagingDto<AclUserDto>()
+        ArrayList<UserVo> list = new ArrayList<>();
+        userPage.getRecords().forEach(e -> list.add(new UserVo().convertFrom(e)));
+        return new OutPutPagingDto<UserVo>()
                 .setTotal(userPage.getTotal())
                 .setRows(list);
     }
 
     @Override
-    public Map<String, List<AclRoleDto>> getUserRoleListByUserId(String userId) {
-        List<AclRoleDto> assignRoles = new ArrayList<>();
-        List<AclRoleDto> allRolesList = new ArrayList<>();
-        HashMap<String, List<AclRoleDto>> map = new HashMap<>();
-        aclRoleService.getRoleListByUserId(userId).forEach(e -> assignRoles.add(new AclRoleDto().convertFrom(e)));
-        aclRoleService.list().forEach(e -> allRolesList.add(new AclRoleDto().convertFrom(e)));
+    public Map<String, List<RoleVo>> getUserRoleListByUserId(String userId) {
+        List<RoleVo> assignRoles = new ArrayList<>();
+        List<RoleVo> allRolesList = new ArrayList<>();
+        HashMap<String, List<RoleVo>> map = new HashMap<>();
+        aclRoleService.getRoleListByUserId(userId).forEach(e -> assignRoles.add(new RoleVo().convertFrom(e)));
+        aclRoleService.list().forEach(e -> allRolesList.add(new RoleVo().convertFrom(e)));
         map.put("assignRoles", assignRoles);
         map.put("allRolesList", allRolesList);
         return map;

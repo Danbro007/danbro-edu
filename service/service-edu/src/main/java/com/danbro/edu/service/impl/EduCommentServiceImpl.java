@@ -43,9 +43,8 @@ public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComm
     }
 
     @Override
-    public Boolean insertCourseComment(CourseCommentParam courseCommentDto) {
-        EduComment eduComment = new EduComment();
-        BeanUtils.copyProperties(courseCommentDto, eduComment);
-        return this.save(eduComment);
+    public EduComment insertOrUpdateCourseComment(EduComment comment) {
+        this.save(comment);
+        return comment;
     }
 }

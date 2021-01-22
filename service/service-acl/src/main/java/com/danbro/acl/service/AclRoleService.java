@@ -1,9 +1,11 @@
 package com.danbro.acl.service;
 
 import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.danbro.acl.dto.AclRoleDto;
-import com.danbro.acl.dto.TreeNodePermissionDto;
+import com.danbro.acl.controller.param.QueryRoleParam;
+import com.danbro.acl.controller.vo.RoleVo;
+import com.danbro.acl.controller.vo.TreeNodePermissionVo;
 import com.danbro.acl.entity.AclRole;
 import com.danbro.enity.OutPutPagingDto;
 
@@ -17,10 +19,10 @@ public interface AclRoleService extends IService<AclRole> {
     /**
      * 通过角色ID获取角色信息
      *
-     * @param id 角色ID
+     * @param roleId 角色ID
      * @return 角色信息
      */
-    AclRoleDto getRoleInfoById(String id);
+    AclRole getRoleInfoById(String roleId);
 
     /**
      * 1、删除角色信息
@@ -34,20 +36,20 @@ public interface AclRoleService extends IService<AclRole> {
     /**
      * 添加或者更新角色信息
      *
-     * @param aclRoleDto 要添加或者更新的角色信息
+     * @param aclRole 要添加或者更新的角色信息
      * @return 添加或者更新后的角色的信息
      */
-    AclRoleDto insertOrUpdate(AclRoleDto aclRoleDto);
+    AclRole insertOrUpdate(AclRole aclRole);
 
     /**
      * 带有条件的分页查询角色
      *
-     * @param page           当前页数
-     * @param limit          每页显示的角色数
-     * @param queryCondition 查询条件
+     * @param page      当前页数
+     * @param limit     每页显示的角色数
+     * @param roleParam 查询条件
      * @return 查询结果
      */
-    OutPutPagingDto<AclRoleDto> pagingGetRoleListByCondition(Integer page, Integer limit, AclRoleDto queryCondition);
+    OutPutPagingDto<RoleVo> pagingGetRoleListByCondition(Integer page, Integer limit, QueryRoleParam roleParam);
 
     /**
      * 批量删除角色
@@ -70,6 +72,6 @@ public interface AclRoleService extends IService<AclRole> {
      * @param roleId 角色ID
      * @return 权限列表
      */
-    List<TreeNodePermissionDto> getRolePermission(String roleId);
+    List<TreeNodePermissionVo> getRolePermission(String roleId);
 
 }

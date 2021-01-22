@@ -23,8 +23,9 @@ public interface EduCommentService extends IService<EduComment> {
 
     /**
      * 添加或修改课程评论
+     *
      * @param comment 添加会修改的评论
      * @return 添加或修改完毕后的评论
      */
-    CourseCommentVo insertOrUpdateCourseComment(EduComment comment);
+    EduComment insertOrUpdateCourseComment(EduComment comment);
 }

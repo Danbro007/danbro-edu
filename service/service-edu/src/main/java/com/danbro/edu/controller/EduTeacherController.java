@@ -61,10 +61,10 @@ public class EduTeacherController {
 
     @ApiOperation("带条件的分页查询教师")
     @PostMapping("teacher/list/{current}/{limit}")
-    public Result<OutPutPagingDto<TeacherVo>> pagingFindByCondition(@IsPositiveNum(message = "查询的页数不能为空并且必须大于0!") @ApiParam(name = "current", value = "当前页数") @PathVariable Integer current,
-                                                                    @IsPositiveNum(message = "每页的显示数不能为空并且必须大于0!") @ApiParam(name = "limit", value = "当前页显示记录数") @PathVariable Integer limit,
+    public Result<OutPutPagingDto<TeacherVo>> pagingFindByCondition(@IsPositiveNum(message = "查询的页数不能为空并且必须大于0!") @ApiParam(name = "current", value = "当前页数") @PathVariable String current,
+                                                                    @IsPositiveNum(message = "每页的显示数不能为空并且必须大于0!") @ApiParam(name = "limit", value = "当前页显示记录数") @PathVariable String limit,
                                                                     @RequestBody(required = false) @ApiParam(name = "queryTeacherParam", value = "查询讲师的参数") QueryTeacherParam queryTeacherParam) {
-        return Result.ofSuccess(eduTeacherService.pagingFindTeacherByCondition(current, limit, queryTeacherParam));
+        return Result.ofSuccess(eduTeacherService.pagingFindTeacherByCondition(Integer.parseInt(current), Integer.parseInt(limit), queryTeacherParam));
     }
 
     @ValidParam

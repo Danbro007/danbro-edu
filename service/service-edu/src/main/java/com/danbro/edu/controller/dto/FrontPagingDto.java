@@ -14,7 +14,6 @@ import lombok.experimental.Accessors;
  */
 @Accessors(chain = true)
 @Data
-@Builder
 @NoArgsConstructor
 public class FrontPagingDto<R> {
     private List<R> items;

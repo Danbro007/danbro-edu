@@ -3,11 +3,13 @@ package com.danbro.acl.controller;
 import java.util.List;
 import javax.annotation.Resource;
 
-import com.danbro.acl.dto.TreeNodePermissionDto;
+import com.danbro.acl.controller.vo.TreeNodePermissionVo;
 import com.danbro.acl.service.AclPermissionService;
 import com.danbro.acl.service.AclRoleService;
+import com.danbro.anotation.IsAssignID;
 import com.danbro.enums.Result;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author makejava
  * @since 2021-01-13 14:18:14
  */
+@Validated
 @RestController
 @RequestMapping("admin/acl/permission")
 public class AclPermissionController {
@@ -35,9 +38,8 @@ public class AclPermissionController {
 
     @ApiOperation("查询所有的菜单(树形结构)，一般是admin用户。")
     @GetMapping("all")
-    public Result<List<TreeNodePermissionDto>> getAllPermission() {
-        List<TreeNodePermissionDto> allPermission = aclPermissionService.getAllPermission();
-        return Result.ofSuccess(allPermission);
+    public Result<List<TreeNodePermissionVo>> getAllPermission() {
+        return Result.ofSuccess(aclPermissionService.getAllPermission());
     }
 
     @ApiOperation("递归删除菜单")
@@ -49,22 +51,14 @@ public class AclPermissionController {
 
     @ApiOperation("给角色分配权限")
     @PostMapping("role")
-    public Result insertRolePermission(String roleId, String[] permissions) {
+    public Result insertRolePermission(@IsAssignID(message = "角色ID不合法！") String roleId, String[] permissions) {
         aclPermissionService.insertRolePermission(roleId, permissions);
         return Result.ofSuccess();
     }
-//
-//    @ApiOperation("添加菜单（权限）")
-//    @PostMapping("")
-//    public Result insertPermission() {
-//        //Todo
-//        return Result.ofSuccess();
-//    }
 
     @ApiOperation("查询角色的权限")
     @GetMapping("role/{roleId}")
-    public Result<List<TreeNodePermissionDto>> getRolePermission(@PathVariable String roleId) {
-        List<TreeNodePermissionDto> permissionList = aclRoleService.getRolePermission(roleId);
-        return Result.ofSuccess(permissionList);
+    public Result<List<TreeNodePermissionVo>> getRolePermission(@IsAssignID(message = "角色ID不合法！") @PathVariable String roleId) {
+        return Result.ofSuccess(aclRoleService.getRolePermission(roleId));
     }
 }

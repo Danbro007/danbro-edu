@@ -33,10 +33,11 @@ public class ValidAop {
     }
 
     /**
-     * 环绕AOP
+     * 环绕AOP 找到 controller 的参数带有 BindingResult 的
+     *
      * @param joinPoint 切点
      * @return
-     * @throws Throwable
+     * @throws Throwable 异常
      */
     @Around("validAop()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {

@@ -2,6 +2,7 @@ package com.danbro.edu.controller;
 
 import javax.annotation.Resource;
 import com.danbro.anotation.IsAssignID;
+import com.danbro.anotation.IsPositiveNum;
 import com.danbro.anotation.ValidParam;
 import com.danbro.edu.controller.param.QueryCourseParam;
 import com.danbro.edu.controller.param.CourseParam;
@@ -73,10 +74,10 @@ public class EduCourseController {
 
     @ApiOperation("分页查询课程列表")
     @PostMapping("list/{current}/{limit}")
-    public Result<OutPutPagingDto<EduCourse>> pagingFindByCondition(@PathVariable Integer current,
-                                                                    @PathVariable Integer limit,
+    public Result<OutPutPagingDto<EduCourse>> pagingFindByCondition(@IsPositiveNum(message = "参数current非法！") @PathVariable String current,
+                                                                    @IsPositiveNum(message = "参数limit非法！") @PathVariable String limit,
                                                                     @RequestBody(required = false) QueryCourseParam courseParam) {
-        return Result.ofSuccess(eduCourseService.pagingFindByCondition(current, limit, courseParam));
+        return Result.ofSuccess(eduCourseService.pagingFindByCondition(Integer.parseInt(current), Integer.parseInt(limit), courseParam));
     }
 
     @ApiOperation("删除课程")

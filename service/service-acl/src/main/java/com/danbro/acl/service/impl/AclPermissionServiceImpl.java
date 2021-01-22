@@ -5,7 +5,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.danbro.acl.dto.TreeNodePermissionDto;
+import com.danbro.acl.controller.vo.TreeNodePermissionVo;
 import com.danbro.acl.entity.AclPermission;
 import com.danbro.acl.entity.AclRolePermission;
 import com.danbro.acl.entity.AclUser;
@@ -33,15 +33,15 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
     AclUserService userService;
 
     @Override
-    public List<TreeNodePermissionDto> getAllPermission() {
+    public List<TreeNodePermissionVo> getAllPermission() {
         List<AclPermission> list = this.list();
         return PermissionUtils.buildPermissionTree(list);
     }
 
     @Override
     public void removePermissionRecursively(String permissionId) {
-        List<TreeNodePermissionDto> allPermission = this.getAllPermission();
-        TreeNodePermissionDto node = PermissionUtils.findNodeToRemove(allPermission, permissionId);
+        List<TreeNodePermissionVo> allPermission = this.getAllPermission();
+        TreeNodePermissionVo node = PermissionUtils.findNodeToRemove(allPermission, permissionId);
         if (node == null) {
             return;
         }
@@ -79,7 +79,7 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
     }
 
     @Override
-    public List<TreeNodePermissionDto> getTreeNodeRolePermission(String roleId) {
+    public List<TreeNodePermissionVo> getTreeNodeRolePermission(String roleId) {
         List<AclPermission> permissionList = this.baseMapper.getRolePermissionByRoleId(roleId);
         return PermissionUtils.buildPermissionTree(permissionList);
     }
@@ -92,8 +92,8 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
         } else {
             permissionValueList = this.baseMapper.getUserPermissionByUserId(id);
         }
-        List<TreeNodePermissionDto> treeNodePermissionDtos = PermissionUtils.buildPermissionTree(permissionValueList);
-        return MenuUtils.bulid(treeNodePermissionDtos);
+        List<TreeNodePermissionVo> treeNodePermissionVos = PermissionUtils.buildPermissionTree(permissionValueList);
+        return MenuUtils.bulid(treeNodePermissionVos);
     }
 
     @Override

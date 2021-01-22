@@ -1,9 +1,11 @@
 package com.danbro.cms.controller.user;
 
 import java.util.List;
+
 import com.danbro.cms.rpcClient.TeacherClient;
 import com.danbro.dto.TeacherTopDto;
 import com.danbro.enums.Result;
+import com.danbro.vo.TeacherVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,7 +30,7 @@ public class UserTeacherController {
 
     @ApiOperation("获取等级排名为前 limit 名的讲师信息")
     @GetMapping("teacher/top/{limit}")
-    public Result<List<TeacherTopDto>> getTopTeacherList(@PathVariable String limit) {
+    public Result<List<TeacherVo>> getTopTeacherList(@PathVariable String limit) {
         return teacherClient.getTopTeacherList(limit);
     }
 }
