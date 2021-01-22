@@ -104,8 +104,8 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
     /**
      * 判断用户是否系统管理员
      *
-     * @param userId
-     * @return
+     * @param userId 用户ID
+     * @return 是否是管理员
      */
     private boolean isSysAdmin(String userId) {
         AclUser user = userService.getById(userId);

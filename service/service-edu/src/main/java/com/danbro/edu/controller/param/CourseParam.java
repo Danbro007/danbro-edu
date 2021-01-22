@@ -6,7 +6,6 @@ import javax.validation.constraints.Null;
 import com.danbro.anotation.IsAssignID;
 import com.danbro.anotation.IsPositiveNum;
 import com.danbro.anotation.IsPrice;
-import com.danbro.anotation.IsTitle;
 import com.danbro.enity.EduCourse;
 import com.danbro.impl.Insert;
 import com.danbro.impl.ParamConvert;
@@ -39,7 +38,6 @@ public class CourseParam implements ParamConvert<EduCourse> {
     @ApiModelProperty("课程分类ID")
     private String subjectId;
 
-    @IsTitle
     @ApiModelProperty("课程标题")
     private String title;
 

@@ -12,10 +12,10 @@ import com.danbro.impl.Update;
 import com.danbro.validator.UUIDValidator;
 
 /**
+ * @author liweimo
  * @Classname IsVideoId
  * @Description TODO 判断是不是UUID
  * @Date 2021/1/21 19:37
- * @Created by Administrator
  */
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

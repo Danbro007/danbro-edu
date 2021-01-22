@@ -5,7 +5,6 @@ import javax.validation.constraints.Null;
 import com.danbro.anotation.IsAssignID;
 import com.danbro.anotation.IsBool;
 import com.danbro.anotation.IsPositiveNum;
-import com.danbro.anotation.IsTitle;
 import com.danbro.edu.entity.EduVideo;
 import com.danbro.impl.Insert;
 import com.danbro.impl.ParamConvert;
@@ -37,7 +36,6 @@ public class VideoParam implements ParamConvert<EduVideo> {
     @ApiModelProperty("章节ID")
     private String chapterId;
 
-    @IsTitle(message = "标题必须存在并且数字不能超过20个！")
     @ApiModelProperty("小节标题")
     private String title;
 

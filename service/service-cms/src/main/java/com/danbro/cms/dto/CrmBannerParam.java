@@ -4,7 +4,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import com.danbro.anotation.IsAssignID;
-import com.danbro.anotation.IsTitle;
 import com.danbro.cms.entity.CrmBanner;
 import com.danbro.impl.Insert;
 import com.danbro.impl.ParamConvert;
@@ -28,7 +27,6 @@ public class CrmBannerParam implements ParamConvert<CrmBanner> {
     @ApiModelProperty("Banner ID")
     private String id;
 
-    @IsTitle
     @ApiModelProperty("Banner 标题")
     private String title;
 

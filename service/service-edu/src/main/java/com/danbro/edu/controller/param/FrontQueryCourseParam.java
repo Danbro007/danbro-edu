@@ -2,7 +2,6 @@ package com.danbro.edu.controller.param;
 
 import java.io.Serializable;
 import com.danbro.anotation.IsAssignID;
-import com.danbro.anotation.IsTitle;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -15,7 +14,6 @@ import lombok.Data;
 @Data
 public class FrontQueryCourseParam implements Serializable {
 
-    @IsTitle(required = false)
     @ApiModelProperty(value = "课程名称")
     private String title;
 
@@ -31,7 +29,6 @@ public class FrontQueryCourseParam implements Serializable {
     @ApiModelProperty(value = "二级类别id")
     private String subjectId;
 
-    @IsTitle(required = false)
     @ApiModelProperty(value = "根据什么字段排序排序")
     private String sortType;
 }
