@@ -1,11 +1,9 @@
 package com.danbro.order.rpcClient.fallback;
 
-import com.danbro.dto.UcenterMemberInfoDto;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.order.rpcClient.UserClient;
-import com.danbro.vo.MemberVo;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +16,6 @@ import org.springframework.stereotype.Component;
 public class UserFallback implements UserClient {
     @Override
     public Result getMemberInfoByMemberId(String memberId) {
-        throw new MyCustomException(ResultCode.USER_SERVICE_TIME_OUT);
+        throw new EduException(ResultCode.USER_SERVICE_TIME_OUT);
     }
 }

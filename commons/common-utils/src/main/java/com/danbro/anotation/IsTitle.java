@@ -1,16 +1,19 @@
 package com.danbro.anotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import javax.validation.Payload;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
 import com.danbro.impl.Insert;
 import com.danbro.impl.Update;
 
+import javax.validation.Payload;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import java.lang.annotation.*;
+
+/**
+ * @author Danrbo
+ * @Classname IsTitle
+ * @Description TODO
+ * @Date 2021/1/22 16:50
+ */
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

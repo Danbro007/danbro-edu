@@ -2,12 +2,15 @@ package com.danbro.cms.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.cms.entity.CrmBanner;
 import com.danbro.cms.mapper.CrmBannerMapper;
 import com.danbro.cms.service.CrmBannerService;
 import com.danbro.cms.vo.CrmBannerVo;
+import com.danbro.enums.ResultCode;
+import com.danbro.exceptions.EduException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,19 +38,19 @@ public class CrmBannerServiceImpl extends ServiceImpl<CrmBannerMapper, CrmBanner
     @CachePut(value = "banner", key = "'selectIndexBannerList'")
     @Override
     public CrmBanner insertOrUpdate(CrmBanner crmBanner) {
-        this.saveOrUpdate(crmBanner);
+        boolean success = this.saveOrUpdate(crmBanner);
+        if (!success) {
+            throw new EduException(ResultCode.BANNER_INSERT_OR_UPDATE_FAILURE);
+        }
         return crmBanner;
     }
 
     @CacheEvict(value = "banner", key = "'selectIndexBannerList'")
     @Override
-    public Boolean deleteBanner(String crmBannerId) {
-        return this.removeById(crmBannerId);
-    }
-
-    @CachePut(value = "banner", key = "'selectIndexBannerList'")
-    @Override
-    public Boolean updateBanner(CrmBanner crmBanner) {
-        return this.updateById(crmBanner);
+    public void deleteBannerById(String crmBannerId) {
+        boolean success = this.removeById(crmBannerId);
+        if (!success) {
+            throw new EduException(ResultCode.BANNER_DELETE_FAILURE);
+        }
     }
 }

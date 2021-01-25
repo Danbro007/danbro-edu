@@ -2,6 +2,7 @@ package com.danbro.acl.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +16,8 @@ import com.danbro.acl.service.AclRolePermissionService;
 import com.danbro.acl.service.AclUserService;
 import com.danbro.acl.utils.MenuUtils;
 import com.danbro.acl.utils.PermissionUtils;
+import com.danbro.enums.ResultCode;
+import com.danbro.exceptions.EduException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Service;
  */
 @Service("aclPermissionService")
 public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, AclPermission> implements AclPermissionService {
+    private static final String ADMIN = "admin";
     @Autowired
     AclRolePermissionService rolePermissionService;
 
@@ -47,7 +51,10 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
         }
         ArrayList<String> idList = new ArrayList<>();
         PermissionUtils.getRemoveIdList(node, idList);
-        this.removeByIds(idList);
+        boolean success = this.removeByIds(idList);
+        if (!success) {
+            throw new EduException(ResultCode.PERMISSION_DELETE_FAILURE);
+        }
     }
 
     @Override
@@ -63,7 +70,10 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
                     setIsDeleted(false);
             permissionArrayList.add(aclRolePermission);
         }
-        rolePermissionService.saveBatch(permissionArrayList);
+        boolean success = rolePermissionService.saveBatch(permissionArrayList);
+        if (!success) {
+            throw new EduException(ResultCode.PERMISSION_INSERT_OR_UPDATE_FAILURE);
+        }
     }
 
     @Override
@@ -109,7 +119,7 @@ public class AclPermissionServiceImpl extends ServiceImpl<AclPermissionMapper, A
      */
     private boolean isSysAdmin(String userId) {
         AclUser user = userService.getById(userId);
-        if (null != user && "admin".equals(user.getUsername())) {
+        if (null != user && ADMIN.equals(user.getUsername())) {
             return true;
         }
         return false;

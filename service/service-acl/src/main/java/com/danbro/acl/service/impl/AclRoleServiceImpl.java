@@ -20,6 +20,8 @@ import com.danbro.acl.service.AclRoleService;
 import com.danbro.acl.service.AclUserRoleService;
 import com.danbro.acl.utils.PermissionUtils;
 import com.danbro.enity.OutPutPagingDto;
+import com.danbro.enums.ResultCode;
+import com.danbro.exceptions.EduException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,18 +54,25 @@ public class AclRoleServiceImpl extends ServiceImpl<AclRoleMapper, AclRole> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteRoleById(String roleId) {
-        this.removeById(roleId);
-        QueryWrapper<AclRolePermission> permissionQueryWrapper = new QueryWrapper<>();
-        permissionQueryWrapper.eq("role_id", roleId);
-        rolePermissionService.remove(permissionQueryWrapper);
-        QueryWrapper<AclUserRole> userRoleQueryWrapper = new QueryWrapper<>();
-        userRoleQueryWrapper.eq("role_id", roleId);
-        userRoleService.remove(userRoleQueryWrapper);
+        try {
+            this.removeById(roleId);
+            QueryWrapper<AclRolePermission> permissionQueryWrapper = new QueryWrapper<>();
+            permissionQueryWrapper.eq("role_id", roleId);
+            rolePermissionService.remove(permissionQueryWrapper);
+            QueryWrapper<AclUserRole> userRoleQueryWrapper = new QueryWrapper<>();
+            userRoleQueryWrapper.eq("role_id", roleId);
+            userRoleService.remove(userRoleQueryWrapper);
+        } catch (Exception e) {
+            throw new EduException(ResultCode.ROLE_DELETE_FAILURE);
+        }
     }
 
     @Override
     public AclRole insertOrUpdate(AclRole role) {
-        this.saveOrUpdate(role);
+        boolean success = this.saveOrUpdate(role);
+        if (!success) {
+            throw new EduException(ResultCode.ROLE_INSERT_OR_UPDATE_FAILURE);
+        }
         return role;
     }
 
@@ -86,13 +95,16 @@ public class AclRoleServiceImpl extends ServiceImpl<AclRoleMapper, AclRole> impl
 
     @Override
     public void batchDeleteRole(List<String> roleList) {
-        this.removeByIds(roleList);
         QueryWrapper<AclRolePermission> permissionQueryWrapper = new QueryWrapper<>();
         permissionQueryWrapper.in("role_id", roleList);
         rolePermissionService.remove(permissionQueryWrapper);
         QueryWrapper<AclUserRole> userRoleQueryWrapper = new QueryWrapper<>();
         userRoleQueryWrapper.in("role_id", roleList);
         userRoleService.remove(userRoleQueryWrapper);
+        boolean success = this.removeByIds(roleList);
+        if (!success) {
+            throw new EduException(ResultCode.ROLE_DELETE_FAILURE);
+        }
     }
 
     @Override

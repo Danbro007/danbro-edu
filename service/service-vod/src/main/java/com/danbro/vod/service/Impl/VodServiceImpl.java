@@ -1,6 +1,7 @@
 package com.danbro.vod.service.Impl;
 
 import java.io.IOException;
+
 import com.aliyun.vod.upload.impl.UploadVideoImpl;
 import com.aliyun.vod.upload.req.UploadStreamRequest;
 import com.aliyun.vod.upload.resp.UploadStreamResponse;
@@ -10,7 +11,7 @@ import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
 import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthRequest;
 import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.vod.service.VodService;
 import com.danbro.vod.utils.VodAliYunUtils;
 import io.swagger.annotations.ApiOperation;
@@ -36,51 +37,72 @@ public class VodServiceImpl implements VodService {
     public String uploadVideo(MultipartFile multipartFile) throws IOException {
         // 视频文件名
         String filename = multipartFile.getOriginalFilename();
-        if (StringUtils.isEmpty(filename)) {
-            throw new MyCustomException(ResultCode.UPLOAD_VIDEO_IS_EMPTY);
+        if (filename == null || StringUtils.isEmpty(filename.trim())) {
+            throw new EduException(ResultCode.VOD_FILENAME_IS_EMPTY);
         }
         // 上传到阿里云后显示的视频名
         String title = filename.substring(0, filename.lastIndexOf("."));
-        UploadStreamRequest request = new UploadStreamRequest(vodAliYunUtils.getAccessKeyId(),
+        // 创建上传视频的请求
+        UploadStreamRequest request = new UploadStreamRequest(
+                vodAliYunUtils.getAccessKeyId(),
                 vodAliYunUtils.getAccessKeySecret(),
                 title,
                 filename,
-                multipartFile.getInputStream());
+                multipartFile.getInputStream()
+        );
         UploadVideoImpl uploader = new UploadVideoImpl();
+        // 打印上传文件的进度条
         request.setPrintProgress(true);
+        // 上传结果的响应
         UploadStreamResponse response = uploader.uploadStream(request);
         if (response.isSuccess()) {
             return response.getVideoId();
         }
-        return null;
+        throw new EduException(ResultCode.VOD_UPLOAD_VIDEO_FAILURE);
     }
 
     @ApiOperation("删除单个在阿里云的视频")
     @Override
-    public void deleteVideo(String videoId) throws ClientException {
-        DefaultAcsClient client = vodAliYunUtils.initVodClient();
-        DeleteVideoRequest request = new DeleteVideoRequest();
-        request.setVideoIds(videoId);
-        client.getAcsResponse(request);
+    public void deleteVideo(String videoId) {
+        DefaultAcsClient client;
+        try {
+            client = vodAliYunUtils.initVodClient();
+            DeleteVideoRequest request = new DeleteVideoRequest();
+            request.setVideoIds(videoId);
+            client.getAcsResponse(request);
+        } catch (ClientException e) {
+            throw new EduException(ResultCode.VOD_CLIENT_CONNECTION_ERROR);
+        }
+
     }
 
     @ApiOperation("批量删除在阿里云的视频")
     @Override
-    public void batchDeleteVideo(String videoList) throws ClientException {
-        DefaultAcsClient client = vodAliYunUtils.initVodClient();
-        DeleteVideoRequest request = new DeleteVideoRequest();
-        request.setVideoIds(videoList);
-        client.getAcsResponse(request);
+    public void batchDeleteVideo(String videoList) {
+        DefaultAcsClient client;
+        try {
+            client = vodAliYunUtils.initVodClient();
+            DeleteVideoRequest request = new DeleteVideoRequest();
+            request.setVideoIds(videoList);
+            client.getAcsResponse(request);
+        } catch (ClientException e) {
+            throw new EduException(ResultCode.VOD_CLIENT_CONNECTION_ERROR);
+        }
     }
 
     @ApiOperation("获取视频的播放凭证")
     @Override
-    public String getVideoPlayAuth(String videoId) throws ClientException {
-        DefaultAcsClient client = vodAliYunUtils.initVodClient();
-        GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
-        request.setVideoId(videoId);
-        GetVideoPlayAuthResponse acsResponse = client.getAcsResponse(request);
-        return acsResponse.getPlayAuth();
+    public String getVideoPlayAuth(String videoId) {
+        DefaultAcsClient client;
+        try {
+            client = vodAliYunUtils.initVodClient();
+            GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+            request.setVideoId(videoId);
+            GetVideoPlayAuthResponse acsResponse = client.getAcsResponse(request);
+            return acsResponse.getPlayAuth();
+        } catch (ClientException e) {
+            throw new EduException(ResultCode.VOD_CLIENT_CONNECTION_ERROR);
+        }
     }
 }
 

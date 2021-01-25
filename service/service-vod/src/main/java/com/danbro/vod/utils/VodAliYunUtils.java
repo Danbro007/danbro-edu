@@ -35,7 +35,12 @@ public class VodAliYunUtils {
      */
     private static final String REGION_ID = "cn-shanghai";
 
-
+    /**
+     * 创建 vod 客户端
+     *
+     * @return vod 客户端
+     * @throws ClientException vod客户端异常
+     */
     public DefaultAcsClient initVodClient() throws ClientException {
         DefaultProfile profile = DefaultProfile.getProfile(REGION_ID, accessKeyId, accessKeySecret);
         return new DefaultAcsClient(profile);

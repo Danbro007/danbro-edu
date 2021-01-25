@@ -5,7 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.user.center.dto.WeChatReturnAccessTokenDto;
 import com.danbro.user.center.dto.WeChatUserInfoDto;
 import com.danbro.enity.UcenterMember;
@@ -57,6 +57,6 @@ public class WeChatUserController {
                 }
             }
         }
-        throw new MyCustomException(ResultCode.WECHAT_REGISTER_FAILURE);
+        throw new EduException(ResultCode.WECHAT_REGISTER_FAILURE);
     }
 }

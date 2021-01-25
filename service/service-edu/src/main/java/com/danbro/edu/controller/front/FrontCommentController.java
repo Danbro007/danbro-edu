@@ -13,7 +13,7 @@ import com.danbro.edu.controller.dto.FrontPagingDto;
 import com.danbro.edu.service.EduCommentService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.impl.Insert;
 import com.danbro.utils.JwtUtils;
 import io.swagger.annotations.ApiOperation;
@@ -52,7 +52,7 @@ public class FrontCommentController {
                                                  BindingResult result) {
         UserInfoDto userInfo = JwtUtils.getMemberIdByJwtToken(request);
         if (userInfo == null) {
-            throw new MyCustomException(ResultCode.USER_NO_LOGIN);
+            throw new EduException(ResultCode.USER_NO_LOGIN);
         }
         commentParam.
                 setNickname(userInfo.getNickname()).

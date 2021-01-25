@@ -9,7 +9,7 @@ import com.danbro.anotation.ValidParam;
 import com.danbro.dto.UserInfoDto;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.impl.Insert;
 import com.danbro.impl.Select;
 import com.danbro.user.center.controller.param.MemberParam;
@@ -53,7 +53,7 @@ public class UserCenterController {
     public Result<UserInfoDto> getUserInfo(HttpServletRequest request) {
         UserInfoDto userInfo = JwtUtils.getMemberIdByJwtToken(request);
         if (userInfo == null) {
-            throw new MyCustomException(ResultCode.USER_NOT_EXIST);
+            throw new EduException(ResultCode.USER_NOT_EXIST);
         }
         return Result.ofSuccess(userInfo);
     }

@@ -16,26 +16,23 @@ public interface EduVideoService extends IService<EduVideo> {
      * 先找到与 CourseId 相关的小节视频ID，然后到阿里云删除，最后再把数据库数据删除。
      *
      * @param courseId 课程id
-     * @return
      */
-    Boolean removeByCourseId(String courseId);
+    void removeByCourseId(String courseId);
 
     /**
      * 先删除阿里云里的视频然后再把小节ID里的 videoSourceId 和 videoOriginalName 清空
      *
      * @param videoId 视频ID
-     * @return 删除结果
      */
-    Boolean removeAliyunVideo(String videoId);
+    void removeAliyunVideo(String videoId);
 
     /**
      * 先找到 chapter 下所有的 videoSourceId ，
      * 然后通过这些id把阿里云的视频删除，最后再删除数据库的数据。
      *
-     * @param chapterId
-     * @return
+     * @param chapterId 章节ID
      */
-    Boolean removeByChapterId(String chapterId);
+    void removeByChapterId(String chapterId);
 
     /**
      * 通过小节id删除小节
@@ -43,10 +40,11 @@ public interface EduVideoService extends IService<EduVideo> {
      * @param videoId 小节id
      * @return 删除结果
      */
-    Boolean removeByVideoId(String videoId);
+    void removeByVideoId(String videoId);
 
     /**
      * 添加或者修改的小节
+     *
      * @param eduVideo 添加或者修改的小节参数
      * @return 添加或者修改完毕的小节
      */

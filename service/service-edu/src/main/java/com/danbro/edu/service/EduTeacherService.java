@@ -58,4 +58,10 @@ public interface EduTeacherService extends IService<EduTeacher> {
      */
     EduTeacher insertOrUpdateTeacher(EduTeacher teacher);
 
+    /**
+     * 通过讲师ID删除讲师
+     *
+     * @param id 讲师ID
+     */
+    void removeTeacherByTeacherId(String id);
 }

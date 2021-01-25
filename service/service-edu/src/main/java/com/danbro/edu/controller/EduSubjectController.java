@@ -7,7 +7,7 @@ import com.danbro.edu.controller.vo.FirstSubjectVo;
 import com.danbro.edu.service.EduSubjectService;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +38,7 @@ public class EduSubjectController {
         try {
             eduSubjectService.insert(file);
         } catch (Exception e) {
-            throw new MyCustomException(ResultCode.SUBJECT_UPLOAD_FAILURE);
+            throw new EduException(ResultCode.SUBJECT_UPLOAD_FAILURE);
         }
         return Result.ofSuccess();
     }

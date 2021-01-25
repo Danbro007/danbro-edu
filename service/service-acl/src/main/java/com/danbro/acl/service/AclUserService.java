@@ -23,7 +23,7 @@ public interface AclUserService extends IService<AclUser> {
      * @param userId 用户ID
      * @return 用户信息
      */
-    UserVo getUserInfoById(String userId);
+    AclUser getUserInfoById(String userId);
 
     /**
      * 删除单个用户

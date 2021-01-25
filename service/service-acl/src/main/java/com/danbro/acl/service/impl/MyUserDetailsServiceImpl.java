@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.danbro.acl.entity.AclUser;
 import com.danbro.acl.service.AclUserService;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.security.entity.SecurityUser;
 import com.danbro.security.entity.User;
 import org.springframework.beans.BeanUtils;
@@ -43,7 +43,7 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
         queryWrapper.eq("username", username);
         AclUser user = userService.getOne(queryWrapper);
         if (user == null) {
-            throw new MyCustomException(ResultCode.USER_NOT_EXIST);
+            throw new EduException(ResultCode.USER_NOT_EXIST);
         }
         User currentUser = new User();
         BeanUtils.copyProperties(user, currentUser);

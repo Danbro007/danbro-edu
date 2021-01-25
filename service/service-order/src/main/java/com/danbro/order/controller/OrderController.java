@@ -3,11 +3,10 @@ package com.danbro.order.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import com.danbro.anotation.IsAssignID;
-import com.danbro.dto.UcenterMemberInfoDto;
 import com.danbro.dto.UserInfoDto;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.order.rpcClient.CourseClient;
 import com.danbro.order.rpcClient.UserClient;
 import com.danbro.order.service.TOrderService;
@@ -51,7 +50,7 @@ public class OrderController {
     public Result<OrderVo> createOrder(@IsAssignID(message = "课程ID非法！") @PathVariable String courseId, HttpServletRequest request) {
         UserInfoDto userInfoDto = JwtUtils.getMemberIdByJwtToken(request);
         if (userInfoDto == null) {
-            throw new MyCustomException(ResultCode.USER_NO_LOGIN);
+            throw new EduException(ResultCode.USER_NO_LOGIN);
         }
         Result<MemberVo> memberResult = userClient.getMemberInfoByMemberId(userInfoDto.getId());
         Result<CourseVo> courseResult = courseClient.getCourseBasicInfo(courseId);

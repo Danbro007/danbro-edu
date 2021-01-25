@@ -2,11 +2,14 @@ package com.danbro.statistic.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.danbro.enums.ResultCode;
+import com.danbro.exceptions.EduException;
 import com.danbro.statistic.controller.param.QueryStatisticsParam;
 import com.danbro.statistic.entity.StatisticsDaily;
 import com.danbro.statistic.mapper.StatisticsDailyMapper;
@@ -40,7 +43,10 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
                 .setDateCalculated(date)
                 .setLoginNum(RandomUtil.randomInt(4))
                 .setVideoViewNum(RandomUtil.randomInt(4));
-        this.save(statisticsDaily);
+        boolean success = this.save(statisticsDaily);
+        if (!success) {
+            throw new EduException(ResultCode.STATISTICS_INSERT_FAILURE);
+        }
         return statisticsDaily;
     }
 

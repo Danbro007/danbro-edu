@@ -3,11 +3,12 @@ package com.danbro.msm.controller;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
+
 import com.aliyuncs.exceptions.ClientException;
 import com.danbro.anotation.ValidParam;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.msm.param.PhoneNumParam;
 import com.danbro.msm.service.MsmService;
 import com.danbro.utils.RandomUtil;
@@ -40,22 +41,22 @@ public class MsmController {
     @ValidParam
     @ApiOperation("请求发送短信验证码")
     @PostMapping("captcha")
-    public Result sendMessage(@Validated PhoneNumParam phoneNumParam) {
+    public Result sendMessage(@Validated PhoneNumParam phoneNumParam) throws ClientException {
+        // redis 有该手机号的验证码则直接返回，不用再次发送验证码。
         if (!StringUtils.isEmpty(redisTemplate.opsForValue().get(phoneNumParam.getMobile()))) {
             return Result.ofSuccess();
         }
         HashMap<String, String> data = new HashMap<>(16);
         data.put("code", RandomUtil.getFourBitRandom());
         System.out.println(data.get("code"));
-        try {
-            Boolean isSuccess = msmService.sendMessage(phoneNumParam.getMobile(), data);
-            if (isSuccess) {
-                redisTemplate.opsForValue().set(phoneNumParam.getMobile(), data.get("code"), 2, TimeUnit.MINUTES);
-                return Result.ofSuccess();
-            }
-            throw new MyCustomException(ResultCode.SEND_MESSAGE_FAILURE);
-        } catch (ClientException e) {
-            throw new MyCustomException(ResultCode.SEND_MESSAGE_FAILURE);
+        // 使用短信平台发送短信验证码
+        Boolean success = msmService.sendMessage(phoneNumParam.getMobile(), data);
+        // 发送短信成功则会把验证码放入redis缓存里，超时时间为 2 分钟。
+        if (success) {
+            redisTemplate.opsForValue().set(phoneNumParam.getMobile(), data.get("code"), 2, TimeUnit.MINUTES);
+            return Result.ofSuccess();
+        } else {
+            throw new EduException(ResultCode.SEND_MESSAGE_FAILURE);
         }
     }
 }

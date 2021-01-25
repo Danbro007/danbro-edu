@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import com.alibaba.fastjson.JSONObject;
 import com.danbro.acl.service.IndexService;
+import com.danbro.acl.vo.UserInfoVo;
 import com.danbro.enums.Result;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class IndexController {
      * 根据token获取用户信息
      */
     @GetMapping("info")
-    public Result<Map<String, Object>> info() {
+    public Result<UserInfoVo> info() {
         //获取当前登录用户用户名
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return Result.ofSuccess(indexService.getUserInfo(username));

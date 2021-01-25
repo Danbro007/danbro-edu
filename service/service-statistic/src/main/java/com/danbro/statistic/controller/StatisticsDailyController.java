@@ -3,6 +3,7 @@ package com.danbro.statistic.controller;
 import java.util.Date;
 import javax.annotation.Resource;
 
+import com.danbro.anotation.IsPositiveNum;
 import com.danbro.enums.Result;
 import com.danbro.statistic.controller.param.QueryStatisticsParam;
 import com.danbro.statistic.controller.vo.StatisticsDailyVo;
@@ -40,8 +41,8 @@ public class StatisticsDailyController {
     @ApiOperation("查询每日用户登录、注册和每日课程播放、课程数统计")
     @GetMapping("count/{type}")
     public Result<StatisticsDailyListVo> getStatistic(@PathVariable String type,
-                                                      @RequestParam String begin,
-                                                      @RequestParam String end) {
+                                                      @IsPositiveNum @RequestParam String begin,
+                                                      @IsPositiveNum @RequestParam String end) {
         QueryStatisticsParam queryStatisticsParam = new QueryStatisticsParam().setBegin(begin).setEnd(end).setType(type);
         return Result.ofSuccess(statisticsDailyService.getStatistic(queryStatisticsParam));
     }

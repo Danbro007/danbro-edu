@@ -20,6 +20,8 @@ import com.danbro.acl.service.AclRoleService;
 import com.danbro.acl.service.AclUserRoleService;
 import com.danbro.acl.service.AclUserService;
 import com.danbro.enity.OutPutPagingDto;
+import com.danbro.enums.ResultCode;
+import com.danbro.exceptions.EduException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,33 +41,41 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
     AclUserRoleService userRoleService;
 
     @Override
-    public UserVo getUserInfoById(String userId) {
-        AclUser aclUser = this.getById(userId);
-        return new UserVo().convertFrom(aclUser);
+    public AclUser getUserInfoById(String userId) {
+        return this.getById(userId);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteUserById(String userId) {
-        this.removeById(userId);
         QueryWrapper<AclUserRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         userRoleService.remove(queryWrapper);
+        boolean success = this.removeById(userId);
+        if (!success) {
+            throw new EduException(ResultCode.USER_DELETE_FAILURE);
+        }
     }
 
     @Override
     public AclUser insertOrUpdateUser(AclUser aclUser) {
-        this.saveOrUpdate(aclUser);
+        boolean success = this.saveOrUpdate(aclUser);
+        if (!success) {
+            throw new EduException(ResultCode.USER_INSERT_OR_UPDATE_FAILURE);
+        }
         return aclUser;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void batchDeleteUser(List<String> userList) {
-        this.removeByIds(userList);
         QueryWrapper<AclUserRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("user_id", userList);
         userRoleService.remove(queryWrapper);
+        boolean success = this.removeByIds(userList);
+        if (!success) {
+            throw new EduException(ResultCode.USER_DELETE_FAILURE);
+        }
     }
 
     @Override
@@ -87,7 +97,7 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
     public Map<String, List<RoleVo>> getUserRoleListByUserId(String userId) {
         List<RoleVo> assignRoles = new ArrayList<>();
         List<RoleVo> allRolesList = new ArrayList<>();
-        HashMap<String, List<RoleVo>> map = new HashMap<>();
+        HashMap<String, List<RoleVo>> map = new HashMap<>(16);
         aclRoleService.getRoleListByUserId(userId).forEach(e -> assignRoles.add(new RoleVo().convertFrom(e)));
         aclRoleService.list().forEach(e -> allRolesList.add(new RoleVo().convertFrom(e)));
         map.put("assignRoles", assignRoles);
@@ -95,6 +105,7 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
         return map;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void inertUserRole(String userId, String roleIds) {
         QueryWrapper<AclUserRole> queryWrapper = new QueryWrapper<>();
@@ -103,9 +114,17 @@ public class AclUserServiceImpl extends ServiceImpl<AclUserMapper, AclUser> impl
         String[] ids = StrUtil.split(roleIds, ",");
         List<AclUserRole> aclUserRoles = new ArrayList<>();
         for (String id : ids) {
-            aclUserRoles.add(AclUserRole.builder().roleId(id).userId(userId).build());
+            aclUserRoles.add(AclUserRole.
+                    builder().
+                    roleId(id).
+                    userId(userId).
+                    build()
+            );
         }
-        userRoleService.saveBatch(aclUserRoles);
+        boolean success = userRoleService.saveBatch(aclUserRoles);
+        if (!success) {
+            throw new EduException(ResultCode.USER_ROLE_INSERT_FAILURE);
+        }
     }
 
     @Override

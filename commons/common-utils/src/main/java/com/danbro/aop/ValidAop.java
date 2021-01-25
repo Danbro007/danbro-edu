@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -49,7 +49,7 @@ public class ValidAop {
                     BindingResult bindingResult = (BindingResult) arg;
                     if (bindingResult.hasErrors()) {
                         bindingResult.getAllErrors().forEach(error -> errorList.add(error.getDefaultMessage()));
-                        throw new MyCustomException(ResultCode.PARAMS_ERROR, errorList);
+                        throw new EduException(ResultCode.PARAMS_ERROR, errorList);
                     }
                 }
             });

@@ -2,7 +2,7 @@ package com.danbro.order.rpcClient.fallback;
 
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.order.rpcClient.CourseClient;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +16,6 @@ import org.springframework.stereotype.Component;
 public class CourseFallback implements CourseClient {
     @Override
     public Result getCourseBasicInfo(String courseId) {
-        throw new MyCustomException(ResultCode.COURSE_IS_NOT_EXIST);
+        throw new EduException(ResultCode.COURSE_IS_NOT_EXIST);
     }
 }

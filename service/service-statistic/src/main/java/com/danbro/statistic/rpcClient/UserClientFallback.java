@@ -2,10 +2,8 @@ package com.danbro.statistic.rpcClient;
 
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import org.springframework.stereotype.Component;
-
-import java.util.Locale;
 
 /**
  * @Classname UserClientFallback
@@ -17,6 +15,6 @@ import java.util.Locale;
 public class UserClientFallback implements UserClient {
     @Override
     public Result<Integer> getUserRegisterByDate(String date) {
-        throw new MyCustomException(ResultCode.FAILURE);
+        throw new EduException(ResultCode.FAILURE);
     }
 }

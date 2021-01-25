@@ -4,7 +4,7 @@ import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.user.center.controller.param.MemberParam;
 import com.danbro.enity.UcenterMember;
 import com.danbro.user.center.mapper.UcenterMemberMapper;
@@ -33,13 +33,13 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         queryWrapper.eq("mobile", loginParam.getMobile());
         UcenterMember member = this.getOne(queryWrapper);
         if (member == null) {
-            throw new MyCustomException(ResultCode.USER_NOT_EXIST);
+            throw new EduException(ResultCode.USER_NOT_EXIST);
         }
         if (!member.getPassword().equals(SecureUtil.md5(loginParam.getPassword()))) {
-            throw new MyCustomException(ResultCode.PASSWORD_NOT_CORRECT);
+            throw new EduException(ResultCode.USER_PASSWORD_NOT_CORRECT);
         }
         if (member.getIsDisabled()) {
-            throw new MyCustomException(ResultCode.USER_IS_DISABLED);
+            throw new EduException(ResultCode.USER_IS_DISABLED);
         }
         return JwtUtils.getJwtToken(member.getId(), member.getNickname(), member.getAvatar());
     }
@@ -49,7 +49,7 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
     public UcenterMember register(MemberParam memberParam) {
         // 校验在 redis 的验证码
         if (!memberParam.getCaptcha().equals(redisTemplate.opsForValue().get(memberParam.getMobile()))) {
-            throw new MyCustomException(ResultCode.CAPTCHA_NOT_CORRECT);
+            throw new EduException(ResultCode.MEMBER_REGISTER_CAPTCHA_ERROR);
         }
         // 验证码校验成功删除会员存储在 redis 的验证码
         redisTemplate.delete(memberParam.getMobile());
@@ -57,11 +57,14 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         QueryWrapper<UcenterMember> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("mobile", memberParam.getMobile());
         if (this.count(queryWrapper) > 0) {
-            throw new MyCustomException(ResultCode.MOBILE_IS_EXIST);
+            throw new EduException(ResultCode.MEMBER_MOBILE_IS_EXIST);
         }
         // 添加会员
         UcenterMember member = memberParam.convertTo();
-        this.save(member);
+        boolean success = this.save(member);
+        if (!success) {
+            throw new EduException(ResultCode.MEMBER_REGISTER_FAILURE);
+        }
         return member;
     }
 
@@ -70,10 +73,15 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         QueryWrapper<UcenterMember> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("openid", ucenterMember.getOpenid());
         UcenterMember member = this.getOne(queryWrapper);
+        // 用户没有注册过
         if (member == null) {
-            this.save(ucenterMember);
+            boolean success = this.save(ucenterMember);
+            if (!success) {
+                throw new EduException(ResultCode.MEMBER_REGISTER_FAILURE);
+            }
             return JwtUtils.getJwtToken(ucenterMember.getId(), ucenterMember.getNickname(), ucenterMember.getAvatar());
         }
+        // 用户之前注册过
         return JwtUtils.getJwtToken(member.getId(), member.getNickname(), member.getAvatar());
 
     }

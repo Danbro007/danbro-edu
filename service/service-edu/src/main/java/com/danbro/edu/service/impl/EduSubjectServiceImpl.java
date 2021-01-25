@@ -36,7 +36,7 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         QueryWrapper<EduSubject> firstSubjectWrapper = new QueryWrapper<>();
         firstSubjectWrapper.eq("parent_id", "0");
         // 先找到一级课程
-        List<EduSubject> firstSubjectList = list(firstSubjectWrapper);
+        List<EduSubject> firstSubjectList = this.list(firstSubjectWrapper);
         if (firstSubjectList != null && firstSubjectList.size() > 0) {
             firstSubjectList.forEach(e -> subjects.add(new FirstSubjectVo().convertFrom(e)));
         }

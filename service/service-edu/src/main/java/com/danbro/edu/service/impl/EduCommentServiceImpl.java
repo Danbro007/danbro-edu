@@ -11,6 +11,8 @@ import com.danbro.edu.controller.dto.FrontPagingDto;
 import com.danbro.edu.entity.EduComment;
 import com.danbro.edu.mapper.EduCommentMapper;
 import com.danbro.edu.service.EduCommentService;
+import com.danbro.enums.ResultCode;
+import com.danbro.exceptions.EduException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +46,10 @@ public class EduCommentServiceImpl extends ServiceImpl<EduCommentMapper, EduComm
 
     @Override
     public EduComment insertOrUpdateCourseComment(EduComment comment) {
-        this.save(comment);
+        boolean success = this.save(comment);
+        if (!success) {
+            throw new EduException(ResultCode.COMMENT_INSERT_OR_UPDATE_FAILURE);
+        }
         return comment;
     }
 }

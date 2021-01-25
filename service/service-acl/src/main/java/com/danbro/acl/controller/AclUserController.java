@@ -40,7 +40,7 @@ public class AclUserController {
     @ApiOperation("获取某个用户基本信息")
     @GetMapping("{userId}")
     public Result<UserVo> getUserInfo(@IsAssignID(message = "用户ID非法！") @PathVariable String userId) {
-        return Result.ofSuccess(aclUserService.getUserInfoById(userId));
+        return Result.ofSuccess(new UserVo().convertFrom(aclUserService.getUserInfoById(userId)));
     }
 
     @ApiOperation("删除单个用户")

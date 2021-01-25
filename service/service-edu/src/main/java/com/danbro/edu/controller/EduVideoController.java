@@ -1,6 +1,7 @@
 package com.danbro.edu.controller;
 
 import javax.annotation.Resource;
+
 import com.danbro.anotation.IsAssignID;
 import com.danbro.anotation.IsUUID;
 import com.danbro.anotation.ValidParam;
@@ -58,6 +59,7 @@ public class EduVideoController {
     @ApiOperation("通过小节ID删除小节里的视频（数据库和阿里云都要删除掉）")
     @DeleteMapping("video/aliyun/{id}")
     public Result deleteVideo(@IsUUID(message = "视频ID非法！") @PathVariable String id) {
-        return Result.ofSuccess(eduVideoService.removeAliyunVideo(id));
+        eduVideoService.removeAliyunVideo(id);
+        return Result.ofSuccess();
     }
 }

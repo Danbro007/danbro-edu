@@ -3,10 +3,13 @@ package com.danbro.order.service.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
+
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.enity.TOrder;
+import com.danbro.enums.ResultCode;
+import com.danbro.exceptions.EduException;
 import com.danbro.order.dto.WeChatPayInfo;
 import com.danbro.order.dto.WeChatPayReturnDto;
 import com.danbro.order.dto.WeChatPayStatusDto;
@@ -55,24 +58,48 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
 
 
     @Override
-    public Map<String, String> queryOrderPayStatus(String orderNo) throws Exception {
+    public Map<String, String> queryOrderPayStatus(String orderNo) {
         WeChatPayStatusDto payStatusDto = new WeChatPayStatusDto().setOrderNo(orderNo);
-        Map<String, String> resultMap = weChatPayUtils.sendRequest(weChatPayUtils.getPayStatusQueryUrl(), payStatusDto.getWeChatMap());
-        if (resultMap.get("trade_state").equals(TradeState.SUCCESS.getStatus())) {
-            return resultMap;
+        Map<String, String> resultMap;
+        try {
+            resultMap = weChatPayUtils.sendRequest(weChatPayUtils.getPayStatusQueryUrl(), payStatusDto.getWeChatMap());
+            if (resultMap.get("trade_state").equals(TradeState.SUCCESS.getStatus())) {
+                return resultMap;
+            }
+        } catch (Exception e) {
+            throw new EduException(ResultCode.WECHAT_PAY_SERVICE_FAILURE);
         }
         return null;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateOrderStatus(Map<String, String> map) {
+    public void updateOrderStatus(String orderNo) {
+        Map<String, String> orderInfoMap = queryOrderPayStatus(orderNo);
+        if (orderInfoMap == null) {
+            throw new EduException(ResultCode.ORDER_NOT_FOUND);
+        }
         QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("order_no", map.get("out_trade_no"));
+        queryWrapper.eq("order_no", orderInfoMap.get("out_trade_no"));
         TOrder tOrder = tOrderService.getOne(queryWrapper);
         tOrder.setStatus(true);
-        tOrderService.updateById(tOrder);
-        TPayLog log = TPayLog.builder()
+        // 把订单支付状态更新为已支付状态
+        TPayLog log = buildPayLog(tOrder, orderInfoMap);
+        boolean success = tOrderService.updateById(tOrder) && this.save(log);
+        if (!success) {
+            throw new EduException(ResultCode.ORDER_UPDATE_PAY_STATUS_FAILURE);
+        }
+    }
+
+    /**
+     * 创建订单支付记录
+     *
+     * @param tOrder 订单对象
+     * @param map    支付信息
+     * @return 订单支付记录
+     */
+    private TPayLog buildPayLog(TOrder tOrder, Map<String, String> map) {
+        return TPayLog.builder()
                 .id(tOrder.getId())
                 .payType(tOrder.getPayType())
                 .orderNo(tOrder.getOrderNo())
@@ -82,6 +109,5 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
                 .attr(JSON.toJSONString(map))
                 .payTime(new Date())
                 .build();
-        this.save(log);
     }
 }

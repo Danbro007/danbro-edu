@@ -3,14 +3,12 @@ package com.danbro.enums;
 import java.io.Serializable;
 import java.util.List;
 
-import com.danbro.dto.EduCourseBasicInfoDto;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.validation.ObjectError;
 
 /**
  * @Classname Result
@@ -22,8 +20,10 @@ import org.springframework.validation.ObjectError;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Result<R> implements Serializable {
+public class Result<R> implements Serializable, ErrorResult {
+
     private static final long serialVersionUID = 5676862892560293265L;
+
     @ApiModelProperty("状态码")
     private Integer code;
 
@@ -52,7 +52,7 @@ public class Result<R> implements Serializable {
     }
 
 
-    private Result(MyCustomException customException) {
+    private Result(EduException customException) {
         this.code = customException.getCode();
         this.message = customException.getMessage();
         this.errors = customException.getErrors();
@@ -104,13 +104,26 @@ public class Result<R> implements Serializable {
     }
 
 
-    public static <R> Result<R> ofFail(MyCustomException exception) {
+    public static <R> Result<R> ofFail(EduException exception) {
         return new Result<>(exception);
     }
 
-    public static <R> Result<R> ofFail(MyCustomException exception, List<String> errors) {
+    public static <R> Result<R> ofFail(EduException exception, List<String> errors) {
         Result<R> result = new Result<>(exception);
         result.setErrors(errors);
         return result;
     }
+
+    @Override
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+
+    @Override
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+
 }

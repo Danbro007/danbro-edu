@@ -7,6 +7,8 @@ import com.danbro.edu.entity.EduChapter;
 import com.danbro.edu.mapper.EduChapterMapper;
 import com.danbro.edu.service.EduChapterService;
 import com.danbro.edu.service.EduVideoService;
+import com.danbro.enums.ResultCode;
+import com.danbro.exceptions.EduException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,27 +33,38 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
 
     @Override
     public EduChapter insert(EduChapter eduChapter) {
-        this.save(eduChapter);
+        boolean success = this.save(eduChapter);
+        if (!success) {
+            throw new EduException(ResultCode.CHAPTER_INSERT_OR_UPDATE_FAILURE);
+        }
         return eduChapter;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeChapterByChapterId(String chapterId) {
-        eduVideoService.removeByChapterId(chapterId);
-        this.removeById(chapterId);
+        boolean success = this.removeById(chapterId) && eduVideoService.removeByChapterId(chapterId);
+        if (!success) {
+            throw new EduException(ResultCode.CHAPTER_DELETE_FAILURE);
+        }
     }
 
     @Override
     public void removeChapterAndVideoByCourseId(String courseId) {
         QueryWrapper<EduChapter> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id", courseId);
-        this.remove(queryWrapper);
+        boolean success = this.remove(queryWrapper);
+        if (!success) {
+            throw new EduException(ResultCode.CHAPTER_DELETE_FAILURE);
+        }
     }
 
     @Override
     public EduChapter insertOrUpdateChapter(EduChapter eduChapter) {
-        this.saveOrUpdate(eduChapter);
+        boolean success = this.saveOrUpdate(eduChapter);
+        if (!success) {
+            throw new EduException(ResultCode.CHAPTER_INSERT_OR_UPDATE_FAILURE);
+        }
         return eduChapter;
     }
 }

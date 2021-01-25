@@ -2,6 +2,7 @@ package com.danbro.cms.controller.user;
 
 import java.util.List;
 
+import com.danbro.anotation.IsPositiveNum;
 import com.danbro.cms.rpcClient.TeacherClient;
 import com.danbro.dto.TeacherTopDto;
 import com.danbro.enums.Result;
@@ -30,7 +31,7 @@ public class UserTeacherController {
 
     @ApiOperation("获取等级排名为前 limit 名的讲师信息")
     @GetMapping("teacher/top/{limit}")
-    public Result<List<TeacherVo>> getTopTeacherList(@PathVariable String limit) {
+    public Result<List<TeacherVo>> getTopTeacherList(@IsPositiveNum() @PathVariable String limit) {
         return teacherClient.getTopTeacherList(limit);
     }
 }

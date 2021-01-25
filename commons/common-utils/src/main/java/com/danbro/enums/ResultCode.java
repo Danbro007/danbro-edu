@@ -15,94 +15,96 @@ public enum ResultCode {
     FAILURE(20001, "失败"),
     PARAMS_ERROR(20002, "参数校验失败！"),
     NO_PERMISSION(20003, "你没有权限！"),
+    UNKNOWN_EXCEPTION(20004, "未知错误！"),
+    RPC_SERVICE_TIME_OUT(20005, "远程服务调用失败！"),
+    DB_SERVER_ERROR(20006, "数据库出现错误！"),
+    WECHAT_PAY_SERVICE_FAILURE(20007, "调用微信支付服务失败！"),
+    FILE_IO_EXCEPTION(20008, "文件IO异常！"),
+    /**
+     * chapter增删改的错误代码 21001~21010
+     */
+    CHAPTER_INSERT_OR_UPDATE_FAILURE(21001, "添加或修改章节失败！"),
+    CHAPTER_DELETE_FAILURE(21002, "删除章节失败！"),
+    /**
+     * comment增删改的错误代码 21011~21020
+     */
+    COMMENT_INSERT_OR_UPDATE_FAILURE(21011, "添加或者修改评论失败！"),
+    /**
+     * course 增删改的错误代码 21021~21030
+     */
+    COURSE_INSERT_OR_UPDATE_FAILURE(21021, "添加或者修改课程失败！"),
+    COURSE_DELETE_FAILURE(21022, "删除课程失败！"),
+    /**
+     * teacher 增删改的错误代码 21031~21040
+     */
+    TEACHER_INSERT_OR_UPDATE_FAILURE(21031, "添加或者修改讲师失败！"),
+    TEACHER_DELETE_FAILURE(21032, "删除讲师失败！"),
+    /**
+     * video 增删改的错误代码 21041~21050
+     */
+    VIDEO_INSERT_OR_UPDATE_FAILURE(21041, "添加或者修改小节失败！"),
+    VIDEO_DELETE_FAILURE(21042, "删除小节失败！"),
+    /**
+     * permission 增删改的错误代码 22001~22010
+     */
+    PERMISSION_INSERT_OR_UPDATE_FAILURE(22001, "添加或修改权限失败！"),
+    PERMISSION_DELETE_FAILURE(22002, "删除权限失败！"),
+    /**
+     * role 增删改的错误代码 22011~22020
+     */
+    ROLE_INSERT_OR_UPDATE_FAILURE(22011, "添加或修改角色失败！"),
+    ROLE_DELETE_FAILURE(22012, "删除角色失败！"),
+    /**
+     * 后台 user 增删改的错误代码 22021~22030
+     */
+    USER_INSERT_OR_UPDATE_FAILURE(22021, "添加或修改用户失败！"),
+    USER_DELETE_FAILURE(22022, "删除用户失败！"),
+    USER_ROLE_INSERT_FAILURE(22023, "添加用户角色失败！"),
+    USER_NOT_EXIST(22034, "用户不存在！"),
+    USER_PASSWORD_NOT_CORRECT(22035, "密码错误，请重新输入！"),
+    USER_IS_DISABLED(22036, "用户目前处于禁止登录状态！"),
+    USER_NO_LOGIN(22037, "请先登录!"),
+    USER_SERVICE_TIME_OUT(22038, "用户服务调用超时！"),
+    /**
+     * banner 增删改的错误代码 22031~22040
+     */
+    BANNER_INSERT_OR_UPDATE_FAILURE(22031, "添加或者修改 Banner 失败"),
+    BANNER_DELETE_FAILURE(21032, "删除 Banner 失败"),
+    /**
+     * order 增删爱的错误代码 22041~22050
+     */
+    ORDER_INSERT_FAILURE(22041, "添加订单失败！"),
+    ORDER_DELETE_FAILURE(22042, "删除订单失败！"),
+    ORDER_UPDATE_FAILURE(22043, "更新订单失败！"),
+    ORDER_NOT_FOUND(22044, "订单不存在！"),
+    ORDER_UPDATE_PAY_STATUS_FAILURE(22045, "更新订单支付状态失败！"),
+    /**
+     * oss 错误代码 22061~22062
+     */
+    OSS_CLIENT_CONNECTION_ERROR(22051, "与阿里云OSS服务出现连接错误！"),
+    OSS_UPLOAD_FILE_OVER_SIZE(22052, "超过规定的上传文件大小！"),
+    /**
+     * StatisticsDaily 增删改的错误代码  22061~22070
+     */
+    STATISTICS_INSERT_FAILURE(22061, "创建统计信息失败！"),
+    /**
+     * vod 错误代码 22071~22080
+     */
+    VOD_FILENAME_IS_EMPTY(22071, "上传的视频名为空！"),
+    VOD_UPLOAD_VIDEO_FAILURE(22072, "上传视频失败！"),
+    VOD_CLIENT_CONNECTION_ERROR(22073, "与阿里云VOD服务出现连接错误！"),
 
     /**
-     * 讲师管理代码
+     * 会员相关的错误代码 23001~23010
      */
-    TEACHER_NOT_FOUND(20100, "讲师不存在！"),
-    DELETE_TEACHER_NOT_FOUND(20101, "要删除的讲师不存在！"),
-    MATCH_CONDITION_TEACHER_NOT_FOUND(20102, "符合筛选条件的讲师不存在！"),
-    UPDATE_TEACHER_FAILURE(20103, "修改讲师失败，可能讲师不存在！"),
-    INSERT_TEACHER_FAILURE(20104, "添加讲师失败，讲师已存在！"),
-    GET_TOP_TEACHER_LIST(20105, "获取热门讲师失败！"),
-    TEACHER_SERVICE_TIME_OUT(20106, "讲师服务调用超时！"),
-
-    /**
-     * 课程管理代码
-     */
-    INSERT_COURSE_FAILURE(20200, "添加课程失败！"),
-    INSERT_COURSE_DESCRIPTION_FAILURE(20201, "添加课程描述失败！"),
-    UPDATE_COURSE_INFO_FAILURE(20202, "修改课程基本信息失败"),
-    UPDATE_COURSE_PUBLISH_STATUS_FAILURE(20203, "修改课程发布状态失败"),
-    DELETE_COURSE_FAILURE(20204, "删除课程失败"),
-    GET_TOP_COURSE_LIST(20105, "获取热门课程失败！"),
-    COURSE_IS_NOT_EXIST(20106, "查找的课程不存在！"),
-    COURSE_SERVICE_TIME_OUT(20107, "课程服务调用超时！"),
-    /**
-     * 章节代码
-     */
-    DELETE_CHAPTER_FAILURE(20210, "删除章节失败"),
-    UPDATE_CHAPTER_FAILURE(20211, "修改章节失败"),
-    /**
-     * 视频代码
-     */
-    INSERT_VIDEO_FAILURE(20220, "添加视频信息失败"),
-    UPDATE_VIDEO_FAILURE(20221, "修改视频信息失败"),
-    UPDATE_VIDEO_VIDEO_SOURCE_ID_IS_EMPTY(20222, "删除视频失败，小节里的视频已经为空！"),
-    /**
-     * banner代码
-     */
-    INSERT_BANNER_FAILURE(20300, "添加 Banner 失败"),
-    DELETE_BANNER_FAILURE(20301, "删除 Banner 失败"),
-    UPDATE_BANNER_FAILURE(20302, "修改 Banner 失败"),
-
-    /**
-     * 上传文件代码
-     */
-    AVATAR_UPLOAD_FAILURE(30000, "头像上传失败！"),
-    OSS_UPLOAD_EXCEPTION(30001, "上传到阿里云OSS出现异常！"),
-    UPLOAD_FILE_OVER_SIZE(30002, "上传的文件超过 5 MB！"),
-    SUBJECT_UPLOAD_FAILURE(30003, "上传课程失败！"),
-    VIDEO_UPLOAD_FAILURE(30020, "视频上传失败！"),
-    DELETE_VIDEO_FAILURE(30021, "客户端出现异常，视频删除失败！"),
-    DELETE_VIDEO_TIME_OUT(30022, "删除视频超时！"),
-    UPLOAD_VIDEO_IS_EMPTY(30023, "上传的视频为空！"),
-    CLIENT_ALIYUN_CONNECTION_ERROR(30030, "与阿里云视频点播平台连接失败！"),
-    VOD_SERVICE_TIME_OUT(30031, "视频点播服务调用超时！"),
+    MEMBER_REGISTER_CAPTCHA_ERROR(23001, "验证码错误，请重新输入！"),
+    MEMBER_MOBILE_IS_EXIST(23002, "此手机号已注册，请重新输入！"),
+    MEMBER_REGISTER_FAILURE(23003, "会员注册失败！"),
+    WECHAT_REGISTER_FAILURE(23004, "微信用户注册失败！"),
     /**
      * 短信代码
      */
-    SEND_MESSAGE_FAILURE(30030, "请求发送验证短信失败！"),
-
-    /**
-     * 用户登录代码
-     */
-    USER_NOT_EXIST(40000, "用户不存在！"),
-    PASSWORD_NOT_CORRECT(40001, "密码错误，请重新输入！"),
-    USER_IS_DISABLED(40002, "用户目前处于禁止登录状态！"),
-    USER_NO_LOGIN(40003, "请先登录!"),
-    USER_SERVICE_TIME_OUT(40004, "用户服务调用超时！"),
-    /**
-     * 普通用户注册代码
-     */
-    CAPTCHA_NOT_CORRECT(40020, "手机验证码错误，请重新输入！"),
-    MOBILE_IS_EXIST(40021, "此手机号已注册，请重新输入！"),
-    RESISTER_FAILURE(40022, "注册失败！"),
-    /**
-     * 微信用户代码
-     */
-    WECHAT_REGISTER_FAILURE(40040, "微信用户注册失败！"),
-
-    /**
-     * 前台用户评论代码
-     */
-    INSERT_COMMENT_FAILURE(50000, "评论失败！"),
-
-    /**
-     * 订单服务相关代码
-     */
-    INSERT_ORDER_FAILURE(50500, "创建订单失败！");
-
+    SEND_MESSAGE_FAILURE(30030, "请求发送验证短信失败！");
     private Integer code;
     private String message;
 

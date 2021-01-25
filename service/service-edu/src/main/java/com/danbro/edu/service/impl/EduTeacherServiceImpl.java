@@ -3,11 +3,14 @@ package com.danbro.edu.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.edu.controller.dto.FrontPagingDto;
 import com.danbro.edu.controller.param.QueryTeacherParam;
+import com.danbro.enums.ResultCode;
+import com.danbro.exceptions.EduException;
 import com.danbro.vo.TeacherVo;
 import com.danbro.enity.EduTeacher;
 import com.danbro.edu.mapper.EduTeacherMapper;
@@ -95,8 +98,18 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
 
     @Override
     public EduTeacher insertOrUpdateTeacher(EduTeacher teacher) {
-        this.saveOrUpdate(teacher);
+        boolean success = this.saveOrUpdate(teacher);
+        if (!success) {
+            throw new EduException(ResultCode.TEACHER_INSERT_OR_UPDATE_FAILURE);
+        }
         return teacher;
     }
 
+    @Override
+    public void removeTeacherByTeacherId(String id) {
+        boolean success = this.removeById(id);
+        if (!success) {
+            throw new EduException(ResultCode.TEACHER_DELETE_FAILURE);
+        }
+    }
 }

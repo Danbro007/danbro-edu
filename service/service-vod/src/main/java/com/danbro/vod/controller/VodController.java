@@ -3,10 +3,11 @@ package com.danbro.vod.controller;
 import java.io.IOException;
 import java.util.List;
 import javax.annotation.Resource;
+
 import com.aliyuncs.exceptions.ClientException;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import com.danbro.vod.service.VodService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -29,13 +30,8 @@ public class VodController {
 
     @ApiOperation("上传视频到阿里云")
     @PostMapping("video")
-    public Result<String> uploadVideo(@RequestParam("file") MultipartFile multipartFile) {
-        try {
-            String videoId = vodService.uploadVideo(multipartFile);
-            return Result.ofSuccess(videoId);
-        } catch (IOException e) {
-            return Result.ofFail(ResultCode.DELETE_VIDEO_FAILURE);
-        }
+    public Result<String> uploadVideo(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        return Result.ofSuccess(vodService.uploadVideo(multipartFile));
     }
 
     @ApiOperation("通过视频ID删除单个视频")
@@ -45,7 +41,7 @@ public class VodController {
             vodService.deleteVideo(videoId);
             return Result.ofSuccess();
         } catch (ClientException e) {
-            throw new MyCustomException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
+            throw new EduException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
         }
     }
 
@@ -57,7 +53,7 @@ public class VodController {
             vodService.batchDeleteVideo(videoIds);
             return Result.ofSuccess();
         } catch (ClientException e) {
-            throw new MyCustomException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
+            throw new EduException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
         }
     }
 
@@ -68,7 +64,7 @@ public class VodController {
             String playAuth = vodService.getVideoPlayAuth(videoId);
             return Result.ofSuccess(playAuth);
         } catch (ClientException e) {
-            throw new MyCustomException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
+            throw new EduException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
         }
     }
 }

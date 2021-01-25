@@ -59,7 +59,7 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param id 课程ID
      * @return 删除结果
      */
-    Boolean removeCourse(String id);
+    void removeCourse(String id);
 
     /**
      * 获取前 limit 名的课程

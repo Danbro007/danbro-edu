@@ -12,12 +12,19 @@ import com.danbro.statistic.controller.vo.StatisticsDailyListVo;
  * @since 2021-01-12 10:35:53
  */
 public interface StatisticsDailyService extends IService<StatisticsDaily> {
+    /**
+     * 通过日期获取那天的注册人数
+     *
+     * @param date 日期
+     * @return 统计信息
+     */
     StatisticsDaily getUserRegisterNumByDate(String date);
 
     /**
      * 查询统计的条件
+     *
      * @param statisticsParam 查询条件
-     * @return
+     * @return 统计信息
      */
     StatisticsDailyListVo getStatistic(QueryStatisticsParam statisticsParam);
 

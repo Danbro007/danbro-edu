@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author Danrbo
  */
 
-@RequestMapping("cms")
+@RequestMapping("cms/banner")
 @RestController
 public class UserCrmBannerController {
     @Resource
     private CrmBannerService crmBannerService;
 
     @ApiOperation("获取所有的 banner")
-    @GetMapping("banner/list")
+    @GetMapping("list")
     public Result<List<CrmBannerVo>> getAllBannerList() {
         return Result.ofSuccess(crmBannerService.getAllBannerList());
     }

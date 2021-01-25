@@ -41,7 +41,7 @@ public class PayLogController {
         Map<String, String> map = tPayLogService.queryOrderPayStatus(orderNo);
         if (map != null) {
             // 把订单的支付状态转换成已支付
-            tPayLogService.updateOrderStatus(map);
+            tPayLogService.updateOrderStatus(orderNo);
             return Result.ofSuccess();
         }
         return Result.ofFail(ResultCode.FAILURE);

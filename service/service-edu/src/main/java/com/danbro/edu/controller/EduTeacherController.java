@@ -2,6 +2,7 @@ package com.danbro.edu.controller;
 
 import java.util.List;
 import javax.annotation.Resource;
+
 import com.danbro.anotation.IsAssignID;
 import com.danbro.anotation.IsPositiveNum;
 import com.danbro.anotation.ValidParam;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "讲师接口")
 @RestController
 @Validated
-@RequestMapping("edu")
+@RequestMapping("edu/teacher")
 public class EduTeacherController {
     /**
      * 服务对象
@@ -39,20 +40,21 @@ public class EduTeacherController {
     private EduTeacherService eduTeacherService;
 
     @ApiOperation("查找所有的教师")
-    @GetMapping("teachers")
+    @GetMapping("list")
     public Result<List<EduTeacher>> findAll() {
         return Result.ofSuccess(eduTeacherService.list());
     }
 
     @ApiOperation("通过教师ID删除指定的教师")
-    @DeleteMapping("teacher/{id}")
+    @DeleteMapping("{id}")
     public Result deleteTeacherById(@IsAssignID @ApiParam(name = "id", value = "讲师ID", required = true)
                                     @PathVariable String id) {
-        return Result.ofSuccess(eduTeacherService.removeById(id));
+        eduTeacherService.removeTeacherByTeacherId(id);
+        return Result.ofSuccess();
     }
 
     @ApiOperation("通过讲师ID查找指定的讲师")
-    @GetMapping("teacher/{id}")
+    @GetMapping("{id}")
     public Result<TeacherVo> findOne(@IsAssignID @ApiParam(name = "id", value = "讲师ID", required = true)
                                      @PathVariable String id) {
         return Result.ofSuccess(new TeacherVo().convertFrom(eduTeacherService.getById(id)));
@@ -60,7 +62,7 @@ public class EduTeacherController {
 
 
     @ApiOperation("带条件的分页查询教师")
-    @PostMapping("teacher/list/{current}/{limit}")
+    @PostMapping("list/{current}/{limit}")
     public Result<OutPutPagingDto<TeacherVo>> pagingFindByCondition(@IsPositiveNum(message = "查询的页数不能为空并且必须大于0!") @ApiParam(name = "current", value = "当前页数") @PathVariable String current,
                                                                     @IsPositiveNum(message = "每页的显示数不能为空并且必须大于0!") @ApiParam(name = "limit", value = "当前页显示记录数") @PathVariable String limit,
                                                                     @RequestBody(required = false) @ApiParam(name = "queryTeacherParam", value = "查询讲师的参数") QueryTeacherParam queryTeacherParam) {
@@ -69,7 +71,7 @@ public class EduTeacherController {
 
     @ValidParam
     @ApiOperation("添加教师信息")
-    @PostMapping("teacher")
+    @PostMapping("")
     public Result<TeacherVo> insertTeacher(@Validated(Insert.class) @RequestBody TeacherParam teacherParam, BindingResult bindingResult) {
 
         return Result.ofSuccess(new TeacherVo().convertFrom(eduTeacherService.insertOrUpdateTeacher(teacherParam.convertTo())));
@@ -77,7 +79,7 @@ public class EduTeacherController {
 
     @ValidParam
     @ApiOperation("修改教师信息")
-    @PutMapping("teacher")
+    @PutMapping("")
     public Result<TeacherVo> updateTeacher(@Validated(Update.class) @RequestBody TeacherParam teacherParam, BindingResult bindingResult) {
         return Result.ofSuccess(new TeacherVo().convertFrom(eduTeacherService.insertOrUpdateTeacher(teacherParam.convertTo())));
     }

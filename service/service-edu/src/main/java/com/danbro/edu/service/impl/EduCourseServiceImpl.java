@@ -2,6 +2,7 @@ package com.danbro.edu.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -23,7 +24,7 @@ import com.danbro.edu.service.EduVideoService;
 import com.danbro.edu.utils.SortType;
 import com.danbro.enity.OutPutPagingDto;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -54,16 +55,16 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         EduCourse eduCourse = new EduCourse();
         EduCourseDescription eduCourseDescription = new EduCourseDescription();
         BeanUtils.copyProperties(courseParam, eduCourse);
-        boolean f = this.save(eduCourse);
-        if (!f) {
-            throw new MyCustomException(ResultCode.INSERT_COURSE_FAILURE);
+        boolean courseSuccess = this.save(eduCourse);
+        if (!courseSuccess) {
+            throw new EduException(ResultCode.COURSE_INSERT_OR_UPDATE_FAILURE);
         }
         eduCourseDescription.
                 setDescription(courseParam.getDescription()).
                 setId(eduCourse.getId());
-        boolean b = eduCourseDescriptionService.save(eduCourseDescription);
-        if (!b) {
-            throw new MyCustomException(ResultCode.INSERT_COURSE_DESCRIPTION_FAILURE);
+        boolean courseDescriptionSuccess = eduCourseDescriptionService.save(eduCourseDescription);
+        if (!courseDescriptionSuccess) {
+            throw new EduException(ResultCode.COURSE_INSERT_OR_UPDATE_FAILURE);
         }
         return eduCourse;
     }
@@ -99,16 +100,12 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Boolean removeCourse(String id) {
-        return false;
-//        if (eduChapterService.removeChapterAndVideoByCourseId(id) &&
-//                eduVideoService.removeByCourseId(id) &&
-//                eduCourseDescriptionService.removeById(id) &&
-//                this.removeById(id)) {
-//            return true;
-//        } else {
-//            throw new MyCustomException(ResultCode.DELETE_COURSE_FAILURE);
-//        }
+    public void removeCourse(String id) {
+        eduChapterService.removeChapterAndVideoByCourseId(id);
+        boolean success = this.removeById(id);
+        if (!success) {
+            throw new EduException(ResultCode.COURSE_DELETE_FAILURE);
+        }
     }
 
     @Cacheable(value = "course", key = "'top-course-list'")
@@ -159,7 +156,10 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Override
     public EduCourse insertOrUpdateCourse(EduCourse eduCourse) {
-        this.saveOrUpdate(eduCourse);
+        boolean success = this.saveOrUpdate(eduCourse);
+        if (!success) {
+            throw new EduException(ResultCode.COURSE_INSERT_OR_UPDATE_FAILURE);
+        }
         return eduCourse;
     }
 }

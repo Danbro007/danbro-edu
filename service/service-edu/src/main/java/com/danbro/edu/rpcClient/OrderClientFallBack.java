@@ -3,7 +3,7 @@ package com.danbro.edu.rpcClient;
 import com.danbro.vo.OrderVo;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exception.MyCustomException;
+import com.danbro.exceptions.EduException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +17,6 @@ import org.springframework.stereotype.Component;
 public class OrderClientFallBack implements OrderClient {
     @Override
     public Result<OrderVo> getOrderInfoByCourseId(String userId, String courseId) {
-        throw new MyCustomException(ResultCode.FAILURE);
+        throw new EduException(ResultCode.FAILURE);
     }
 }

@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
+ * @author liweimo
  * @Classname WeChatPayReturnDto
  * @Description TODO
  * @Date 2021/1/11 18:03
- * @Created by Administrator
  */
 @AllArgsConstructor
 @Accessors(chain = true)
