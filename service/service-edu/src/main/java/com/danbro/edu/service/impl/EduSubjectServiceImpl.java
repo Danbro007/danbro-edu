@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubject> implements EduSubjectService {
 
     @Override
-    public void insert(MultipartFile file) throws IOException {
+    public void importSubject(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), SubjectData.class, new SubjectExcelListener(this)).sheet().doRead();
     }
 
@@ -45,13 +45,11 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         secondSubjectWrapper.ne("parent_id", "0");
         List<EduSubject> secondSubjectList = list(secondSubjectWrapper);
         if (secondSubjectList != null && secondSubjectList.size() > 0) {
-            subjects.forEach(m -> {
-                secondSubjectList.forEach(n -> {
-                    if (m.getId().equals(n.getParentId())) {
-                        m.getChildren().add(new SecondSubjectVo().convertFrom(n));
-                    }
-                });
-            });
+            subjects.forEach(m -> secondSubjectList.forEach(n -> {
+                if (m.getId().equals(n.getParentId())) {
+                    m.getChildren().add(new SecondSubjectVo().convertFrom(n));
+                }
+            }));
         }
         return subjects;
     }

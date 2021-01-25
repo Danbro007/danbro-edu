@@ -1,13 +1,11 @@
 package com.danbro.edu.controller;
 
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.Resource;
-
 import com.danbro.edu.controller.vo.FirstSubjectVo;
 import com.danbro.edu.service.EduSubjectService;
 import com.danbro.enums.Result;
-import com.danbro.enums.ResultCode;
-import com.danbro.exceptions.EduException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,17 +32,13 @@ public class EduSubjectController {
 
     @ApiOperation("上传Excel格式的课程")
     @PostMapping("subject")
-    public Result insertSubject(@RequestParam("file") MultipartFile file) {
-        try {
-            eduSubjectService.insert(file);
-        } catch (Exception e) {
-            throw new EduException(ResultCode.SUBJECT_UPLOAD_FAILURE);
-        }
+    public Result importSubject(@RequestParam("file") MultipartFile file) throws IOException {
+        eduSubjectService.importSubject(file);
         return Result.ofSuccess();
     }
 
     @ApiOperation("获取课程列表并且按照级别分类")
-    @GetMapping("subject")
+    @GetMapping("subject/list")
     public Result<List<FirstSubjectVo>> getAllSubject() {
         return Result.ofSuccess(eduSubjectService.getAllSubject());
     }

@@ -83,7 +83,8 @@ public class EduCourseController {
     @ApiOperation("删除课程")
     @DeleteMapping("{id}")
     public Result deleteCourseById(@IsAssignID @PathVariable String id) {
-        return Result.ofSuccess(eduCourseService.removeCourse(id));
+        eduCourseService.removeCourseById(id);
+        return Result.ofSuccess();
     }
 
 

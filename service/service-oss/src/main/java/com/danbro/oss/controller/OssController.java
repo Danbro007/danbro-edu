@@ -1,5 +1,6 @@
 package com.danbro.oss.controller;
 
+import java.io.IOException;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
 import com.danbro.exceptions.EduException;
@@ -9,10 +10,12 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 /**
  * @Classname OssController
@@ -41,7 +44,7 @@ public class OssController {
                 return Result.ofSuccess(String.format("https://%s.%s/%s",
                         OssClientUtils.BUCKET_NAME, OssClientUtils.END_POINT, avatarUrl));
             }
-            throw new EduException(ResultCode.AVATAR_UPLOAD_FAILURE);
+            throw new EduException(ResultCode.OSS_UPLOAD_FILE_FAILURE);
         } catch (EduException e) {
             log.error("上传阿里云OSS服务器异常." + e.getMessage(), e);
             throw new EduException(ResultCode.OSS_CLIENT_CONNECTION_ERROR);

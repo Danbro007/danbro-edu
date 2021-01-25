@@ -53,7 +53,8 @@ public class EduVideoController {
     @ApiOperation("通过小节ID删除整个小节信息")
     @DeleteMapping("video/{id}")
     public Result deleteVideoInfo(@IsAssignID @PathVariable String id) {
-        return Result.ofSuccess(eduVideoService.removeByVideoId(id));
+        eduVideoService.removeByVideoId(id);
+        return Result.ofSuccess();
     }
 
     @ApiOperation("通过小节ID删除小节里的视频（数据库和阿里云都要删除掉）")

@@ -42,12 +42,12 @@ public class ValidAop {
     @Around("validAop()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
-        List<String> errorList = new ArrayList<>();
         if (args != null) {
             Arrays.stream(args).forEach(arg -> {
                 if (arg instanceof BindingResult) {
                     BindingResult bindingResult = (BindingResult) arg;
                     if (bindingResult.hasErrors()) {
+                        List<String> errorList = new ArrayList<>();
                         bindingResult.getAllErrors().forEach(error -> errorList.add(error.getDefaultMessage()));
                         throw new EduException(ResultCode.PARAMS_ERROR, errorList);
                     }

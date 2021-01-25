@@ -15,7 +15,18 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface EduSubjectService extends IService<EduSubject> {
 
-    void insert(MultipartFile file) throws IOException;
-
+    /**
+     * 获取所有的课程分类（一级分类和二级分类）树形结构
+     *
+     * @return 课程分类列表
+     */
     List<FirstSubjectVo> getAllSubject();
+
+    /**
+     * 通过excel表格导入课程
+     *
+     * @param file excel 文件
+     * @throws IOException 文件IO异常
+     */
+    void importSubject(MultipartFile file) throws IOException;
 }

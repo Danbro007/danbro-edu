@@ -1,5 +1,6 @@
 package com.danbro.edu.service.impl;
 
+import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.danbro.edu.controller.vo.ChapterVo;
@@ -12,8 +13,6 @@ import com.danbro.exceptions.EduException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * 课程(EduChapter)表服务实现类
@@ -43,7 +42,10 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeChapterByChapterId(String chapterId) {
-        boolean success = this.removeById(chapterId) && eduVideoService.removeByChapterId(chapterId);
+        // 删除章节
+        eduVideoService.removeByChapterId(chapterId);
+        // 删除课程
+        boolean success = this.removeById(chapterId);
         if (!success) {
             throw new EduException(ResultCode.CHAPTER_DELETE_FAILURE);
         }

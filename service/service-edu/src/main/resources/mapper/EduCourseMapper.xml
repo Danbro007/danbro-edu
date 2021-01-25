@@ -88,6 +88,8 @@
         <result property="price" column="price"/>
         <result property="status" column="status"/>
         <result property="title" column="title"/>
+        <result property="subjectId" column="subjectId"/>
+        <result property="subjectParentId" column="subjectParentId"/>
         <result property="description" column="description"/>
         <association property="teacher" javaType="com.danbro.vo.TeacherVo">
             <id property="id" column="teacherId"/>
@@ -107,15 +109,17 @@
                ec.gmt_create   AS gmtCreate,
                ec.gmt_modified AS gmtModified,
                ec.price        AS price,
-               ec.`status`     AS status,
+               ec.status     AS status,
                ec.title        AS title,
+               ec.subject_id    AS subjectId,
+               ec.subject_parent_id AS subjectParentId,
                ecd.description AS description,
-               et.`name`       AS teachetName,
+               et.name       AS teacherName,
                et.avatar       as teacherAvatar,
                et.career       as teacherCareer,
                et.id           as teacherId,
                et.intro        as teacherIntro,
-               et.`level`      as teacherLevel
+               et.level      as teacherLevel
         FROM edu_course ec
                  LEFT JOIN edu_course_description ecd ON ec.id = ecd.id
                  LEFT JOIN edu_teacher et ON et.id = ec.teacher_id

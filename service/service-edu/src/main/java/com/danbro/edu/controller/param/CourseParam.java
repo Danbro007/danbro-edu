@@ -41,7 +41,7 @@ public class CourseParam implements ParamConvert<EduCourse> {
     @ApiModelProperty("课程标题")
     private String title;
 
-    @IsPrice
+    @IsPrice(groups = {Insert.class, Update.class})
     @ApiModelProperty("课程价格，设置0表示免费。")
     private String price;
 

@@ -34,11 +34,13 @@ public enum ResultCode {
      */
     COURSE_INSERT_OR_UPDATE_FAILURE(21021, "添加或者修改课程失败！"),
     COURSE_DELETE_FAILURE(21022, "删除课程失败！"),
+    COURSE_SERVICE_TIME_OUT(21023, "课程服务超时！"),
     /**
      * teacher 增删改的错误代码 21031~21040
      */
     TEACHER_INSERT_OR_UPDATE_FAILURE(21031, "添加或者修改讲师失败！"),
     TEACHER_DELETE_FAILURE(21032, "删除讲师失败！"),
+    TEACHER_SERVICE_TIME_OUT(21033, "讲师服务超时！"),
     /**
      * video 增删改的错误代码 21041~21050
      */
@@ -64,7 +66,7 @@ public enum ResultCode {
     USER_PASSWORD_NOT_CORRECT(22035, "密码错误，请重新输入！"),
     USER_IS_DISABLED(22036, "用户目前处于禁止登录状态！"),
     USER_NO_LOGIN(22037, "请先登录!"),
-    USER_SERVICE_TIME_OUT(22038, "用户服务调用超时！"),
+    USER_SERVICE_TIME_OUT(22038, "用户服务超时！"),
     /**
      * banner 增删改的错误代码 22031~22040
      */
@@ -78,22 +80,30 @@ public enum ResultCode {
     ORDER_UPDATE_FAILURE(22043, "更新订单失败！"),
     ORDER_NOT_FOUND(22044, "订单不存在！"),
     ORDER_UPDATE_PAY_STATUS_FAILURE(22045, "更新订单支付状态失败！"),
+    ORDER_SERVICE_TIME_OUT(22038, "订单服务超时！"),
+
     /**
      * oss 错误代码 22061~22062
      */
     OSS_CLIENT_CONNECTION_ERROR(22051, "与阿里云OSS服务出现连接错误！"),
     OSS_UPLOAD_FILE_OVER_SIZE(22052, "超过规定的上传文件大小！"),
+    OSS_UPLOAD_FILE_FAILURE(22053, "上传文件失败！"),
     /**
      * StatisticsDaily 增删改的错误代码  22061~22070
      */
     STATISTICS_INSERT_FAILURE(22061, "创建统计信息失败！"),
+    STATISTICS_SERVICE_TIME_OUT(22062, "统计服务超时！"),
     /**
      * vod 错误代码 22071~22080
      */
     VOD_FILENAME_IS_EMPTY(22071, "上传的视频名为空！"),
     VOD_UPLOAD_VIDEO_FAILURE(22072, "上传视频失败！"),
     VOD_CLIENT_CONNECTION_ERROR(22073, "与阿里云VOD服务出现连接错误！"),
-
+    VOD_SERVICE_TIME_OUT(22074, "VOD服务超时！"),
+    /**
+     * subject 错误代码 22081~22090
+     */
+    SUBJECT_UPLOAD_FAILURE(22081, "上传课程分类表格失败！"),
     /**
      * 会员相关的错误代码 23001~23010
      */

@@ -2,7 +2,7 @@ package com.danbro.statistic.rpcClient;
 
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exceptions.EduException;
+import com.danbro.exceptions.RpcClientException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Component;
 public class UserClientFallback implements UserClient {
     @Override
     public Result<Integer> getUserRegisterByDate(String date) {
-        throw new EduException(ResultCode.FAILURE);
+        throw new RpcClientException(ResultCode.STATISTICS_SERVICE_TIME_OUT);
     }
 }

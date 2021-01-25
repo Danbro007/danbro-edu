@@ -41,7 +41,7 @@ public class VodController {
             vodService.deleteVideo(videoId);
             return Result.ofSuccess();
         } catch (ClientException e) {
-            throw new EduException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
+            throw new EduException(ResultCode.VOD_CLIENT_CONNECTION_ERROR);
         }
     }
 
@@ -53,7 +53,7 @@ public class VodController {
             vodService.batchDeleteVideo(videoIds);
             return Result.ofSuccess();
         } catch (ClientException e) {
-            throw new EduException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
+            throw new EduException(ResultCode.VOD_CLIENT_CONNECTION_ERROR);
         }
     }
 
@@ -64,7 +64,7 @@ public class VodController {
             String playAuth = vodService.getVideoPlayAuth(videoId);
             return Result.ofSuccess(playAuth);
         } catch (ClientException e) {
-            throw new EduException(ResultCode.CLIENT_ALIYUN_CONNECTION_ERROR);
+            throw new EduException(ResultCode.VOD_CLIENT_CONNECTION_ERROR);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.danbro.aop;
 
+import java.io.IOException;
+import javax.validation.ConstraintViolationException;
 import com.danbro.enums.ErrorResult;
 import com.danbro.enums.ResultCode;
 import com.danbro.exceptions.EduException;
@@ -7,9 +9,6 @@ import com.danbro.exceptions.RpcClientException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-
-import javax.validation.ConstraintViolationException;
-import java.io.IOException;
 
 /**
  * @author Danrbo
@@ -26,7 +25,7 @@ public abstract class ControllerAop {
         long start = System.currentTimeMillis();
         try {
             Object result = point.proceed();
-            long elapsedTime = System.currentTimeMillis();
+            long elapsedTime = System.currentTimeMillis() -start;
             // 操作用时记录
             log.info("【{}】 use time:{}", point.getSignature(), elapsedTime);
             return result;

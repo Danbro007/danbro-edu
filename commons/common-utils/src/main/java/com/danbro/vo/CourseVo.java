@@ -33,6 +33,9 @@ public class CourseVo implements Serializable, VoConvert<CourseVo, EduCourse> {
     @ApiModelProperty("二级课程分类ID")
     private String subjectId;
 
+    @ApiModelProperty("一级课程分类ID")
+    private String subjectParentId;
+
     @ApiModelProperty("课程标题")
     private String title;
 

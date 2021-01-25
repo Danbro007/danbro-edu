@@ -2,7 +2,7 @@ package com.danbro.edu.rpcClient;
 
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exceptions.EduException;
+import com.danbro.exceptions.RpcClientException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Component;
 public class UCenterUserFallBack implements UCenterUserClient {
     @Override
     public Result getMemberInfoByMemberId(String memberId) {
-        throw new EduException(ResultCode.USER_SERVICE_TIME_OUT);
+        throw new RpcClientException(ResultCode.USER_SERVICE_TIME_OUT);
     }
 }

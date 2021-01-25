@@ -93,6 +93,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             }
         }
         queryWrapper.orderByDesc("gmt_create");
+        this.page(page, queryWrapper);
         return new OutPutPagingDto<EduCourse>()
                 .setTotal(page.getTotal())
                 .setRows(page.getRecords());
@@ -100,7 +101,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void removeCourse(String id) {
+    public void removeCourseById(String id) {
         eduChapterService.removeChapterAndVideoByCourseId(id);
         boolean success = this.removeById(id);
         if (!success) {

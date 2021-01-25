@@ -1,11 +1,10 @@
 package com.danbro.edu.rpcClient;
 
+import java.util.List;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exceptions.EduException;
+import com.danbro.exceptions.RpcClientException;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @Classname VodClientImpl
@@ -17,11 +16,11 @@ import java.util.List;
 public class VodClientFallBack implements VodClient {
     @Override
     public Result deleteVideoByVideoId(String videoId) {
-        throw new EduException(ResultCode.VOD_SERVICE_TIME_OUT);
+        throw new RpcClientException(ResultCode.VOD_SERVICE_TIME_OUT);
     }
 
     @Override
     public Result batchDeleteVideo(List<String> videoList) {
-        throw new EduException(ResultCode.VOD_SERVICE_TIME_OUT);
+        throw new RpcClientException(ResultCode.VOD_SERVICE_TIME_OUT);
     }
 }

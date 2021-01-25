@@ -1,9 +1,9 @@
 package com.danbro.edu.rpcClient;
 
-import com.danbro.vo.OrderVo;
 import com.danbro.enums.Result;
 import com.danbro.enums.ResultCode;
-import com.danbro.exceptions.EduException;
+import com.danbro.exceptions.RpcClientException;
+import com.danbro.vo.OrderVo;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +17,6 @@ import org.springframework.stereotype.Component;
 public class OrderClientFallBack implements OrderClient {
     @Override
     public Result<OrderVo> getOrderInfoByCourseId(String userId, String courseId) {
-        throw new EduException(ResultCode.FAILURE);
+        throw new RpcClientException(ResultCode.ORDER_SERVICE_TIME_OUT);
     }
 }
